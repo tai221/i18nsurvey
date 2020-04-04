@@ -8,11 +8,15 @@
 import App from './App'
 import VueRouter from 'vue-router'
 import router from './routes'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import {store} from './store/store'
 
 require('./bootstrap');
 
 window.Vue = require('vue');
 window.Vue.use(VueRouter);
+window.Vue.use(ElementUI);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -20,10 +24,10 @@ window.Vue.use(VueRouter);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 const app = new Vue({
     el: '#app',
     router,
+    store,
     render: (h) => h(App)
 });

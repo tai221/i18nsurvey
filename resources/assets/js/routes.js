@@ -1,20 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ExampleComponent from "./components/ExampleComponent";
 import Login from "./views/login/Login"
+import Signup from "./views/signup/Signup";
+import Layout from "./components/Layout";
 
 Vue.use(Router)
 
 export const routes = [
     {
-        path: '/admin',
-        component: ExampleComponent,
-    },
-    {
         path: '/login',
         component: Login,
         name: 'login'
-    }
+    },
+    {
+        path: '/signup',
+        component: Signup,
+        name: 'signup'
+    },
+    {
+        path: '/mypage',
+        component: Layout,
+        name: 'mypage'
+    },
+
 
 
 ]
