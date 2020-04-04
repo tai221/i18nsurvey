@@ -147,6 +147,7 @@
 </script>
 
 <style scoped>
+
     .sm-input[type="checkbox"]:checked+label::before, .sm-input[type="checkbox"]:checked+.sm-label::before, .sm-input[type="radio"]:checked+label::before, .sm-input[type="radio"]:checked+.sm-label::before {
         opacity: 1;
         border-color: #3948b2;
