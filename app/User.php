@@ -14,14 +14,13 @@ class User extends Authenticatable
     CONST SUPER_ADMIN = 2;
     CONST ACTIVATED = 1;
 
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role',
+        'name', 'email', 'role', 'password',
     ];
 
     /**
@@ -33,6 +32,11 @@ class User extends Authenticatable
         'password', 'role'
     ];
 
+    public function emails()
+    {
+        return $this
+            ->hasMany('App\Email','user_id', 'id');
+    }
     //---------------
     //custom check username and password in Password Grant
     public function findForPassport($username)

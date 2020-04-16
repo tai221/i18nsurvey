@@ -12,17 +12,44 @@
             </button>
             <div class="collapse navbar-collapse navHeaderCollapse">
                 <ul class="nav navbar-nav navbar-right text-center">
-                    <li></li>
-                    <li class="active"><a href="#">prvo</a></li>
+                    <li>
+                        <router-link :to="{name: 'CreateSurvey'}">
+                            <div class="button-custom create-survey">
+                                Create
+                            </div>
+                        </router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{name: 'CreateSurvey'}">
+                            <div class="button-custom list-surveys">
+                                List survey
+                            </div>
+                        </router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{name: 'ListParticipant'}">
+                        <div class="button-custom list-participants">
+                            List participant
+                        </div>
+                        </router-link>
+                    </li>
                     <li calass="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Socijalno <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="">facebook</a></li>
-                            <li><a href="">google+</a></li>
-                            <li><a href="">instagram</a></li>
+                            <li><a href="">My account</a></li>
+                            <li><a href="">Sign out</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">trece</a></li>
+                    <li class="nav-item dropdown" id="recv-rp">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                            <i class="fa fa-bell"></i>
+                            <span class="badge badge-light"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li  style="color: #ae1c17">a</li>
+                            <li  style="color: #1820dd">b</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -30,14 +57,39 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     export default {
-        name: "Header"
+        name: "Header",
+        computed: {
+            ...mapGetters([
+                'username',
+            ])
+        },
     }
+
 </script>
 
 <style scoped>
-    .title {
-
+    .button-custom {
+        background-color: white;
+        border-radius:5px;
+        color: #802b00;
+        padding: 2px 3px 3px 4px;
+    }
+    .create-survey::before {
+        content: url("../images/plus.svg");
+        transform: translate(0px, 3px);
+        display: inline-block;
+    }
+    .list-surveys::before {
+        content: url("../images/list-surveys.svg");
+        transform: translate(0px, 3px);
+        display: inline-block;
+    }
+    .list-participants::before {
+        content: url("../images/list-user.svg");
+        transform: translate(0px, 3px);
+        display: inline-block;
     }
     body{
         background: #ededed;
@@ -48,5 +100,6 @@
     .navbar-inverse {
         background-color: #409eff;
         border-color: rgba(41, 41, 102, 0.18);
+        border-bottom: ;
     }
 </style>

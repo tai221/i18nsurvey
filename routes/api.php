@@ -20,3 +20,9 @@ Route::group([ 'namespace' => 'Api\Auth'], function () {
     Route::post('/register', 'AuthController@signUp');
     Route::post('/login', 'AuthController@login');
 });
+Route::group([
+    'middleware' => ['auth:api']
+], function () {
+    Route::post('email/create', 'Api\ListParticipant@create');
+    Route::post('email/get', 'Api\ListParticipant@get');
+});

@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+//Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Support\Facades\Route;
 
 class AuthController extends Controller

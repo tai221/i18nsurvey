@@ -139,7 +139,7 @@
                 // console.log(data)
                 this.$store.dispatch('retrieveToken', data)
                     .then((response) => {
-                        this.$router.push({ name: 'signup' })
+                        this.$router.push({ name: 'mypage' })
                     })
             }
         }

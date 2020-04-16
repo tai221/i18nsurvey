@@ -29,6 +29,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             login(data.account)
                 .then((response) => {
+                    console.log(response.data)
                     const token = response.data.access_token
                     if (data.remember) {
                         setTokenRemember(token)
