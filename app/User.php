@@ -37,6 +37,13 @@ class User extends Authenticatable
         return $this
             ->hasMany('App\Email','user_id', 'id');
     }
+
+    public function surveys()
+    {
+        return $this
+            ->hasMany('App\Survey','user_id', 'id');
+    }
+
     //---------------
     //custom check username and password in Password Grant
     public function findForPassport($username)

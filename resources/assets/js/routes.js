@@ -5,6 +5,7 @@ import Signup from "./views/signup/Signup";
 import Layout from "./components/Layout";
 import ListParticipant from "./views/table/listParticipants"
 import CreateSurvey from "./views/survey/CreateSurvey"
+import ManageSurvey from "./views/survey/ManageSurvey";
 
 Vue.use(Router)
 
@@ -30,9 +31,18 @@ export const routes = [
                 name: 'ListParticipant'
             },
             {
-                path: 'create/survey',
-                component: CreateSurvey,
-                name: 'CreateSurvey'
+                path: 'manage',
+                component: ManageSurvey,
+                name: 'ManageSurvey',
+                children: [
+                    {
+                        path: 'create',
+                        component: CreateSurvey,
+                        name: 'CreateSurvey',
+                    },
+
+                ]
+
             },
             // {
             //     path: 'manage-account',

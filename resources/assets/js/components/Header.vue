@@ -71,10 +71,10 @@
 
 <style scoped>
     .button-custom {
-        background-color: white;
-        border-radius:5px;
+        background-color: #e3eaf3;
+        border-radius: 20px;
         color: #802b00;
-        padding: 2px 3px 3px 4px;
+        padding: 4px 11px 5px 12px;
     }
     .create-survey::before {
         content: url("../images/plus.svg");

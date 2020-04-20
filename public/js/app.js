@@ -12433,6 +12433,9 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_table_listParticipants___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__views_table_listParticipants__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_survey_CreateSurvey__ = __webpack_require__(169);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_survey_CreateSurvey___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__views_survey_CreateSurvey__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_survey_ManageSurvey__ = __webpack_require__(280);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_survey_ManageSurvey___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__views_survey_ManageSurvey__);
+
 
 
 
@@ -12460,9 +12463,15 @@ var routes = [{
         component: __WEBPACK_IMPORTED_MODULE_5__views_table_listParticipants___default.a,
         name: 'ListParticipant'
     }, {
-        path: 'create/survey',
-        component: __WEBPACK_IMPORTED_MODULE_6__views_survey_CreateSurvey___default.a,
-        name: 'CreateSurvey'
+        path: 'manage',
+        component: __WEBPACK_IMPORTED_MODULE_7__views_survey_ManageSurvey___default.a,
+        name: 'ManageSurvey',
+        children: [{
+            path: 'create',
+            component: __WEBPACK_IMPORTED_MODULE_6__views_survey_CreateSurvey___default.a,
+            name: 'CreateSurvey'
+        }]
+
     }]
 }];
 
@@ -27594,7 +27603,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n.button-custom[data-v-1d126904] {\n    background-color: white;\n    border-radius:5px;\n    color: #802b00;\n    padding: 2px 3px 3px 4px;\n}\n.create-survey[data-v-1d126904]::before {\n    content: url(" + escape(__webpack_require__(146)) + ");\n    -webkit-transform: translate(0px, 3px);\n            transform: translate(0px, 3px);\n    display: inline-block;\n}\n.list-surveys[data-v-1d126904]::before {\n    content: url(" + escape(__webpack_require__(147)) + ");\n    -webkit-transform: translate(0px, 3px);\n            transform: translate(0px, 3px);\n    display: inline-block;\n}\n.list-participants[data-v-1d126904]::before {\n    content: url(" + escape(__webpack_require__(148)) + ");\n    -webkit-transform: translate(0px, 3px);\n            transform: translate(0px, 3px);\n    display: inline-block;\n}\nbody[data-v-1d126904]{\n    background: #ededed;\n}\n.navbar-brand[data-v-1d126904] {\n    padding: 1px 15px !important;\n}\n.navbar-inverse[data-v-1d126904] {\n    background-color: #409eff;\n    border-color: rgba(41, 41, 102, 0.18);\n    border-bottom: ;\n}\n", ""]);
+exports.push([module.i, "\n.button-custom[data-v-1d126904] {\n    background-color: #e3eaf3;\n    border-radius: 20px;\n    color: #802b00;\n    padding: 4px 11px 5px 12px;\n}\n.create-survey[data-v-1d126904]::before {\n    content: url(" + escape(__webpack_require__(146)) + ");\n    -webkit-transform: translate(0px, 3px);\n            transform: translate(0px, 3px);\n    display: inline-block;\n}\n.list-surveys[data-v-1d126904]::before {\n    content: url(" + escape(__webpack_require__(147)) + ");\n    -webkit-transform: translate(0px, 3px);\n            transform: translate(0px, 3px);\n    display: inline-block;\n}\n.list-participants[data-v-1d126904]::before {\n    content: url(" + escape(__webpack_require__(148)) + ");\n    -webkit-transform: translate(0px, 3px);\n            transform: translate(0px, 3px);\n    display: inline-block;\n}\nbody[data-v-1d126904]{\n    background: #ededed;\n}\n.navbar-brand[data-v-1d126904] {\n    padding: 1px 15px !important;\n}\n.navbar-inverse[data-v-1d126904] {\n    background-color: #409eff;\n    border-color: rgba(41, 41, 102, 0.18);\n    border-bottom: ;\n}\n", ""]);
 
 // exports
 
@@ -29529,7 +29538,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.pageThumbs .number[data-v-66311448], .ui-tutorial .number[data-v-66311448] {\n    position: absolute;\n    top: 10px;\n    left: 6px;\n    font-size: 11px;\n    line-height: 0;\n}\n.ui-scroll-container .ui-scroll-iframe[data-v-66311448] {\n    position: absolute;\n    border: 0;\n    background-color: transparent;\n    top: 0;\n    left: 0;\n    width: 0;\n    height: 100%;\n    z-index: -1;\n    opacity: 0;\n    filter: alpha(opacity=0);\n}\n.flaticon-thank-you-v2[data-v-66311448]:before {\n    content: \"\\F119\";\n}\npageThumbs .pageThumb.pageThumbThanks[data-v-66311448], .ui-tutorial .pageThumb.pageThumbThanks[data-v-66311448] {\n    margin-bottom: 0;\n}\n.flaticon-page-add[data-v-66311448]:before {\n    content: \"\\F11B\";\n}\n.flaticon-page-empty[data-v-66311448]:before {\n    content: \"\\F105\";\n}\n.pageThumbs .pageThumb.pageThumbEmpty .number[data-v-66311448], .pageThumbs .pageThumb.pageThumbEmpty i[data-v-66311448], .ui-tutorial .pageThumb.pageThumbEmpty .number[data-v-66311448], .ui-tutorial .pageThumb.pageThumbEmpty i[data-v-66311448] {\n    color: rgba(0,0,0,.4);\n}\n.pageThumbs .pageThumb .number[data-v-66311448], .pageThumbs .pageThumb i[data-v-66311448], .ui-tutorial .pageThumb .number[data-v-66311448], .ui-tutorial .pageThumb i[data-v-66311448] {\n    -webkit-transition: color .15s ease-in-out;\n    transition: color .15s ease-in-out;\n}\n.flaticon-page[data-v-66311448]:before {\n    content: \"\\F106\";\n}\n[class*=\" flaticon-\"][data-v-66311448]:after, [class*=\" flaticon-\"][data-v-66311448]:before, [class^=flaticon-][data-v-66311448]:after, [class^=flaticon-][data-v-66311448]:before {\n    font-family: Flaticon;\n    font-style: normal;\n}\n.flaticon-welcome-v2[data-v-66311448]:before {\n    content: \"\\F11A\";\n}\ni[data-v-66311448] {\n    font-style: normal;\n}\n.pageThumbs .pageThumb i[data-v-66311448], .ui-tutorial .pageThumb i[data-v-66311448] {\n    display: inline-block;\n    font-size: 23px;\n    line-height: 0;\n    padding-top: 27px;\n    position: relative;\n    z-index: 10;\n}\n.pageThumbs .interActive[data-v-66311448] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    z-index: 2000;\n    background-color: hsla(0,0%,100%,0);\n}\n.pageThumbs .pageThumb[data-v-66311448], .ui-tutorial .pageThumb[data-v-66311448] {\n    display: block;\n    width: 55px;\n    background-color: #fff;\n    height: 55px;\n    border: 1px solid rgba(0,0,0,.2);\n    margin: 6px 0;\n    cursor: pointer;\n    position: relative;\n    text-align: center;\n    font-weight: 400;\n    font-family: Helvetica Neue LT W02_55 Roman,sans-serif;\n    border-radius: 4px;\n    -webkit-transition: background-color .15s ease-in-out;\n    transition: background-color .15s ease-in-out;\n}\n.pageThumbs .pageThumb[data-v-66311448]:first-child, .ui-tutorial .pageThumb[data-v-66311448]:first-child {\n    margin-top: 0;\n}\n.pageThumbs .pageThumb.pageThumbActive[data-v-66311448], .pageThumbs .pageThumb.pageThumbActive[data-v-66311448]:hover, .pageThumbs .pageThumb.pageThumbEmpty.pageThumbActive[data-v-66311448], .pageThumbs .pageThumb.pageThumbEmpty.pageThumbActive[data-v-66311448]:hover, .ui-tutorial .pageThumb.pageThumbActive[data-v-66311448], .ui-tutorial .pageThumb.pageThumbActive[data-v-66311448]:hover, .ui-tutorial .pageThumb.pageThumbEmpty.pageThumbActive[data-v-66311448], .ui-tutorial .pageThumb.pageThumbEmpty.pageThumbActive[data-v-66311448]:hover {\n    cursor: default;\n    background-color: #3899ec;\n}\n.pageThumbs .pageThumb.pageThumbWelcome.pageThumbActive[data-v-66311448], .pageThumbs .pageThumb.pageThumbWelcome.pageThumbActive[data-v-66311448]:hover, .ui-tutorial .pageThumb.pageThumbWelcome.pageThumbActive[data-v-66311448], .ui-tutorial .pageThumb.pageThumbWelcome.pageThumbActive[data-v-66311448]:hover {\n    background-color: #3899ec;\n}\n.ui-scroll-container .ui-scroll-in[data-v-66311448] {\n    position: relative;\n    display: block;\n    width: 100%;\n    z-index: 10;\n}\n.pageThumbs .ui-scroll-container .ui-scroll-in[data-v-66311448] {\n    padding-top: 26px;\n    padding-bottom: 26px;\n}\n.ui-scroll-container .ui-scrollbar[data-v-66311448], .ui-scroll-container .ui-scrollbar-track[data-v-66311448] {\n    position: absolute;\n    top: 0;\n    border-radius: 3px;\n}\n.ui-scroll-container .ui-scrollbar-track[data-v-66311448] {\n    left: 0;\n    width: 100%;\n    height: auto;\n    background-color: rgba(53,152,253,.4);\n    -webkit-transition: color .15s ease-in-out;\n    transition: color .15s ease-in-out;\n}\n.pageThumbs .ui-scroll-container .ui-scrollbar-track[data-v-66311448] {\n    background-color: rgba(0,0,0,.2);\n    border: 1px solid hsla(0,0%,100%,.2);\n    -webkit-transition: background-color .15s ease-in-out,border-color .15s ease-in-out;\n    transition: background-color .15s ease-in-out,border-color .15s ease-in-out;\n}\n.ui-scroll-container .ui-scrollbar[data-v-66311448], .ui-scroll-container .ui-scrollbar-track[data-v-66311448] {\n    position: absolute;\n    top: 0;\n    border-radius: 3px;\n}\n.pageThumbs .ui-scroll-container .ui-scrollbar[data-v-66311448] {\n    width: 6px;\n}\n.ui-scroll-container .ui-scroll.ui-scroll-left-side .ui-scrollbar[data-v-66311448] {\n    right: auto;\n    left: 3px;\n}\n.ui-scroll-container .ui-scroll[data-v-66311448] {\n    display: block;\n    width: calc(100% + 30px);\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.pageThumbs .ui-scroll-container .ui-scroll[data-v-66311448] {\n    padding-left: 18px;\n}\n.ui-scroll-container[data-v-66311448] {\n    display: block;\n    width: 100%;\n    overflow: hidden;\n    position: relative;\n}\n.pageThumbs[data-v-66311448] {\n    /*position: absolute;*/\n    top: 48px;\n    height: calc(100% - 48px);\n    left: 0;\n    padding: 0 10px 0 4px;\n    overflow: visible;\n    text-align: right;\n    z-index: 200;\n    width: 105px;\n    -webkit-transition: height .15s ease-in-out;\n    transition: height .15s ease-in-out;\n}\n.mainPage[data-v-66311448] {\n    /*position: absolute;*/\n    /*top: 0;*/\n    left: 0;\n    width: 100%;\n    height: 100%;\n    z-index: 1000;\n    visibility: visible;\n    /*padding-top: 48px;*/\n    display: none;\n    -webkit-transition: all .2s ease-in-out;\n    transition: all .2s ease-in-out;\n}\n.mainPage.mainPageActive[data-v-66311448] {\n    display: block;\n}\n", ""]);
 
 // exports
 
@@ -29540,13 +29549,63 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__WelcomePage__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__WelcomePage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__WelcomePage__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "CreateSurvey"
+    name: "CreateSurvey",
+    components: {
+        WelcomePage: __WEBPACK_IMPORTED_MODULE_0__WelcomePage___default.a
+    }
 });
 
 /***/ }),
@@ -29557,9 +29616,115 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    { staticClass: "mainPage mainPageBuilder mainPageActive" },
+    [_vm._m(0), _vm._v(" "), _c("WelcomePage")],
+    1
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pageThumbs" }, [
+      _c("div", { staticClass: "ui-scroll-container" }, [
+        _c(
+          "div",
+          {
+            staticClass: "ui-scroll ui-scroll-left-side",
+            staticStyle: { "max-height": "624px" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "ui-scrollbar",
+                staticStyle: { height: "624px", opacity: "1", display: "block" }
+              },
+              [
+                _c("div", {
+                  staticClass: "ui-scrollbar-track",
+                  staticStyle: { height: "543px", top: "0px" }
+                }),
+                _vm._v(" "),
+                _c("div")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "ui-scroll-in", staticStyle: { width: "91px" } },
+              [
+                _c(
+                  "div",
+                  { staticClass: "pageThumb pageThumbWelcome pageThumbActive" },
+                  [
+                    _c("div", { staticClass: "interActive" }),
+                    _vm._v(" "),
+                    _c("i", {
+                      staticClass: "page-icon fa fa-sign-in",
+                      attrs: { "aria-hidden": "true" }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "pageThumb" }, [
+                  _c("div", { staticClass: "interActive" }),
+                  _vm._v(" "),
+                  _c("i", {
+                    staticClass: "fa fa-file-text-o",
+                    attrs: { "aria-hidden": "true" }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "number" }, [_vm._v("1")])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "pageThumb pageThumbEmpty" }, [
+                  _c("div", { staticClass: "interActive" }),
+                  _vm._v(" "),
+                  _c("i", {
+                    staticClass: "fa fa-file-o",
+                    attrs: { "aria-hidden": "true" }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "number" }, [_vm._v("2")])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "pageThumb pageThumbAdd" }, [
+                  _c("div", { staticClass: "interActive" }),
+                  _vm._v(" "),
+                  _c("i", {
+                    staticClass: "fa fa-plus-square-o",
+                    attrs: { "aria-hidden": "true" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "pageThumb pageThumbThanks" }, [
+                  _c("div", { staticClass: "interActive" }),
+                  _vm._v(" "),
+                  _c("i", {
+                    staticClass: "fa fa-sign-out",
+                    attrs: { "aria-hidden": "true" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("iframe", {
+                  staticClass: "ui-scroll-iframe",
+                  attrs: {
+                    src: "/_common/v2/designer/img/ui-scroll-placeholder.jpg",
+                    "data-reactid": ".0.1.1.0.0.0.1.1"
+                  }
+                })
+              ]
+            )
+          ]
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -117545,6 +117710,613 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(281)
+}
+var normalizeComponent = __webpack_require__(6)
+/* script */
+var __vue_script__ = __webpack_require__(283)
+/* template */
+var __vue_template__ = __webpack_require__(284)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-69cf3d1e"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/views/survey/ManageSurvey.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-69cf3d1e", Component.options)
+  } else {
+    hotAPI.reload("data-v-69cf3d1e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 281 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(282);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(8)("370c3b6b", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69cf3d1e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ManageSurvey.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69cf3d1e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ManageSurvey.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 282 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.top-menu.menuLight .menuContainer ul.menu li[data-v-69cf3d1e] {\n    height: 36px;\n    /*font-weight: 400;*/\n    /*font-family: Helvetica Neue LT W02_55 Roman,sans-serif;*/\n    /*letter-spacing: .2px;*/\n    font-size: 16px;\n    display: block;\n    /*text-decoration: none;*/\n    color: #38586f;\n    padding: 7px 15px 9px;\n    border-radius: 18px;\n    -webkit-transition: all .2s ease-in-out;\n    transition: all .2s ease-in-out;\n}\n.top-menu.menuLight .menuContainer ul.menu li.active[data-v-69cf3d1e]  {\n    background: #3899ec;\n    color: #f7fafd;\n}\n.top-menu.menuLight .menuContainer ul.menu[data-v-69cf3d1e] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    margin: 0;\n    padding: 0;\n    *zoom: 1;\n}\n.top-menu.menuLight .menuContainer[data-v-69cf3d1e] {\n    display: inline-block;\n    width: auto;\n}\n.top-menu.menuLight[data-v-69cf3d1e] {\n    display: block;\n    width: 100%;\n    height: 48px;\n    /*position: absolute;*/\n    /*top: 0;*/\n    text-align: center;\n    /*left: 0;*/\n    /*z-index: 5000;*/\n    background: #fff;\n    -webkit-box-shadow: 0 0 11px 0 rgba(22,45,61,.5);\n    box-shadow: 0 0 11px 0 rgba(22,45,61,.5);\n}\n.app-content[data-v-69cf3d1e] {\n    /*display: block;*/\n    /*position: absolute;*/\n    /*top: 0;*/\n    left: 0;\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n    transition: -webkit-filter .5s linear;\n    transition: filter .5s linear;\n    transition: filter .5s linear, -webkit-filter .5s linear;\n    -webkit-transition: -webkit-filter .5s linear;\n    -moz-transition: .5s -moz-filter linear;\n    -ms-transition: .5s -ms-filter linear;\n    -o-transition: .5s -o-filter linear;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 283 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "ManageSurvey"
+});
+
+/***/ }),
+/* 284 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "app-content" },
+    [_vm._m(0), _vm._v(" "), _c("router-view")],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "top-menu menuLight" }, [
+      _c("div", { staticClass: "menuContainer" }, [
+        _c("ul", { staticClass: "menu" }, [
+          _c("li", { staticClass: "active" }, [_vm._v("Questions")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("Share")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("Response")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("Analytic")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("Preview")])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-69cf3d1e", module.exports)
+  }
+}
+
+/***/ }),
+/* 285 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(286)
+}
+var normalizeComponent = __webpack_require__(6)
+/* script */
+var __vue_script__ = __webpack_require__(288)
+/* template */
+var __vue_template__ = __webpack_require__(289)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-69299eaf"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/views/survey/WelcomePage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-69299eaf", Component.options)
+  } else {
+    hotAPI.reload("data-v-69299eaf", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(287);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(8)("74e21ab1", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69299eaf\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WelcomePage.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69299eaf\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WelcomePage.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 287 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.button-start[data-v-69299eaf] {\n    width: 120px;\n    border-radius: 5px;\n}\n.DraftEditor-alignCenter .public-DraftStyleDefault-block[data-v-69299eaf] {\n    text-align: center;\n}\n.public-DraftStyleDefault-ltr[data-v-69299eaf] {\n    direction: ltr;\n    text-align: left;\n}\n.public-DraftStyleDefault-block[data-v-69299eaf] {\n    position: relative;\n    white-space: pre-wrap;\n}\n.public-DraftStyleDefault-block[data-v-69299eaf] {\n    margin-bottom: .8em;\n}\n.public-DraftEditor-content[contenteditable=true][data-v-69299eaf] {\n    -webkit-user-modify: read-write-plaintext-only;\n}\n.DraftEditor-editorContainer[data-v-69299eaf] {\n    background-color: hsla(0,0%,100%,0);\n    border-left: .1px solid transparent;\n    position: relative;\n    z-index: 1;\n}\n.editor .DraftEditor-root[data-v-69299eaf], .editor .redactor-box[data-v-69299eaf] {\n    width: 100%;\n    line-height: 1.6em;\n    font-size: 16px;\n    resize: none;\n    padding: 6px 15px;\n    overflow: hidden;\n    background: transparent;\n    z-index: 2;\n    vertical-align: baseline;\n    position: relative;\n    -webkit-transition: all .2s ease-in-out;\n    transition: all .2s ease-in-out;\n}\n.DraftEditor-root[data-v-69299eaf] {\n    position: relative;\n}\n.DraftEditor-editorContainer[data-v-69299eaf], .DraftEditor-root[data-v-69299eaf], .public-DraftEditor-content[data-v-69299eaf] {\n    height: inherit;\n    text-align: initial;\n}\n.editor[data-v-69299eaf]:after {\n    top: 1px;\n    left: 1px;\n    width: calc(100% - 2px);\n    height: calc(100% - 2px);\n}\n.editor[data-v-69299eaf]:after, .editor[data-v-69299eaf]:before {\n    content: \"\";\n    position: absolute;\n    top: 0;\n    left: 0;\n    z-index: 1;\n    width: 100%;\n    height: 100%;\n    border: 1px dashed transparent;\n    -webkit-transition: border-color .15s ease-in-out;\n    transition: border-color .15s ease-in-out;\n}\n.editor[data-v-69299eaf] {\n    padding: 0;\n    -webkit-transition: all .2s ease-in-out;\n    transition: all .2s ease-in-out;\n}\n.editor[data-v-69299eaf], .editorOutContainer[data-v-69299eaf] {\n    position: relative;\n    display: block;\n}\n.h1-container[data-v-69299eaf]:after {\n    border-color: hsla(0,0%,100%,.3);\n    width: 100%;\n    height: 100%;\n    top: 1px;\n    left: 1px;\n    width: calc(100% - 2px);\n    height: calc(100% - 2px);\n}\nbutton[data-v-69299eaf], input[data-v-69299eaf], select[data-v-69299eaf], textarea[data-v-69299eaf] {\n    font-size: 14px;\n    font-weight: 400;\n    outline: none;\n    border-radius: 0;\n    -webkit-appearance: none;\n    width: 100%;\n    background: none;\n}\n.h1-container textarea.h1[data-v-69299eaf] {\n    position: relative;\n    z-index: 20;\n    color: inherit;\n    font-size: inherit;\n}\ntextarea.h1[data-v-69299eaf] {\n    background-color: transparent;\n    resize: none;\n    overflow: hidden;\n    text-align: center;\n    border: 0;\n    padding: 0;\n    font-size: 24px;\n}\n.h1-container[data-v-69299eaf]:before {\n    content: \"\";\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    border: 1px dashed rgba(0,0,0,.3);\n    z-index: 10;\n    opacity: 0;\n    filter: alpha(opacity=0);\n    -webkit-transition: opacity .15s ease-in-out;\n    transition: opacity .15s ease-in-out;\n}\n.h1-container[data-v-69299eaf] {\n    margin-top: 5px;\n    padding-top: 19px;\n    padding-bottom: 10px;\n    display: block;\n    font-size: 24px;\n    position: relative;\n}\n.logoContainer .imagePicker .placeholder span[data-v-69299eaf] {\n    display: block;\n    padding: 13px 0 0;\n    font-size: 14px;\n}\n.icon-image[data-v-69299eaf]:before {\n    content: \"\\E907\";\n}\n[class*=\" icon-\"][data-v-69299eaf], [class^=icon-][data-v-69299eaf] {\n    font-family: icomoon!important;\n    speak: none;\n    font-style: normal;\n    font-weight: 400;\n    font-variant: normal;\n    text-transform: none;\n    line-height: 1;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n}\n.logoContainer .imagePicker .placeholder .icon-image[data-v-69299eaf] {\n    font-size: 35px;\n    display: block;\n    width: 50px;\n    height: 30px;\n    margin: 20px auto 0;\n}\n.logoContainer .imagePicker .placeholder[data-v-69299eaf] {\n    width: 100%;\n    cursor: pointer;\n    height: 100%;\n    color: #000;\n}\n.imagePicker img[data-v-69299eaf], .imagePicker label[data-v-69299eaf] {\n    opacity: 1;\n    filter: alpha(opacity=100);\n    -webkit-transition: all .2s ease-in-out;\n    transition: all .2s ease-in-out;\n}\n.uploadLoader[data-v-69299eaf] {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    visibility: hidden;\n    z-index: 100;\n    -webkit-transition: all .3s cubic-bezier(.32,.82,.57,.21);\n    transition: all .3s cubic-bezier(.32,.82,.57,.21);\n    opacity: 0;\n    filter: alpha(opacity=0);\n    -webkit-transform: rotateY(-45deg);\n    transform: rotateY(-45deg);\n}\n.logoContainer .imagePicker[data-v-69299eaf] {\n    border: 1px dashed rgba(0,0,0,.3);\n    width: 100%;\n    height: 100%;\n    text-align: center;\n    position: relative;\n    cursor: pointer;\n}\n.logoContainer[data-v-69299eaf], .logoContainer .imagePicker[data-v-69299eaf] {\n    -webkit-transition: all .2s ease-in-out;\n    transition: all .2s ease-in-out;\n}\n.logoContainer[data-v-69299eaf] {\n    top: 0!important;\n    border: 1px dashed transparent;\n    width: 204px!important;\n    height: 99px!important;\n    margin: 56px 25px 0 0;\n    border: 1px dashed hsla(0,0%,100%,.3);\n}\n.logoContainer[data-v-69299eaf] {\n    margin: 0;\n    position: static;\n    display: inline-block;\n}\n.block .block-in.block-in-center[data-v-69299eaf] {\n    text-align: center;\n}\n.block .block-in[data-v-69299eaf] {\n    padding-top: 10px;\n    padding-bottom: 30px;\n}\n.page-in .block .block-in[data-v-69299eaf] {\n    position: relative;\n}\n@media (min-width: 620px){\n.page-in .block-in[data-v-69299eaf] {\n        max-width: 600px;\n}\n}\n@media only screen and (min-width: 0) {\n.page-in .block-in[data-v-69299eaf] {\n        display: inline-block;\n        width: 100%;\n        max-width: 516px;\n        text-align: left;\n}\n}\n.block[data-v-69299eaf] {\n    padding-top: 0;\n    padding-bottom: 0;\n    position: relative;\n    z-index: 50;\n    display: block;\n    width: 100%;\n}\n.page-in .align[data-v-69299eaf] {\n    display: table-cell;\n    width: 100%;\n    height: 100%;\n    text-align: center;\n    vertical-align: middle;\n    padding: 30px 18px 91px;\n    -webkit-box-sizing: border-box;\n    box-sizing: border-box;\n}\n.page-in .align[data-v-69299eaf] {\n    padding: 0;\n}\n.page-in[data-v-69299eaf] {\n    display: table;\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 288 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "WelcomePage",
+    data: function data() {
+        return {
+            survey: {
+                start_date: undefined,
+                expire: undefined,
+                title: undefined,
+                dear: undefined,
+                greeting: undefined
+            }
+        };
+    }
+});
+
+/***/ }),
+/* 289 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "page-in" }, [
+    _c("div", { staticClass: "align" }, [
+      _c("div", { staticClass: "block" }, [
+        _c("div", { staticClass: "block-in block-in-center" }, [
+          _c(
+            "div",
+            { staticClass: "h1-container", staticStyle: { color: "#000" } },
+            [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.survey.title,
+                    expression: "survey.title"
+                  }
+                ],
+                staticClass: "h1",
+                staticStyle: { height: "33px" },
+                attrs: {
+                  maxlength: "400",
+                  rows: "1",
+                  placeholder: "Survey Title..."
+                },
+                domProps: { value: _vm.survey.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.survey, "title", $event.target.value)
+                  }
+                }
+              })
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", [
+            _c("div", { staticClass: "editorOutContainer" }, [
+              _c("div", { staticClass: "editor" }, [
+                _c("div", { staticClass: "editorInContainer" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "editorIn",
+                      staticStyle: { color: "#000", "text-align": "center" }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "DraftEditor-root DraftEditor-alignCenter"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "DraftEditor-editorContainer" },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "notranslate public-DraftEditor-content",
+                                  staticStyle: {
+                                    outline: "none",
+                                    "user-select": "text",
+                                    "-webkit-user-select": "text",
+                                    "white-space": "pre-wrap",
+                                    "word-wrap": "break-word"
+                                  },
+                                  attrs: {
+                                    "aria-describedby": "placeholder-55jr",
+                                    contenteditable: "true",
+                                    role: "textbox",
+                                    spellcheck: "false"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { attrs: { "data-contents": "true" } },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          attrs: {
+                                            "data-block": "true",
+                                            "data-editor": "55jr",
+                                            "data-offset-key": "carcn-0-0"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "public-DraftStyleDefault-block public-DraftStyleDefault-ltr",
+                                              attrs: {
+                                                "data-offset-key": "carcn-0-0"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                {
+                                                  attrs: {
+                                                    "data-offset-key":
+                                                      "carcn-0-0"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      attrs: {
+                                                        "data-text": "true"
+                                                      },
+                                                      model: {
+                                                        value: _vm.survey.dear,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.survey,
+                                                            "dear",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "survey.dear"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Dear Sir / Madam,\n                                                                    "
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          attrs: {
+                                            "data-block": "true",
+                                            "data-editor": "55jr",
+                                            "data-offset-key": "34t1t-0-0"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "public-DraftStyleDefault-block public-DraftStyleDefault-ltr",
+                                              attrs: {
+                                                "data-offset-key": "34t1t-0-0"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                {
+                                                  attrs: {
+                                                    "data-offset-key":
+                                                      "34t1t-0-0"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      attrs: {
+                                                        "data-text": "true"
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.survey.greeting,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.survey,
+                                                            "greeting",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "survey.greeting"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Thank you for visiting us. By filling out this 5-10 minute survey, you will help us obtain the very best results."
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c(
+                "el-button",
+                {
+                  staticClass: "button-start",
+                  attrs: { type: "primary", plain: "" }
+                },
+                [_vm._v("Start Now")]
+              )
+            ],
+            1
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-69299eaf", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
