@@ -19,10 +19,10 @@
                             </textarea>
                     </div>
                     <div>
-                        <div class="editorOutContainer">
-                            <div class="editor">
-                                <div class="editorInContainer">
-                                    <div class="editorIn" style="color:#000;text-align:center;">
+<!--                        <div class="editorOutContainer">-->
+<!--                            <div class="editor">-->
+<!--                                <div class="editorInContainer">-->
+<!--                                    <div class="editorIn" style="color:#000;text-align:center;">-->
                                         <div class="DraftEditor-root DraftEditor-alignCenter">
                                             <div class="DraftEditor-editorContainer">
                                                 <div aria-describedby="placeholder-55jr" class="notranslate public-DraftEditor-content" contenteditable="true" role="textbox" spellcheck="false" style="outline:none;user-select:text;-webkit-user-select:text;white-space:pre-wrap;word-wrap:break-word;">
@@ -30,15 +30,22 @@
                                                         <div class="" data-block="true" data-editor="55jr" data-offset-key="carcn-0-0">
                                                             <div data-offset-key="carcn-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
                                                                 <span data-offset-key="carcn-0-0">
-                                                                    <span v-model="survey.dear" data-text="true">Dear Sir / Madam,
-                                                                    </span>
+                                                                    <el-input v-model="survey.dear"
+                                                                              v-bind:class="{'border':border}"
+                                                                              data-text="true">
+                                                                    </el-input>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                         <div class="" data-block="true" data-editor="55jr" data-offset-key="34t1t-0-0">
                                                             <div data-offset-key="34t1t-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
                                                                 <span data-offset-key="34t1t-0-0" >
-                                                                    <span v-model="survey.greeting" data-text="true">Thank you for visiting us. By filling out this 5-10 minute survey, you will help us obtain the very best results.</span>
+<!--                                                                    <span data-text="true">{{survey.greeting}}</span>-->
+                                                                     <el-input type="textarea"
+                                                                               :rows="2"
+                                                                               v-model="survey.greeting"
+                                                                               data-text="true">
+                                                                    </el-input>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -46,10 +53,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <div>
                         <el-button class="button-start" type="primary" plain>Start Now</el-button>
@@ -61,6 +68,8 @@
 </template>
 
 <script>
+    import {create, fetchSurvey} from "../../api/survey";
+    import { mapGetters, mapActions } from 'vuex'
     export default {
         name: "WelcomePage",
         data() {
@@ -69,15 +78,61 @@
                     start_date: undefined,
                     expire: undefined,
                     title: undefined,
-                    dear: undefined,
-                    greeting: undefined,
-                }
+                    dear: 'Dear Sir / Madam,',
+                    greeting: 'Thank you for visiting us. By filling out this 5-10 minute survey, you will help us obtain the very best results.',
+                    surveyId: undefined,
+                },
+                border: true,
             }
+        },
+        computed: {
+            ...mapGetters([
+                'surveyId',
+            ])
+        },
+        watch: {
+            survey: {
+                handler(){
+                    this.createOrUpdate()
+                },
+                deep: true
+            }
+
+        },
+        created() {
+            let id = this.surveyId
+            fetchSurvey(id).then(response => {
+                if(response.data.survey) {
+                    let {title, dear, greeting} = response.data.survey
+                    this.survey.title = title
+                    this.survey.dear = dear
+                    this.survey.greeting = greeting
+                } else {
+                    this.createOrUpdate()
+                }
+            })
+        },
+        methods: {
+            createOrUpdate() {
+                this.survey.surveyId = this.surveyId
+                create(this.survey).then(response => {
+                    let survey_id = response.data.survey_id
+                    // this.$store.dispatch('setSuveyId', survey_id)
+                })
+            },
         }
     }
 </script>
 
 <style scoped>
+    .DraftEditor-editorContainer .border {
+        -webkit-appearance: none;
+        border: 0;
+    }
+    /*.DraftEditor-editorContainer input.border {*/
+    /*    !*-webkit-appearance: none;*!*/
+    /*    border: 1px;*/
+    /*}*/
     .button-start {
         width: 120px;
         border-radius: 5px;
@@ -326,14 +381,14 @@
             text-align: left;
         }
     }
-    .block {
-        padding-top: 0;
-        padding-bottom: 0;
-        position: relative;
-        z-index: 50;
-        display: block;
-        width: 100%;
-    }
+    /*.block {*/
+    /*    padding-top: 0;*/
+    /*    padding-bottom: 0;*/
+    /*    position: relative;*/
+    /*    z-index: 50;*/
+    /*    display: block;*/
+    /*    width: 100%;*/
+    /*}*/
     .page-in .align {
         display: table-cell;
         width: 100%;

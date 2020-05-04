@@ -6,7 +6,10 @@ import Layout from "./components/Layout";
 import ListParticipant from "./views/table/listParticipants"
 import CreateSurvey from "./views/survey/CreateSurvey"
 import ManageSurvey from "./views/survey/ManageSurvey";
-
+import WelcomePage from "./views/survey/WelcomePage";
+import PageQuestion from "./views/survey/PageQuestion";
+import ListSurvey from "./views/survey/ListSurvey";
+import PageThanks from "./views/survey/PageThanks";
 Vue.use(Router)
 
 export const routes = [
@@ -33,12 +36,32 @@ export const routes = [
             {
                 path: 'manage',
                 component: ManageSurvey,
-                name: 'ManageSurvey',
                 children: [
+                    {
+                        path: '',
+                        component: ListSurvey,
+                        name: 'ListSurvey',
+                    },
                     {
                         path: 'create',
                         component: CreateSurvey,
-                        name: 'CreateSurvey',
+                        children: [
+                            {
+                                path:'',
+                                component: WelcomePage,
+                                name: 'WelcomePage',
+                            },
+                            {
+                                path:'page-question',
+                                component: PageQuestion,
+                                name: 'PageQuestion',
+                            },
+                            {
+                                path: 'thanks',
+                                component: PageThanks,
+                                name: 'ThanksPage',
+                            },
+                        ]
                     },
 
                 ]

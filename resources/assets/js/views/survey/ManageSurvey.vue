@@ -1,5 +1,5 @@
 <template>
-    <div class="app-content">
+    <div class="app-content" style="min-height: 478px">
         <div class="top-menu menuLight">
             <div class="menuContainer">
                 <ul class="menu">

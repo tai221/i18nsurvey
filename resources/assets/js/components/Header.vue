@@ -13,14 +13,14 @@
             <div class="collapse navbar-collapse navHeaderCollapse">
                 <ul class="nav navbar-nav navbar-right text-center">
                     <li>
-                        <router-link :to="{name: 'CreateSurvey'}">
+                        <router-link :to="{name: 'WelcomePage'}">
                             <div class="button-custom create-survey">
                                 Create
                             </div>
                         </router-link>
                     </li>
                     <li>
-                        <router-link :to="{name: 'CreateSurvey'}">
+                        <router-link :to="{name: 'ListSurvey'}">
                             <div class="button-custom list-surveys">
                                 List survey
                             </div>

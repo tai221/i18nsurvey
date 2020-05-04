@@ -25,4 +25,6 @@ Route::group([
 ], function () {
     Route::post('email/create', 'Api\ListParticipant@create');
     Route::post('email/get', 'Api\ListParticipant@get');
+    Route::post('survey/create', 'Api\SurveyController@create');
+    Route::get('survey/fetch/{id}', 'Api\SurveyController@fetch');
 });

@@ -9,54 +9,128 @@
                         <div></div>
                     </div>
                     <div class="ui-scroll-in" style="width: 91px;">
-                        <div class="pageThumb pageThumbWelcome pageThumbActive">
-                            <div class="interActive"></div>
-<!--                            <i class="page-icon flaticon-welcome-v2"></i>-->
-                            <i class="page-icon fa fa-sign-in"  aria-hidden="true"></i>
+                        <div class="pageThumb pageThumbWelcome "
+                             @click="triggerWelcome"
+                             v-bind:class="{'pageThumbActive':pageThumbWelcome}">
+                            <router-link :to="{name: 'WelcomePage'}">
+                                <div class="interActive"></div>
+                                <i class="page-icon fa fa-sign-in"  aria-hidden="true"></i>
+                            </router-link>
                         </div>
-                        <div class="pageThumb">
-                            <div class="interActive"></div>
-<!--                            <i class="page-icon flaticon-page"></i>-->
-                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                            <div class="number">1</div>
+                        <div v-for="page in pages"
+                             class="pageThumb"
+                             @click="triggerPage(page.number)"
+                             v-bind:class="{'pageThumbActive':page.active, 'pageThumbEmpty':page.empty}">
+                            <router-link :to="{name: 'PageQuestion'}">
+                                <div class="interActive"></div>
+                                <i v-bind:class="{'fa fa-file-text-o':!page.empty, 'fa fa-file-o':page.empty}" aria-hidden="true"></i>
+                                <div class="number">{{page.number}}</div>
+                            </router-link>
                         </div>
-                        <div class="pageThumb pageThumbEmpty">
+                        <div class="pageThumb pageThumbAdd" @click="addPage">
                             <div class="interActive"></div>
-<!--                            <div class="page-icon flaticon-page-empty"></div>-->
-                            <i class="fa fa-file-o" aria-hidden="true"></i>
-                            <div class="number">2</div>
-                        </div>
-                        <div class="pageThumb pageThumbAdd">
-                            <div class="interActive"></div>
-<!--                            <i class="page-icon flaticon-page-add"></i>-->
                             <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                         </div>
-                        <div class="pageThumb pageThumbThanks">
-                            <div class="interActive"></div>
-<!--                            <i class="page-icon flaticon-thank-you-v2"></i>-->
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        <div class="pageThumb pageThumbThanks"
+                             @click="triggerThanks"
+                             v-bind:class="{'pageThumbActive':pageThumbThanks}">
+                            <router-link :to="{name: 'ThanksPage'}">
+                                <div class="interActive"></div>
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            </router-link>
                         </div>
                         <iframe src="/_common/v2/designer/img/ui-scroll-placeholder.jpg" class="ui-scroll-iframe" data-reactid=".0.1.1.0.0.0.1.1"></iframe>
                     </div>
                 </div>
             </div>
         </div>
-<!--        <router-view></router-view>-->
-        <WelcomePage></WelcomePage>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+    import { mapGetters, mapActions } from 'vuex'
+    import {create} from "../../api/survey";
     import WelcomePage from "./WelcomePage";
     export default {
         name: "CreateSurvey",
-        components: {
-            WelcomePage: WelcomePage,
+        data(){
+            return {
+                pageThumbWelcome: true,
+                pageThumbThanks: false,
+                pages: [
+                    // {
+                    //     number: 1,
+                    //     empty: false,
+                    //     active: false
+                    // },
+                    // {
+                    //     number: 2,
+                    //     empty: false,
+                    //     active: false
+                    // },
+                    // {
+                    //     number: 3,
+                    //     empty: true,
+                    //     active: false
+                    // }
+                ]
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'surveyId'
+            ])
+        },
+        created() {
+            if(!this.surveyId) {
+                create().then(response => {
+                   let survey_id = response.data.survey_id
+                    this.$store.dispatch('setSuveyId', survey_id)
+                })
+                this.addPage()
+            }
+        },
+        methods: {
+            addPage() {
+              let lastPage = this.pages.length
+              let newPage = {number: lastPage+1, empty: true, active: false}
+              this.pages.push(newPage)
+            },
+            triggerWelcome() {
+                this.pages.filter(function (page) {
+                    page.active = false
+                })
+                this.pageThumbThanks = false
+                this.pageThumbWelcome = true
+            },
+            triggerThanks() {
+                this.pages.filter(function (page) {
+                    page.active = false
+                })
+                this.pageThumbWelcome = false
+                this.pageThumbThanks = true
+            },
+            triggerPage(number) {
+                this.pageThumbWelcome = false
+                this.pageThumbThanks = false
+                this.pages.filter(function (page) {
+                    page.active = false
+                })
+                this.pages[number-1].active = true
+            }
         }
     }
 </script>
 
 <style scoped>
+    a:hover {
+        color: white;
+    }
+    a {
+        color: blue;
+        text-decoration: none; /* no underline */
+    }
     .pageThumbs .number, .ui-tutorial .number {
         position: absolute;
         top: 10px;
@@ -151,7 +225,7 @@
         margin-top: 0;
     }
     .pageThumbs .pageThumb.pageThumbActive, .pageThumbs .pageThumb.pageThumbActive:hover, .pageThumbs .pageThumb.pageThumbEmpty.pageThumbActive, .pageThumbs .pageThumb.pageThumbEmpty.pageThumbActive:hover, .ui-tutorial .pageThumb.pageThumbActive, .ui-tutorial .pageThumb.pageThumbActive:hover, .ui-tutorial .pageThumb.pageThumbEmpty.pageThumbActive, .ui-tutorial .pageThumb.pageThumbEmpty.pageThumbActive:hover {
-        cursor: default;
+        /*cursor: default;*/
         background-color: #3899ec;
     }
     .pageThumbs .pageThumb.pageThumbWelcome.pageThumbActive, .pageThumbs .pageThumb.pageThumbWelcome.pageThumbActive:hover, .ui-tutorial .pageThumb.pageThumbWelcome.pageThumbActive, .ui-tutorial .pageThumb.pageThumbWelcome.pageThumbActive:hover {
@@ -162,6 +236,7 @@
         display: block;
         width: 100%;
         z-index: 10;
+
     }
     .pageThumbs .ui-scroll-container .ui-scroll-in {
         padding-top: 26px;
@@ -236,6 +311,7 @@
         -moz-transition: height .15s ease-in-out;
         -o-transition: height .15s ease-in-out;
         transition: height .15s ease-in-out;
+
     }
     .mainPage {
         /*position: absolute;*/

@@ -15,6 +15,7 @@ import {store} from './store/store';
 import './styles/index.scss' //global css
 import i18n from './lang'
 import * as filters from './filters' // global filters
+import './permission'
 
 
 require('./bootstrap');
