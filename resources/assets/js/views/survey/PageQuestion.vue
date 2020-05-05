@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     </el-dialog>
-                    <SingleChoice :dialogVisible="visableSingleChoice"></SingleChoice>
+                    <SingleChoice :dialogVisible="visableSingleChoice" :pageNumber="pageNumber" :orderPage="orderPage"></SingleChoice>
                 </div>
             </div>
         </div>
@@ -90,11 +90,17 @@
             SingleChoice,
 
         },
+        created(){
+          const app= this
+          const {pageNumber} = app.$route.params
+            this.pageNumber = pageNumber
+        },
         data() {
             return {
                 dialogVisible: false,
                 visableSingleChoice: false,
-
+                pageNumber: null,
+                orderPage: 1,
             }
         },
         methods: {

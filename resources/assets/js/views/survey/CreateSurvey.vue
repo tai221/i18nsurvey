@@ -21,7 +21,7 @@
                              class="pageThumb"
                              @click="triggerPage(page.number)"
                              v-bind:class="{'pageThumbActive':page.active, 'pageThumbEmpty':page.empty}">
-                            <router-link :to="{name: 'PageQuestion'}">
+                            <router-link :to="{name: 'PageQuestion', params: {pageNumber: page.number}}">
                                 <div class="interActive"></div>
                                 <i v-bind:class="{'fa fa-file-text-o':!page.empty, 'fa fa-file-o':page.empty}" aria-hidden="true"></i>
                                 <div class="number">{{page.number}}</div>

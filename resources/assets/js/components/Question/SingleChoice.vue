@@ -13,11 +13,15 @@
                 <i class="el-icon-delete"></i>
             </div>
         </div>
-        <div class="row-answer" v-if="hiddenOtherAnswer">
+        <div class="row-answer" v-if="!hiddenOtherAnswer">
             <el-input
                     class="answer"
                     v-model="otherAnswer"
                     placeholder="Other answer"
+                    size="mini"></el-input>
+            <el-input
+                    class="answer"
+                    :disabled="true"
                     size="mini"></el-input>
             <div class="icon-garbage" @click="hiddenOtherAnswer=false">
                 <i class="el-icon-delete"></i>
@@ -51,22 +55,27 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
+    import {create} from "../../api/question";
+
     export default {
         name: "SingleChoice",
         props: [
-            'dialogVisible'
+            'dialogVisible',
+            'pageNumber',
+            'orderPage',
         ],
         data() {
             return {
+                questionId: null,
                 question:'',
                 answers:[
                     {answer:''},
                     {answer:''},
                     {answer:''},
                 ],
-                otherAnswer: '',
-                hiddenOtherAnswer: false,
-                isRequire: false
+                otherAnswer: 'Other answer',
+                hiddenOtherAnswer: true,
+                isRequire: false,
             }
         },
         computed: {
@@ -86,12 +95,20 @@
             },
             createQuestion() {
                 const data = {
+                    questionId: this.questionId,
                     question: this.question,
                     surveyId: this.surveyId,
                     required: this.isRequire,
                     type: 1,
-                    page:
+                    page: this.$props.pageNumber,
+                    orderPage: this.$props.orderPage,
+                    hiddenOtherAnswer: this.hiddenOtherAnswer,
+                    otherAnswer: this.otherAnswer,
+                    answers: this.answers
                 }
+                create(data).then(response => {
+                    console.log(response)
+                })
             }
         }
 

@@ -30240,7 +30240,14 @@ var render = function() {
                       [
                         _c(
                           "router-link",
-                          { attrs: { to: { name: "PageQuestion" } } },
+                          {
+                            attrs: {
+                              to: {
+                                name: "PageQuestion",
+                                params: { pageNumber: page.number }
+                              }
+                            }
+                          },
                           [
                             _c("div", { staticClass: "interActive" }),
                             _vm._v(" "),
@@ -30724,11 +30731,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         SingleChoice: __WEBPACK_IMPORTED_MODULE_1__components_Question_SingleChoice___default.a
 
     },
+    created: function created() {
+        var app = this;
+        var pageNumber = app.$route.params.pageNumber;
+
+        this.pageNumber = pageNumber;
+    },
     data: function data() {
         return {
             dialogVisible: false,
-            visableSingleChoice: false
-
+            visableSingleChoice: false,
+            pageNumber: null,
+            orderPage: 1
         };
     },
 
@@ -30986,9 +31000,118 @@ exports.push([module.i, "\n.el-switch[data-v-4902f5ea] {\n    margin-right: 20px
 
 /***/ }),
 /* 199 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: Unexpected token (94:12)\n\n\u001b[0m \u001b[90m 92 | \u001b[39m                type\u001b[33m:\u001b[39m \u001b[35m1\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 93 | \u001b[39m                page\u001b[33m:\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 94 | \u001b[39m            }\n \u001b[90m    | \u001b[39m            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 95 | \u001b[39m        }\n \u001b[90m 96 | \u001b[39m    }\n \u001b[90m 97 | \u001b[39m\u001b[0m\n");
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_question__ = __webpack_require__(324);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "SingleChoice",
+    props: ['dialogVisible', 'pageNumber', 'orderPage'],
+    data: function data() {
+        return {
+            questionId: null,
+            question: '',
+            answers: [{ answer: '' }, { answer: '' }, { answer: '' }],
+            otherAnswer: 'Other answer',
+            hiddenOtherAnswer: true,
+            isRequire: false
+        };
+    },
+
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['surveyId'])),
+    methods: {
+        close: function close() {
+            this.$emit('SingleChoiceClose');
+        },
+        addAnswer: function addAnswer() {
+            this.answers.push({ answer: '' });
+        },
+        deleteAnswer: function deleteAnswer(index) {
+            this.answers.splice(index, 1);
+        },
+        createQuestion: function createQuestion() {
+            var data = {
+                questionId: this.questionId,
+                question: this.question,
+                surveyId: this.surveyId,
+                required: this.isRequire,
+                type: 1,
+                page: this.$props.pageNumber,
+                orderPage: this.$props.orderPage,
+                hiddenOtherAnswer: this.hiddenOtherAnswer,
+                otherAnswer: this.otherAnswer,
+                answers: this.answers
+            };
+            Object(__WEBPACK_IMPORTED_MODULE_1__api_question__["a" /* create */])(data).then(function (response) {
+                console.log(response);
+            });
+        }
+    }
+
+});
 
 /***/ }),
 /* 200 */
@@ -31059,7 +31182,7 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _vm.hiddenOtherAnswer
+      !_vm.hiddenOtherAnswer
         ? _c(
             "div",
             { staticClass: "row-answer" },
@@ -31074,6 +31197,11 @@ var render = function() {
                   },
                   expression: "otherAnswer"
                 }
+              }),
+              _vm._v(" "),
+              _c("el-input", {
+                staticClass: "answer",
+                attrs: { disabled: true, size: "mini" }
               }),
               _vm._v(" "),
               _c(
@@ -31381,7 +31509,11 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("SingleChoice", {
-              attrs: { dialogVisible: _vm.visableSingleChoice }
+              attrs: {
+                dialogVisible: _vm.visableSingleChoice,
+                pageNumber: _vm.pageNumber,
+                orderPage: _vm.orderPage
+              }
             })
           ],
           1
@@ -120288,6 +120420,55 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = create;
+/* unused harmony export fetchSurvey */
+/* unused harmony export getUserInfo */
+/* unused harmony export sendMail */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_request__ = __webpack_require__(40);
+
+
+function create(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/api/question/create',
+        method: 'post',
+        data: data
+    });
+}
+
+function fetchSurvey(id) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/api/survey/fetch/' + id,
+        method: 'get'
+    });
+}
+
+function getUserInfo() {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/api/getUserInfo',
+        method: 'post'
+    });
+}
+
+function sendMail(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/api/password/create',
+        method: 'post',
+        data: data
+    });
+}
 
 /***/ })
 /******/ ]);
