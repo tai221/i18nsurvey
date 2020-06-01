@@ -44,7 +44,9 @@
                 </div>
             </div>
         </div>
-        <router-view></router-view>
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
@@ -52,11 +54,13 @@
     import { mapGetters, mapActions } from 'vuex'
     import {create} from "../../api/survey";
     import WelcomePage from "./WelcomePage";
+    import {countPage} from "../../api/survey";
+
     export default {
         name: "CreateSurvey",
         data(){
             return {
-                pageThumbWelcome: true,
+                pageThumbWelcome: false,
                 pageThumbThanks: false,
                 pages: [
                     // {
@@ -89,6 +93,19 @@
                     this.$store.dispatch('setSuveyId', survey_id)
                 })
                 this.addPage()
+            } else {
+                countPage(this.surveyId).then(resp => {
+                     let countPage = resp.data.countPage[0].page
+                     for(let i = 1; i<= countPage; i++) {
+                         let page = {number: i, empty: false, active: false}
+                         this.pages.push(page)
+                     }
+                })
+            }
+        },
+        beforeUpdate(){
+            if(this.$route.params.pageNumber) {
+                this.triggerPage(this.$route.params.pageNumber)
             }
         },
         methods: {
@@ -124,6 +141,12 @@
 </script>
 
 <style scoped>
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .9s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
     a:hover {
         color: white;
     }

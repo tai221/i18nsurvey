@@ -52,7 +52,7 @@ export const routes = [
                                 name: 'WelcomePage',
                             },
                             {
-                                path:'page-question',
+                                path:'page-question/:pageNumber',
                                 component: PageQuestion,
                                 name: 'PageQuestion',
                             },

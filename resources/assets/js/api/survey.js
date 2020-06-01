@@ -15,6 +15,13 @@ export function fetchSurvey(id) {
     })
 }
 
+export function countPage(id) {
+    return request({
+        url: `/api/survey/countPage/${id}`,
+        method: 'get',
+    })
+}
+
 export function getUserInfo() {
     return request({
         url: '/api/getUserInfo',

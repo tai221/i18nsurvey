@@ -89,7 +89,7 @@
 <!--        <el-button type="primary" @click="dialogPvVisible = false">{{ $t('table.confirm') }}</el-button>-->
 <!--      </span>-->
 <!--        </el-dialog>-->
-
+        <Footer></Footer>
     </div>
 </template>
 
@@ -98,6 +98,7 @@
     import waves from '../../directive/waves' // Waves directive
     import { parseTime } from '../../utils'
     import Pagination from '../../components/Pagination' // Secondary package based on el-pagination
+    import Footer from "../../components/Footer";
 
     // const calendarTypeOptions = [
     //     { key: 'CN', display_name: 'China' },
@@ -114,7 +115,10 @@
 
     export default {
         name: 'ListParticipant',
-        components: { Pagination },
+        components: {
+            Pagination ,
+            Footer,
+        },
         directives: { waves },
         // filters: {
         //     statusFilter(status) {

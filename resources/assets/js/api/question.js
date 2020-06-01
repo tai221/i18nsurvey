@@ -8,10 +8,18 @@ export function create(data) {
     })
 }
 
-export function fetchSurvey(id) {
+export function getListQuestions(data) {
     return request({
-        url: `/api/survey/fetch/${id}`,
-        method: 'get',
+        url: `/api/question/getListQuestions`,
+        method: 'post',
+        data
+    })
+}
+export function getQuestion(data) {
+    return request({
+        url: `/api/question/getQuestion`,
+        method: 'post',
+        data
     })
 }
 

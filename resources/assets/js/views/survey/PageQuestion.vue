@@ -1,14 +1,38 @@
 <template>
-    <div class="page-in">
+    <div class="page-in" :key="pageNumber">
         <div class="align">
             <div class="page-in-app">
                 <span> </span>
                 <div class="addContainer placeholderActive">
-                    <div class="appAddQuestion" @click="dialogVisible=true">
+
+                    <div v-if="questions.length == 0" class="appAddQuestion" @click="dialogVisible=true">
                         <div class="appAddBarPlacehoder" style="color:#000;">
                             This page is empty. ADD A QUESTION!
                         </div>
                         <IconPlus></IconPlus>
+                    </div>
+                    <div v-if="questions.length > 0" v-for="(question,index) in questions" >
+                        <transition name="fade">
+                            <el-button-group class="group-button" v-if="groupButtonVisible == index">
+                                <el-button type="primary" @click="editQuestion(question.id, question.order_page, index)">Edit</el-button>
+                                <el-button type="info" >Move</el-button>
+                                <el-button type="danger" icon="el-icon-delete"></el-button>
+                            </el-button-group>
+                        </transition>
+                        <div class="box-question" v-if="question.type == 1" @click="groupButtonVisible=index">
+                            <div class="title-question">
+                                {{index+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
+                            </div>
+                            <div class="title-answer" v-for="(answer, index) in question.answers" :class="answer.key == 100? 'other-answer':'' ">
+                                {{answer.content}}
+                            </div>
+                        </div>
+                        <div class="appAddQuestion" @click="dialogVisible=true">
+<!--                            <div class="appAddBarPlacehoder" style="color:#000;">-->
+<!--                                This page is empty. ADD A QUESTION!-->
+<!--                            </div>-->
+                            <IconPlus></IconPlus>
+                        </div>
                     </div>
                     <el-dialog title="CHOOSE TYPE OF QUESTION" :visible.sync="dialogVisible" width="90%" :close-on-click-modal="true">
                     <div class="question-bubble-container" >
@@ -73,7 +97,14 @@
                         </div>
                     </div>
                     </el-dialog>
-                    <SingleChoice :dialogVisible="visableSingleChoice" :pageNumber="pageNumber" :orderPage="orderPage"></SingleChoice>
+                    <SingleChoice :visableSingleChoice.sync="visableSingleChoice"
+                                  :pageNumber="pageNumber"
+                                  :orderPage="OrderPage"
+                                  :idQuestion="idQuestion"
+                                  @addQuestion="questions.push($event)"
+                                  @updateQuestion="questions[indexQuestion]=$event"
+                                  @SingleChoiceClose="visableSingleChoice=false"
+                    ></SingleChoice>
                 </div>
             </div>
         </div>
@@ -83,36 +114,148 @@
 <script>
     import IconPlus from "../../components/IconPlus";
     import SingleChoice from "../../components/Question/SingleChoice";
+    import { mapGetters, mapActions } from 'vuex'
+    import {getListQuestions} from "../../api/question"
     export default {
         name: "PageQuestion",
         components: {
             IconPlus,
             SingleChoice,
-
-        },
-        created(){
-          const app= this
-          const {pageNumber} = app.$route.params
-            this.pageNumber = pageNumber
         },
         data() {
             return {
                 dialogVisible: false,
                 visableSingleChoice: false,
                 pageNumber: null,
-                orderPage: 1,
+                questions: [],
+                groupButtonVisible: null,
+                idQuestion: null,
+                indexQuestion: null,
+                orderPage: null,
             }
         },
+        watch: {
+            $route (to, from){
+                this.updatePageNumber()
+                this.pageNumber = this.$route.params.pageNumber
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'surveyId'
+            ]),
+            OrderPage: {
+                get: function () {
+                    if(this.orderPage == null) {
+                        return this.questions.length + 1
+                    }
+                    return this.orderPage
+                },
+                set: function (value) {
+                    this.orderPage = value
+                }
+            }
+        },
+        created(){
+            console.log('created pageQuestion')
+            const app= this
+            const {pageNumber} = app.$route.params
+            this.pageNumber = pageNumber
+            const data = {
+                surveyId: this.surveyId,
+                pageNumber: pageNumber,
+            }
+            getListQuestions(data)
+                .then(resp => {
+                    this.questions = resp.data.questions
+                })
+                .catch(resp => {
+
+                })
+        },
         methods: {
-            SingleChoiceClose(){
-                console.log('aaaa')
-                this.visableSingleChoice = false
+            // SingleChoiceClose(){
+            //     this.visableSingleChoice = false
+            //     console.log('questions'+ this.questions)
+            // }
+            editQuestion(id, order, index) {
+                this.idQuestion = id
+                this.visableSingleChoice = true
+                this.OrderPage = order
+                this.indexQuestion = index
+                console.log('order'+this.OrderPage + 'id'+ this.idQuestion+ 'index'+ this.indexQuestion)
+            },
+            updatePageNumber(){
+                const data = {
+                    surveyId: this.surveyId,
+                    pageNumber: this.$route.params.pageNumber,
+                }
+                getListQuestions(data)
+                    .then(resp => {
+                        this.questions = resp.data.questions
+                    })
+                    .catch(resp => {
+
+                    })
             }
         }
     }
 </script>
 
 <style scoped>
+    .group-button::after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 8px solid #ff4b18;
+        position: absolute;
+        /* bottom: 121px; */
+        left: 50%;
+        /* -webkit-transform: translate(-50%, -50%); */
+        transform: translate(-37%, 401%);
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.9s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+    .title-answer {
+        height: 40px;
+        border-color: #5ce885;
+        border-radius: 5px;
+        background-color: #19bf4b;
+        text-align: left;
+        margin-bottom: 5px;
+        color: black;
+        padding: 8px 0px 10px 10px;
+
+    }
+    .other-answer {
+        color: #484848;
+        display: flex;
+    }
+    .other-answer::after {
+        content: url("../../images/input.png");
+        transform: translate(415px, -5px);
+    }
+    .title-question {
+        font-size: 24px;
+        color: black;
+        text-align: left;
+    }
+    .box-question {
+        border: 0.25px solid;
+        width: 45%;
+        padding: 20px 10px 10px 10px;
+        margin: auto;
+        background-color: #ccffcc;
+    }
+    .box-question:hover {
+        cursor: pointer;
+    }
     li.element-sc i {
         background-image: url("../../images/SingleChoice.png")
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Question;
 use App\Survey;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -33,6 +34,17 @@ class SurveyController extends Controller
         return response()->json([
             'code' => 200,
             'survey' => $survey,
+        ], 200);
+    }
+
+    public function countPage(Request $request)
+    {
+        $surveyId = $request['id'];
+        $countPage = Question::select('page')->where('survey_id', $surveyId)->orderBy('page','desc')->limit(1)->get();
+        Log::info($surveyId);
+        return response()->json([
+            'code' => 200,
+            'countPage' => $countPage,
         ], 200);
     }
 }
