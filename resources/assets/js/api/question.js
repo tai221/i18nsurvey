@@ -23,10 +23,11 @@ export function getQuestion(data) {
     })
 }
 
-export function getUserInfo() {
+export function deleteQuestion(data) {
     return request({
-        url: '/api/getUserInfo',
-        method: 'post'
+        url: '/api/question/deleteQuestion',
+        method: 'post',
+        data
     })
 }
 

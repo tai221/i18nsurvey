@@ -322,29 +322,27 @@
     }
     .pageThumbs {
         /*position: absolute;*/
-        top: 48px;
+        /*top: 48px;*/
         height: calc(100% - 48px);
-        left: 0;
-        padding: 0 10px 0 4px;
-        overflow: visible;
-        text-align: right;
-        z-index: 200;
-        width: 105px;
+        /*left: 0;*/
+        /*padding: 0 10px 0 4px;*/
+        /*overflow: visible;*/
+        /*text-align: right;*/
+        /*z-index: 200;*/
+        /*width: 105px;*/
         -webkit-transition: height .15s ease-in-out;
         -moz-transition: height .15s ease-in-out;
         -o-transition: height .15s ease-in-out;
         transition: height .15s ease-in-out;
-
+        display: inline-block;
+        vertical-align: top;
     }
     .mainPage {
-        /*position: absolute;*/
-        /*top: 0;*/
-        left: 0;
         width: 100%;
         height: 100%;
-        z-index: 1000;
-        visibility: visible;
-        /*padding-top: 48px;*/
+        /*z-index: 1000;*/
+        /*visibility: visible;*/
+        padding-top: 48px;
         display: none;
         -webkit-transition: all .2s ease-in-out;
         -moz-transition: all .2s ease-in-out;

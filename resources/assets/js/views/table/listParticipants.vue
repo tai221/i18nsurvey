@@ -1,9 +1,14 @@
 <template>
+    <div>
     <div class="app-container">
+        <div class="con-cua-app-container">
         <div class="filter-container">
             <el-input placeholder="code" v-model="listQuery.code" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
             <el-input placeholder="email" v-model="listQuery.email" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
-            <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Search</el-button>
+            <el-button-group>
+                <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Search</el-button>
+                <el-button type="success" icon="el-icon-refresh-right" @click="resetList"></el-button>
+            </el-button-group>
             <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">Add</el-button>
             <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">Export</el-button>
         </div>
@@ -12,10 +17,10 @@
                 v-loading="listLoading"
                 :key="tableKey"
                 :data="list"
+                :row-class-name="tableRowClassName"
                 border
                 fit
-                highlight-current-row
-                style="width: 100%;"
+                style="width: 95%;"
                 >
             <el-table-column label="CODE" prop="code"  align="center" width="65">
                 <template slot-scope="scope">
@@ -34,11 +39,11 @@
             </el-table-column>
             <el-table-column label="ACTION" align="center" width="230" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
-                    <el-button v-if="scope.row.lock" size="mini" @click="unLock(scope.row)">Un Lock
+                    <el-button v-if="!scope.row.active" size="mini" type="warning" @click="unLockEmail(scope.row.id, scope.row)">Lock
                     </el-button>
-                    <el-button v-if="!scope.row.lock" size="mini" @click="lock(scope.row)">Lock
+                    <el-button v-if="scope.row.active" size="mini" @click="lockEmail(scope.row.id, scope.row)">Lock
                     </el-button>
-                    <el-button  size="mini" type="danger" @click="delete(scope.row)">Delete
+                    <el-button  size="mini" type="danger" @click="handleDelete(scope.row, scope.row.id)">Delete
                     </el-button>
                 </template>
             </el-table-column>
@@ -89,6 +94,8 @@
 <!--        <el-button type="primary" @click="dialogPvVisible = false">{{ $t('table.confirm') }}</el-button>-->
 <!--      </span>-->
 <!--        </el-dialog>-->
+        </div>
+    </div>
         <Footer></Footer>
     </div>
 </template>
@@ -99,6 +106,7 @@
     import { parseTime } from '../../utils'
     import Pagination from '../../components/Pagination' // Secondary package based on el-pagination
     import Footer from "../../components/Footer";
+    import {deleteParticipant, lockMail, unlockMail} from "../../api/participant";
 
     // const calendarTypeOptions = [
     //     { key: 'CN', display_name: 'China' },
@@ -133,9 +141,13 @@
         //         return calendarTypeKeyValue[type]
         //     }
         // },
+        watch: {
+
+        },
         data() {
             return {
                 tableKey: 0,
+                listTotal: null,
                 list: null,
                 total: 0,
                 listLoading: false,
@@ -179,6 +191,7 @@
                 this.listLoading = true
                 fetchList(this.listQuery).then(response => {
                     this.list = response.data.items
+                    this.listTotal = response.data.items
                     this.total = response.data.total
 
                     // Just to simulate the time of the request
@@ -188,8 +201,18 @@
                 })
             },
             handleFilter() {
-                this.listQuery.page = 1
-                this.getList()
+                // this.listQuery.page = 1
+                this.list = this.listTotal
+                if(this.listQuery.email) {
+                    this.list = this.list.filter(email => email.email.toLowerCase().includes(this.listQuery.email.toLowerCase()))
+                }
+                if(this.listQuery.code) {
+                    this.list = this.list.filter(email => email.code.toLowerCase().includes(this.listQuery.code.toLowerCase()))
+                }
+                // this.getList()
+            },
+            resetList(){
+                this.list = this.listTotal
             },
             // handleModifyStatus(row, status) {
             //     this.$message({
@@ -284,15 +307,22 @@
             //         }
             //     })
             // },
-            handleDelete(row) {
-                this.$notify({
-                    title: '成功',
-                    message: '删除成功',
-                    type: 'success',
-                    duration: 2000
-                })
-                const index = this.list.indexOf(row)
-                this.list.splice(index, 1)
+            handleDelete(row, id) {
+                const data = {idEmail: id}
+                deleteParticipant(data)
+                    .then(res => {
+                        this.$notify({
+                            title: 'Notification',
+                            message: 'Success',
+                            type: 'success',
+                            duration: 2000
+                        })
+                        const index = this.list.indexOf(row)
+                        this.list.splice(index, 1)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
             },
             // handleFetchPv(pv) {
             //     fetchPv(pv).then(response => {
@@ -322,7 +352,40 @@
                         return v[j]
                     }
                 }))
+            },
+            lockEmail(id, row) {
+                const data = {idEmail: id}
+                lockMail(data)
+                    .then(res => {
+                        const index = this.list.indexOf(row)
+                        this.list[index].active = 0
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+            unLockEmail(id, row) {
+                const data = {idEmail: id}
+                unlockMail(data)
+                    .then(res => {
+                        const index = this.list.indexOf(row)
+                        this.list[index].active = 1
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+            tableRowClassName({row, rowIndex}) {
+                if (row.active === 0) {
+                    return 'inactive-row';
+                }
             }
         }
     }
 </script>
+
+<style>
+    .el-table .inactive-row {
+        background: #d7d9de;
+    }
+</style>

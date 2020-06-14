@@ -6,11 +6,23 @@
     margin-bottom: 10px;
   }
 }
-
+.app-container {
+  padding: 20px 90px 10px 105px;
+  background: #dbedf4;
+  min-height: 600px;
+}
+.con-cua-app-container {
+  background: white;
+  padding: 20px 10px 0px 43px;
+  border-radius: 10px;
+}
+.navbar {
+  margin-bottom: 0px;
+}
 body {
   overflow-x: hidden;
   font-family: National2,"Helvetica Neue",Helvetica,Arial,sans-serif !important;
-  font-size: 16px;
+  //font-size: 16px;
   margin: 0;
   background-color: #fff;
   -webkit-font-smoothing: antialiased;

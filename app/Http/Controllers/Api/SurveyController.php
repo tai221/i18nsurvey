@@ -19,7 +19,10 @@ class SurveyController extends Controller
             'user_id' => Auth::id(),
             'title' => $request->input('title'),
             'dear' => $request->input('dear'),
-            'greeting' => $request->input('greeting'),]
+            'greeting' => $request->input('greeting'),
+            'thanks' => $request->input('thanks'),
+            'ref_url' => $request->input('ref_url'),
+            ]
         );
         return response()->json([
             'code' => 201,

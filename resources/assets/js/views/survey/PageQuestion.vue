@@ -14,12 +14,15 @@
                     <div v-if="questions.length > 0" v-for="(question,index) in questions" >
                         <transition name="fade">
                             <el-button-group class="group-button" v-if="groupButtonVisible == index">
-                                <el-button type="primary" @click="editQuestion(question.id, question.order_page, index)">Edit</el-button>
+                                <el-button type="primary"
+                                           @click="editQuestion(question.id, question.order_page, index)">Edit</el-button>
                                 <el-button type="info" >Move</el-button>
-                                <el-button type="danger" icon="el-icon-delete"></el-button>
+                                <el-button type="danger"
+                                           @click="deleteQuestion(question.id, index)"
+                                           icon="el-icon-delete"></el-button>
                             </el-button-group>
                         </transition>
-                        <div class="box-question" v-if="question.type == 1" @click="groupButtonVisible=index">
+                        <div class="box-question" v-if="question.type == 1" @click="changeGroupButton(index)">
                             <div class="title-question">
                                 {{index+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
                             </div>
@@ -115,6 +118,7 @@
     import IconPlus from "../../components/IconPlus";
     import SingleChoice from "../../components/Question/SingleChoice";
     import { mapGetters, mapActions } from 'vuex'
+    import {deleteQuestion} from "../../api/question";
     import {getListQuestions} from "../../api/question"
     export default {
         name: "PageQuestion",
@@ -185,6 +189,22 @@
                 this.indexQuestion = index
                 console.log('order'+this.OrderPage + 'id'+ this.idQuestion+ 'index'+ this.indexQuestion)
             },
+            deleteQuestion(id, index) {
+                const data = {idQuestion: id}
+                deleteQuestion(data)
+                    .then(resp => {
+                        this.questions.splice(index, 1)
+                        this.$notify({
+                            title: 'Notification',
+                            message: 'Success',
+                            type: 'success',
+                            duration: 2000
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
             updatePageNumber(){
                 const data = {
                     surveyId: this.surveyId,
@@ -197,6 +217,16 @@
                     .catch(resp => {
 
                     })
+            },
+            changeGroupButton(index) {
+                if(this.groupButtonVisible != null && this.groupButtonVisible != index) {
+                    this.groupButtonVisible = null
+                    this.groupButtonVisible = index
+                } else if(this.groupButtonVisible != null && this.groupButtonVisible == index) {
+                    this.groupButtonVisible = null
+                } else {
+                    this.groupButtonVisible = index
+                }
             }
         }
     }
@@ -214,7 +244,7 @@
         /* bottom: 121px; */
         left: 50%;
         /* -webkit-transform: translate(-50%, -50%); */
-        transform: translate(-37%, 401%);
+        transform: translate(-40%, 401%);
     }
     .fade-enter-active, .fade-leave-active {
         transition: opacity 0.9s;
@@ -239,7 +269,7 @@
     }
     .other-answer::after {
         content: url("../../images/input.png");
-        transform: translate(415px, -5px);
+        transform: translate(378px, -5px);
     }
     .title-question {
         font-size: 24px;
@@ -248,7 +278,7 @@
     }
     .box-question {
         border: 0.25px solid;
-        width: 45%;
+        /*width: 45%;*/
         padding: 20px 10px 10px 10px;
         margin: auto;
         background-color: #ccffcc;
@@ -391,7 +421,7 @@
     }
     .addContainer .appAddQuestion .appAddBarPlacehoder {
         cursor: pointer;
-        position: absolute;
+        /*position: absolute;*/
         width: 100%;
         text-align: center;
         top: -200px;
@@ -414,13 +444,13 @@
         z-index: 1000;
     }
     .addContainer.placeholderActive {
-        padding-top: 200px;
+        /*padding-top: 200px;*/
     }
     .page-in-app {
         display: inline-block;
         width: 100%;
         height: auto;
-        padding: 40px 0 90px;
+        /*padding: 40px 0 90px;*/
     }
     .page-in .align {
         display: table-cell;
@@ -437,11 +467,12 @@
         padding: 0;
     }
     .page-in {
-        display: table;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
+        display: inline-block;
+        margin-left: 120px;
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*left: 0;*/
     }
 </style>

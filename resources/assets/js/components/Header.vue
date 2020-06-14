@@ -34,7 +34,7 @@
                         </router-link>
                     </li>
                     <li calass="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}} <b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer">{{username}} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="">My account</a></li>
                             <li><a href="">Sign out</a></li>
@@ -72,12 +72,13 @@
 <style scoped>
     .button-custom {
         background-color: #e3eaf3;
-        border-radius: 20px;
-        color: #802b00;
-        padding: 4px 11px 5px 12px;
+        border-radius: 15px;
+        color: black;
+        padding: 2px 9px 4px 10px;
+        box-shadow: 1px 2px;
     }
     .create-survey::before {
-        content: url("../images/plus.svg");
+        content: url("../images/plus1.svg");
         transform: translate(0px, 3px);
         display: inline-block;
     }
@@ -100,6 +101,17 @@
     .navbar-inverse {
         background-color: #409eff;
         border-color: rgba(41, 41, 102, 0.18);
-        border-bottom: ;
+        /*border-bottom: ;*/
+    }
+    .navbar-inverse .navbar-brand {
+        color: #6aef62;
+        font-family: Optima;
+    }
+    .navbar-inverse .navbar-nav > li > a {
+        color: #FFFF00;
+    }
+    .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+        color: #fff;
+        background-color: #77a3d0;
     }
 </style>

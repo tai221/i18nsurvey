@@ -12,6 +12,7 @@ class QuestionController extends Controller
 {
     public function create(Request $request)
     {
+        Log::info('create question');
         $question = Question::updateOrCreate(
             ['id'=> $request->input('questionId')],
             [
@@ -42,7 +43,6 @@ class QuestionController extends Controller
             $hiddenOtherAnswer = $request->input('hiddenOtherAnswer');
             $otherAnswer = $request->input('otherAnswer');
             if(!$hiddenOtherAnswer) {
-                Log::info($hiddenOtherAnswer);
                 Choice::updateOrCreate(
                     ['id'=> $otherAnswer['id']],
                     [
@@ -52,6 +52,7 @@ class QuestionController extends Controller
                     ]
                 );
             } else {
+                if($otherAnswer['id'] != null)
                 Choice::find($otherAnswer['id'])->delete();
             }
         }
@@ -81,13 +82,22 @@ class QuestionController extends Controller
     public function fetchQuestion(Request $request)
     {
         $idQuestion = $request->input('idQuestion');
-        Log::info($idQuestion);
         $question = Question::select('id','required','type','question','order_page')->Where('id', $idQuestion)->get()->toArray();
         $answers = Choice::select('content','id','key')->Where('question_id', $idQuestion)->orderBy('key','asc')->get()->toArray();
         $question['answers'] = $answers;
         return response()->json([
             'code' => 200,
             'question' => $question,
+        ], 200);
+    }
+
+    public function deleteQuestion(Request $request)
+    {
+        $idQuestion = $request->input('idQuestion');
+        Log::info($idQuestion);
+        Question::find($idQuestion)->delete();
+        return response()->json([
+            'code' => 200,
         ], 200);
     }
 }

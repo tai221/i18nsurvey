@@ -3,64 +3,42 @@
         <div class="align">
             <div class="block">
                 <div class="block-in block-in-center">
-<!--                    <div class="logo logoContainer">-->
-<!--                        <div class="imagePicker" >-->
-<!--                            <div class="uploadLoader">-->
-<!--                            </div>-->
-<!--                            <noscript></noscript>-->
-<!--                            <label for="imagepicker-3" class="placeholder" style="color:#000;" >-->
-<!--                                <i class="icon-image" ></i>-->
-<!--                                <span>Add logo</span>-->
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                    <div class="h1-container" style="color:#000;">
-                        <textarea v-model="survey.title" maxlength="400" rows="1" class="h1" placeholder="Survey Title..." style="height: 33px;">
-                            </textarea>
+                    <div style="margin-bottom: 10px;">
+                        <el-button class="button-start" type="success" >Submit response</el-button>
                     </div>
                     <div>
-<!--                        <div class="editorOutContainer">-->
-<!--                            <div class="editor">-->
-<!--                                <div class="editorInContainer">-->
-<!--                                    <div class="editorIn" style="color:#000;text-align:center;">-->
-                                        <div class="DraftEditor-root DraftEditor-alignCenter">
-                                            <div class="DraftEditor-editorContainer">
-                                                <div aria-describedby="placeholder-55jr" class="notranslate public-DraftEditor-content" contenteditable="true" role="textbox" spellcheck="false" style="outline:none;user-select:text;-webkit-user-select:text;white-space:pre-wrap;word-wrap:break-word;">
-                                                    <div data-contents="true">
-                                                        <div class="" data-block="true" data-editor="55jr" data-offset-key="carcn-0-0">
-                                                            <div data-offset-key="carcn-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                        <div class="DraftEditor-root DraftEditor-alignCenter">
+                            <div class="DraftEditor-editorContainer">
+                                <div aria-describedby="placeholder-55jr" class="notranslate public-DraftEditor-content" contenteditable="true" role="textbox" spellcheck="false" style="outline:none;user-select:text;-webkit-user-select:text;white-space:pre-wrap;word-wrap:break-word;">
+                                    <div data-contents="true">
+                                        <div class="" data-block="true" data-editor="55jr" data-offset-key="34t1t-0-0">
+                                            <div data-offset-key="34t1t-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                                                                <span data-offset-key="34t1t-0-0" >
+                                                                     <el-input type="textarea"
+                                                                               :rows="2"
+                                                                               v-model="survey.thanks"
+                                                                               data-text="true">
+                                                                    </el-input>
+                                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="" data-block="true" data-editor="55jr" data-offset-key="carcn-0-0">
+                                            <span><i>Here is reference url you can add to lead respondent to that link:</i> </span>
+                                            <div data-offset-key="carcn-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
                                                                 <span data-offset-key="carcn-0-0">
-                                                                    <el-input v-model="survey.dear"
+                                                                    <el-input v-model="survey.ref_url"
                                                                               v-bind:class="{'border':border}"
                                                                               data-text="true">
                                                                     </el-input>
                                                                 </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="" data-block="true" data-editor="55jr" data-offset-key="34t1t-0-0">
-                                                            <div data-offset-key="34t1t-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                                                                <span data-offset-key="34t1t-0-0" >
-<!--                                                                    <span data-text="true">{{survey.greeting}}</span>-->
-                                                                     <el-input type="textarea"
-                                                                               :rows="2"
-                                                                               v-model="survey.greeting"
-                                                                               data-text="true">
-                                                                    </el-input>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <el-button class="button-start" type="primary" plain>Start Now</el-button>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -71,7 +49,7 @@
     import {create, fetchSurvey} from "../../api/survey";
     import { mapGetters, mapActions } from 'vuex'
     export default {
-        name: "WelcomePage",
+        name: "EndPage",
         data() {
             return  {
                 survey: {
@@ -81,7 +59,7 @@
                     dear: 'Dear Sir / Madam,',
                     greeting: 'Thank you for visiting us. By filling out this 5-10 minute survey, you will help us obtain the very best results.',
                     surveyId: undefined,
-                    thanks: undefined,
+                    thanks: 'Your response had been submit, thank for your participation!',
                     ref_url: undefined,
                 },
                 border: true,
@@ -109,7 +87,11 @@
                     this.survey.title = title
                     this.survey.dear = dear
                     this.survey.greeting = greeting
-                    this.survey.thanks = thanks
+                    if(thanks == null) {
+                        this.survey.thanks = 'Your response had been submit, thank for your participation!'
+                    } else {
+                        this.survey.thanks = thanks
+                    }
                     this.survey.ref_url = ref_url
                 } else {
                     this.createOrUpdate()
@@ -133,12 +115,8 @@
         -webkit-appearance: none;
         border: 0;
     }
-    /*.DraftEditor-editorContainer input.border {*/
-    /*    !*-webkit-appearance: none;*!*/
-    /*    border: 1px;*/
-    /*}*/
     .button-start {
-        width: 120px;
+        width: 135px;
         border-radius: 5px;
     }
     .DraftEditor-alignCenter .public-DraftStyleDefault-block {
@@ -234,7 +212,7 @@
         border-radius: 0;
         -webkit-appearance: none;
         width: 100%;
-        background: none;
+        /*background: none;*/
     }
     .h1-container textarea.h1 {
         position: relative;
@@ -251,7 +229,7 @@
         padding: 0;
         font-size: 24px;
     }
-     .h1-container:before {
+    .h1-container:before {
         content: "";
         position: absolute;
         top: 0;
@@ -385,14 +363,6 @@
             text-align: left;
         }
     }
-    /*.block {*/
-    /*    padding-top: 0;*/
-    /*    padding-bottom: 0;*/
-    /*    position: relative;*/
-    /*    z-index: 50;*/
-    /*    display: block;*/
-    /*    width: 100%;*/
-    /*}*/
     .page-in .align {
         display: table-cell;
         width: 100%;

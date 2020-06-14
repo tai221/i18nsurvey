@@ -25,10 +25,14 @@ Route::group([
 ], function () {
     Route::post('email/create', 'Api\ListParticipant@create');
     Route::post('email/get', 'Api\ListParticipant@get');
+    Route::post('email/delete', 'Api\ListParticipant@delete');
+    Route::post('email/lock', 'Api\ListParticipant@lock');
+    Route::post('email/unlock', 'Api\ListParticipant@unlock');
     Route::post('survey/create', 'Api\SurveyController@create');
     Route::get('survey/fetch/{id}', 'Api\SurveyController@fetch');
     Route::get('survey/countPage/{id}', 'Api\SurveyController@countPage');
     Route::post('question/create', 'Api\QuestionController@create');
     Route::post('question/getListQuestions', 'Api\QuestionController@fetchListQuestions');
     Route::post('question/getQuestion', 'Api\QuestionController@fetchQuestion');
+    Route::post('question/deleteQuestion', 'Api\QuestionController@deleteQuestion');
 });

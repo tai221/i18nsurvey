@@ -43,4 +43,32 @@ class ListParticipant extends Controller
         $list = $list->toArray();
         return response()->json(['items' => $list, 'total' => $count]);
     }
+
+    public function delete(Request $request)
+    {
+        $idEmail = $request->input('idEmail');
+        Email::find($idEmail)->delete();
+        return response()->json([
+            'code' => 200,
+            'message' => 'Delete success',
+        ], 200);
+    }
+
+    public function lock(Request $request)
+    {
+        $idEmail = $request->input('idEmail');
+        Email::find($idEmail)->update(['active' => 0]);
+        return response()->json([
+            'code' => 200,
+        ], 200);
+    }
+
+    public function unlock(Request $request)
+    {
+        $idEmail = $request->input('idEmail');
+        Email::find($idEmail)->update(['active' => 1]);
+        return response()->json([
+            'code' => 200,
+        ], 200);
+    }
 }

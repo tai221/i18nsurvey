@@ -10,6 +10,7 @@ import WelcomePage from "./views/survey/WelcomePage";
 import PageQuestion from "./views/survey/PageQuestion";
 import ListSurvey from "./views/survey/ListSurvey";
 import PageThanks from "./views/survey/PageThanks";
+import EndPage from "./views/survey/EndPage";
 Vue.use(Router)
 
 export const routes = [
@@ -58,7 +59,7 @@ export const routes = [
                             },
                             {
                                 path: 'thanks',
-                                component: PageThanks,
+                                component: EndPage,
                                 name: 'ThanksPage',
                             },
                         ]

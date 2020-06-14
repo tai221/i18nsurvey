@@ -16,16 +16,25 @@ export function fetchList(data) {
     })
 }
 
-export function getUserInfo() {
+export function deleteParticipant(data) {
     return request({
-        url: '/api/getUserInfo',
-        method: 'post'
+        url: '/api/email/delete',
+        method: 'post',
+        data
     })
 }
 
-export function sendMail(data) {
+export function lockMail(data) {
     return request({
-        url: '/api/password/create',
+        url: '/api/email/lock',
+        method: 'post',
+        data
+    })
+}
+
+export function unlockMail(data) {
+    return request({
+        url: '/api/email/unlock',
         method: 'post',
         data
     })

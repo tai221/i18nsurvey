@@ -175,13 +175,12 @@
                             required: this.isRequire,
                             type: 1,
                             question: this.question,
-                            id: this.questionId,
+                            id: response.data.question_id,
                             page: this.$props.pageNumber,
                             order_page: this.$props.orderPage,
                             answers: this.answers
                         }
                         if(this.questionId == null) {
-                            console.log(question)
                             this.$emit('addQuestion', question)
                         } else {
                             this.$emit('updateQuestion', question)

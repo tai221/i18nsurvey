@@ -1,17 +1,21 @@
 <template>
-    <div class="app-content" style="min-height: 478px; height: auto">
-        <div class="top-menu menuLight">
-            <div class="menuContainer">
-                <ul class="menu">
-                    <li class="active">Questions</li>
-                    <li>Share</li>
-                    <li>Response</li>
-                    <li>Analytic</li>
-                    <li>Preview</li>
-                </ul>
+    <div class="app-container">
+        <div class="con-cua-app-container">
+            <div class="app-content" style="min-height: 478px; height: auto">
+                <div class="top-menu menuLight">
+                    <div class="menuContainer">
+                        <ul class="menu">
+                            <li class="active">Questions</li>
+                            <li>Share</li>
+                            <li>Response</li>
+                            <li>Analytic</li>
+                            <li>Preview</li>
+                        </ul>
+                    </div>
+                </div>
+                <router-view></router-view>
             </div>
         </div>
-        <router-view></router-view>
     </div>
 </template>
 
@@ -58,11 +62,7 @@
         display: block;
         width: 100%;
         height: 48px;
-        /*position: absolute;*/
-        /*top: 0;*/
         text-align: center;
-        /*left: 0;*/
-        /*z-index: 5000;*/
         background: #fff;
         -webkit-box-shadow: 0 0 11px 0 rgba(22,45,61,.5);
         -moz-box-shadow: 0 0 11px 0 rgba(22,45,61,.5);
