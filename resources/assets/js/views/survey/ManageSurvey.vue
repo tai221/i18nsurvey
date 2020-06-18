@@ -1,27 +1,23 @@
 <template>
-    <div class="app-container">
-        <div class="con-cua-app-container">
-            <div class="app-content" style="min-height: 478px; height: auto">
-                <div class="top-menu menuLight">
-                    <div class="menuContainer">
-                        <ul class="menu">
-                            <li class="active">Questions</li>
-                            <li>Share</li>
-                            <li>Response</li>
-                            <li>Analytic</li>
-                            <li>Preview</li>
-                        </ul>
-                    </div>
+    <div>
+        <div class="app-container">
+            <div class="con-cua-app-container">
+                <div class="app-content" style="min-height: 478px; height: auto">
+                    <router-view></router-view>
                 </div>
-                <router-view></router-view>
             </div>
         </div>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
+    import Footer from "../../components/Footer";
     export default {
-        name: "ManageSurvey"
+        name: "ManageSurvey",
+        components: {
+            Footer,
+        }
     }
 </script>
 

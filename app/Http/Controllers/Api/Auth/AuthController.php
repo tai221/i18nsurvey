@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 //Illuminate\Contracts\Hashing\Hasher;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -56,7 +58,7 @@ class AuthController extends Controller
                 config('services.passport.login_endpoint'),
                 'post'
             );
-
+            $user = User::where('name',$username)->get()->toArray();
             $response = Route::dispatch($tokenRequest);
             return $response;
         } catch (BadResponseException $e) {
@@ -67,5 +69,23 @@ class AuthController extends Controller
             }
             return response()->json('Something went wrong on the server.', $e->getCode());
         }
+    }
+    public function logout(){
+        if (Auth::check()) {
+//            auth()->user()->tokens->each(function ($token, $key) {
+//                $token->delete();
+//            });
+            auth()->user()->token()->revoke();
+        }
+        return response()->json('logout success!', 200);
+    }
+
+    public function getUserInfo() {
+        $userId = Auth::id();
+        $role = User::select('role')->where('id', $userId)->get();
+        return response()->json([
+            'code' => 200,
+            'role' => $role,
+        ], 200);
     }
 }

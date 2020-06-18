@@ -1,4 +1,18 @@
 <template>
+    <div>
+    <div class="top-menu menuLight">
+        <div class="menuContainer">
+            <ul class="menu">
+                <li class="active">Questions</li>
+                <router-link :to="{name: 'ShareSurvey'}">
+                    <li>Share</li>
+                </router-link>
+                <li>Response</li>
+                <li>Analytic</li>
+                <li>Preview</li>
+            </ul>
+        </div>
+    </div>
     <div class="mainPage mainPageBuilder mainPageActive">
         <div class="pageThumbs">
             <div class="ui-scroll-container">
@@ -48,6 +62,7 @@
             <router-view></router-view>
         </transition>
     </div>
+    </div>
 </template>
 
 <script>
@@ -62,23 +77,7 @@
             return {
                 pageThumbWelcome: false,
                 pageThumbThanks: false,
-                pages: [
-                    // {
-                    //     number: 1,
-                    //     empty: false,
-                    //     active: false
-                    // },
-                    // {
-                    //     number: 2,
-                    //     empty: false,
-                    //     active: false
-                    // },
-                    // {
-                    //     number: 3,
-                    //     empty: true,
-                    //     active: false
-                    // }
-                ]
+                pages: [],
             }
         },
         computed: {
@@ -87,7 +86,13 @@
             ])
         },
         created() {
-            if(!this.surveyId) {
+            var surveyId = this.surveyId
+            console.log(this.$route.params.surveyId)
+            if(this.$route.params.surveyId > 0){
+                surveyId = this.$route.params.surveyId
+                this.$store.dispatch('setSuveyId', surveyId)
+            }
+            if(!surveyId) {
                 create().then(response => {
                    let survey_id = response.data.survey_id
                     this.$store.dispatch('setSuveyId', survey_id)
@@ -135,12 +140,61 @@
                     page.active = false
                 })
                 this.pages[number-1].active = true
-            }
+            },
+            toShare() {
+                console.log('share')
+              this.$route.push({name: 'ShareSurvey'})
+            },
         }
     }
 </script>
 
 <style scoped>
+    .ui-scroll-in a:hover {
+        color: #7ba3c5 ;
+    }
+    .top-menu.menuLight .menuContainer ul.menu li {
+        height: 36px;
+        /*font-weight: 400;*/
+        /*font-family: Helvetica Neue LT W02_55 Roman,sans-serif;*/
+        /*letter-spacing: .2px;*/
+        font-size: 16px;
+        display: block;
+        /*text-decoration: none;*/
+        color: #38586f;
+        padding: 7px 15px 9px;
+        -webkit-border-radius: 18px;
+        -moz-border-radius: 18px;
+        border-radius: 18px;
+        -webkit-transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+    .top-menu.menuLight .menuContainer ul.menu li.active  {
+        background: #3899ec;
+        color: #f7fafd;
+    }
+    .top-menu.menuLight .menuContainer ul.menu {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        *zoom: 1;
+    }
+    .top-menu.menuLight .menuContainer {
+        display: inline-block;
+        width: auto;
+    }
+    .top-menu.menuLight {
+        display: block;
+        width: 100%;
+        height: 48px;
+        text-align: center;
+        background: #fff;
+        -webkit-box-shadow: 0 0 11px 0 rgba(22,45,61,.5);
+        -moz-box-shadow: 0 0 11px 0 rgba(22,45,61,.5);
+        box-shadow: 0 0 11px 0 rgba(22,45,61,.5);
+    }
     .fade-enter-active, .fade-leave-active {
         transition: opacity .9s;
     }

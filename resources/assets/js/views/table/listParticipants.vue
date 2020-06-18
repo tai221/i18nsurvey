@@ -184,6 +184,7 @@
             }
         },
         created() {
+            this.$store.dispatch('deleteSurveyId')
             this.getList()
         },
         methods: {

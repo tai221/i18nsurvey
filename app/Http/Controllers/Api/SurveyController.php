@@ -34,6 +34,7 @@ class SurveyController extends Controller
     public function fetch(Request $request)
     {
         $survey = Survey::find($request['id']);
+        Log::info($survey);
         return response()->json([
             'code' => 200,
             'survey' => $survey,
@@ -50,4 +51,45 @@ class SurveyController extends Controller
             'countPage' => $countPage,
         ], 200);
     }
+
+    public function getListSurvey(Request $request)
+    {
+        $userId = Auth::id();
+        Log::info($userId);
+        $listSurvey = Survey::all()->where('user_id', $userId)->toArray();
+        Log::info($listSurvey);
+        if(count($listSurvey) > 0) {
+            return response()->json([
+                'listSurvey' => $listSurvey,
+            ], 200);
+        } else {
+            return response()->json([
+                'code' => 400,
+            ], 400);
+        }
+    }
+
+    public function deleteSurvey(Request $request)
+    {
+        $surveyId = $request->input('surveyId');
+        Survey::find($surveyId)->delete();
+        return response()->json([
+            'code' => 200,
+            'message' => 'Delete success',
+        ], 200);
+    }
+
+    public function changeStateActive(Request $request)
+    {
+        $surveyId = $request->input('surveyId');
+        $active = $request->input('active');
+        Log::info($surveyId.$active);
+        Survey::where('id',$surveyId)->update(['active' => $active]);
+        return response()->json([
+            'code' => 200,
+            'message' => 'Update success',
+        ], 200);
+    }
+
+
 }

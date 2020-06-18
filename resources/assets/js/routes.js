@@ -11,6 +11,10 @@ import PageQuestion from "./views/survey/PageQuestion";
 import ListSurvey from "./views/survey/ListSurvey";
 import PageThanks from "./views/survey/PageThanks";
 import EndPage from "./views/survey/EndPage";
+import ListAccount from "./views/admin/ListAccount";
+import Admin from "./views/admin/Admin";
+import ShareSurvey from "./views/survey/ShareSurvey";
+import ViewSurvey from "./views/survey/ViewSurvey";
 Vue.use(Router)
 
 export const routes = [
@@ -23,6 +27,23 @@ export const routes = [
         path: '/signup',
         component: Signup,
         name: 'signup'
+    },
+    {
+        path: '/admin',
+        component: Admin,
+        name: 'adminPage',
+        children: [
+            {
+                path: 'list-account',
+                component: ListAccount,
+                name: 'ListAccount'
+            },
+        ]
+    },
+    {
+        path:'/survey/:surveyId',
+        component: ViewSurvey,
+        name: 'ViewSurvey'
     },
     {
         path: '/mypage',
@@ -63,6 +84,11 @@ export const routes = [
                                 name: 'ThanksPage',
                             },
                         ]
+                    },
+                    {
+                      path: 'share',
+                      component: ShareSurvey,
+                      name: 'ShareSurvey',
                     },
 
                 ]

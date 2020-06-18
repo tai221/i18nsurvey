@@ -100,4 +100,30 @@ class QuestionController extends Controller
             'code' => 200,
         ], 200);
     }
+
+    public function fetchAllQuestions(Request $request)
+    {
+        $idSurvey = $request->input('surveyId');
+        $questions = Question::select('id','required','type','question','order_page', 'page')->Where('survey_id', $idSurvey)->get()->toArray();
+        foreach ($questions as $key => &$question) {
+            $answers = Choice::select('content','id','key')->Where('question_id', $question['id'])->orderBy('key','asc')->get()->toArray();
+            $question['answers'] = $answers;
+        }
+        $arrPage = array();
+        $countPage = Question::select('page')->where('survey_id', $idSurvey)->orderBy('page','desc')->limit(1)->get()->toArray();
+        for($i = 0; $i < $countPage[0]['page']; $i++) {
+            $temp = array();
+            foreach($questions as $key => $value) {
+                if($value['page'] == ($i+1)) {
+                    array_push($temp, $value);
+                }
+            }
+            $arrPage[$i] = $temp;
+        }
+        Log::info($arrPage);
+        return response()->json([
+            'code' => 200,
+            'arrPage' => $arrPage,
+        ], 200);
+    }
 }

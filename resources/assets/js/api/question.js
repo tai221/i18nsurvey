@@ -15,6 +15,13 @@ export function getListQuestions(data) {
         data
     })
 }
+export function getAllQuestions(data) {
+    return request({
+        url: `/api/question/getAllQuestions`,
+        method: 'post',
+        data
+    })
+}
 export function getQuestion(data) {
     return request({
         url: `/api/question/getQuestion`,

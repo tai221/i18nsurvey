@@ -102,8 +102,12 @@
 
         },
         created() {
-            let id = this.surveyId
-            fetchSurvey(id).then(response => {
+            var surveyId = this.surveyId
+            if(this.$route.params.surveyId > 0){
+                surveyId = this.$route.params.surveyId
+                this.$store.dispatch('setSuveyId', surveyId)
+            }
+            fetchSurvey(surveyId).then(response => {
                 if(response.data.survey) {
                     let {title, dear, greeting, thanks, ref_url} = response.data.survey
                     this.survey.title = title

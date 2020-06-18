@@ -1,0 +1,379 @@
+<template>
+    <div>
+        <div class="app-container">
+            <div class="con-cua-app-container">
+                <div class="filter-container">
+                    <el-input placeholder="username" v-model="listQuery.name" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
+                    <el-input placeholder="email" v-model="listQuery.email" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"/>
+                    <el-button-group>
+                        <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Search</el-button>
+                        <el-button type="success" icon="el-icon-refresh-right" @click="resetList"></el-button>
+                    </el-button-group>
+                    <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">Add</el-button>
+                    <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">Export</el-button>
+                </div>
+
+                <el-table
+                        v-loading="listLoading"
+                        :key="tableKey"
+                        :data="list"
+                        :row-class-name="tableRowClassName"
+                        border
+                        fit
+                        style="width: 95%;"
+                >
+                    <el-table-column label="NAME" prop="name"  align="center" width="65">
+                        <template slot-scope="scope">
+                            <span>{{ scope.row.name }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="EMAIL" min-width="150px">
+                        <template slot-scope="scope">
+                            <span>{{ scope.row.email }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="ROLE" min-width="60px">
+                        <template slot-scope="{row}">
+                            <template v-if="row.edit">
+<!--                                <el-input v-model="row.role" class="edit-input" size="small" />-->
+                                <el-select v-model="row.role" class="filter-item" placeholder="Please select">
+                                    <el-option v-for="(item,index) in roleOptions" v-bind:class="[Boolean(index) ? user: admin]" :key="index" :label="item" :value="index+1"/>
+                                </el-select>
+                                <el-button class="cancel-btn" size="mini" icon="el-icon-refresh" type="warning" @click="cancelEdit(row)">
+                                    cancel
+                                </el-button>
+                            </template>
+<!--                            <span v-else v-bind:class="[(row.role ===1) ? user: admin]">{{ row.role | roleFilter }}</span>-->
+                            <span v-else-if="row.role == 1" style="color: #00BF6F">{{ row.role | roleFilter}}</span>
+                            <span v-else-if="row.role == 2" style="color: red">{{ row.role | roleFilter}}</span>
+                        </template>
+<!--                        <template slot-scope="scope">-->
+<!--                            <el-select v-model="scope.row.role" class="filter-item" default-first-option filterable>-->
+<!--                                <el-option v-for="(item,index) in roleOptions" :key="index" :label="item" :value="index+1"/>-->
+<!--                            </el-select>-->
+<!--                            <span v-if="scope.row.role == 1" style="color: #00BF6F">{{ scope.row.role | roleFilter}}</span>-->
+<!--                            <span v-if="scope.row.role == 2" style="color: red">{{ scope.row.role | roleFilter}}</span>-->
+<!--                        </template>-->
+                    </el-table-column>
+                    <el-table-column label="CREATED AT" width="160px" align="center">
+                        <template slot-scope="scope">
+                            <span>{{ scope.row.created_at | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="UPDATED AT" width="160px" align="center">
+                        <template slot-scope="scope">
+                            <span>{{ scope.row.updated_at | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="ACTION" align="center" width="230" class-name="small-padding fixed-width">
+                        <template slot-scope="{row}">
+                            <el-button v-if="!row.activated" size="mini" type="warning" @click="unLockAccount(row.id, row)">Lock
+                            </el-button>
+                            <el-button v-if="row.activated" size="mini" @click="lockAccount(row.id, row)">Lock
+                            </el-button>
+                            <el-button v-if="row.edit" type="success" size="mini" icon="el-icon-circle-check-outline" @click="confirmEdit(row)">
+                                Ok
+                            </el-button>
+                            <el-button v-else type="primary" size="mini" icon="el-icon-edit" @click="row.edit=!row.edit">
+                                Edit
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+
+                <el-dialog title="CREATE ACCOUNT" :visible.sync="dialogFormVisible">
+                    <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+                        <el-form-item label="Username" prop="name" label-width="120px">
+                            <el-input v-model="temp.name"/>
+                        </el-form-item>
+                        <el-form-item label="Email" prop="email" label-width="120px">
+                            <el-input v-model="temp.email"/>
+                        </el-form-item>
+                        <el-form-item label="Password" prop="password" label-width="120px">
+                            <el-input v-model="temp.password"/>
+                        </el-form-item>
+                        <el-form-item label="Role" prop="role" label-width="120px">
+                            <el-select v-model="temp.role" class="filter-item" placeholder="Please select">
+                                <el-option v-for="(item,index) in roleOptions" :key="index" :label="item" :value="index+1"/>
+                            </el-select>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                        <el-button type="primary" @click="createData()">Create</el-button>
+                    </div>
+                </el-dialog>
+
+            </div>
+        </div>
+        <Footer></Footer>
+    </div>
+</template>
+
+<script>
+    import { createAccount, fetchListAccount, deleteAccount, lockAccount, unlockAccount} from '../../api/account'
+    import waves from '../../directive/waves' // Waves directive
+    import { parseTime } from '../../utils'
+    import Pagination from '../../components/Pagination' // Secondary package based on el-pagination
+    import Footer from "../../components/Footer";
+
+
+    export default {
+        name: 'ListAccount',
+        components: {
+            Pagination ,
+            Footer,
+        },
+        directives: { waves },
+        filters: {
+            roleFilter(role) {
+                const roleMap = {
+                    1: 'User',
+                    2: 'Admin',
+                }
+                return roleMap[role]
+            },
+        },
+        watch: {
+
+        },
+        data() {
+            return {
+                roleOptions: [ 'User', 'Admin'
+                ],
+                user:'user',
+                amdin: 'admin',
+                tableKey: 0,
+                listTotal: null,
+                list: null,
+                total: 0,
+                listLoading: false,
+                listQuery: {
+                    page: 1,
+                    limit: 20,
+                    name: undefined,
+                    email: undefined,
+                },
+                temp: {
+                    name: '',
+                    email: '',
+                    password: '',
+                    role: undefined,
+                },
+                dialogFormVisible: false,
+                rules: {
+                    name: [{ required: true, message: 'Username is required', trigger: 'blur' }],
+                    email: [{ required: true, message: 'Email is required', trigger: 'blur' }],
+                    password: [{ required: true, message: 'Password is required', trigger: 'blur' }],
+                    role: [{ required: true, message: 'Role is required', trigger: 'blur' }],
+                },
+                downloadLoading: false
+            }
+        },
+        created() {
+            this.getList()
+        },
+        methods: {
+            getList() {
+                this.listLoading = true
+                fetchListAccount(this.listQuery).then(response => {
+                    this.list = response.data.items
+                    console.log(response.data)
+                    this.listTotal = response.data.items
+                    this.total = response.data.total
+                    this.list = this.list.map(v => {
+                        this.$set(v, 'edit', false);
+                        v.originalRole = v.role;
+                        return v;
+                    });
+                    console.log(this.list)
+                    setTimeout(() => {
+                        this.listLoading = false
+                    }, 1.5 * 1000)
+                })
+            },
+            cancelEdit(row) {
+                row.role = row.originalRole;
+                row.edit = false;
+                this.$message({
+                    message: 'The Role has been restored to the original value',
+                    type: 'warning',
+                });
+            },
+            confirmEdit(row) {
+                row.edit = false;
+                row.originalRole = row.role;
+                this.$message({
+                    message: 'The Role has been edited',
+                    type: 'success',
+                });
+            },
+            handleFilter() {
+                // this.listQuery.page = 1
+                this.list = this.listTotal
+                if(this.listQuery.email) {
+                    this.list = this.list.filter(account => account.email.toLowerCase().includes(this.listQuery.email.toLowerCase()))
+                }
+                if(this.listQuery.name) {
+                    this.list = this.list.filter(account => account.name.toLowerCase().includes(this.listQuery.name.toLowerCase()))
+                }
+            },
+            resetList(){
+                this.list = this.listTotal
+            },
+            resetTemp() {
+                this.temp = {
+                    name: '',
+                    email: '',
+                    password: '',
+                    role: undefined,
+                }
+            },
+            handleCreate() {
+                this.resetTemp()
+                this.dialogFormVisible = true
+                this.$nextTick(() => {
+                    this.$refs['dataForm'].clearValidate()
+                })
+            },
+            createData() {
+                this.$refs['dataForm'].validate((valid) => {
+                    if (valid) {
+                        createAccount(this.temp).then(() => {
+                            this.list.unshift(this.temp)
+                            this.dialogFormVisible = false
+                            this.getList()
+                            this.$notify({
+                                title: 'Notification',
+                                message: 'Success',
+                                type: 'success',
+                                duration: 2000
+                            })
+                        })
+                    }
+                })
+            },
+            // handleUpdate(row) {
+            //     this.temp = Object.assign({}, row) // copy obj
+            //     this.temp.timestamp = new Date(this.temp.timestamp)
+            //     // this.dialogStatus = 'update'
+            //     this.dialogFormVisible = true
+            //     this.$nextTick(() => {
+            //         this.$refs['dataForm'].clearValidate()
+            //     })
+            // },
+            // updateData() {
+            //     this.$refs['dataForm'].validate((valid) => {
+            //         if (valid) {
+            //             const tempData = Object.assign({}, this.temp)
+            //             tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+            //             updateArticle(tempData).then(() => {
+            //                 for (const v of this.list) {
+            //                     if (v.id === this.temp.id) {
+            //                         const index = this.list.indexOf(v)
+            //                         this.list.splice(index, 1, this.temp)
+            //                         break
+            //                     }
+            //                 }
+            //                 this.dialogFormVisible = false
+            //                 this.$notify({
+            //                     title: '成功',
+            //                     message: '更新成功',
+            //                     type: 'success',
+            //                     duration: 2000
+            //                 })
+            //             })
+            //         }
+            //     })
+            // },
+            // handleDelete(row, id) {
+            //     const data = {idAccount: id}
+            //     deleteAccount(data)
+            //         .then(res => {
+            //             this.$notify({
+            //                 title: 'Notification',
+            //                 message: 'Success',
+            //                 type: 'success',
+            //                 duration: 2000
+            //             })
+            //             const index = this.list.indexOf(row)
+            //             this.list.splice(index, 1)
+            //         })
+            //         .catch(err => {
+            //             console.log(err)
+            //         })
+            // },
+            // handleFetchPv(pv) {
+            //     fetchPv(pv).then(response => {
+            //         this.pvData = response.data.pvData
+            //         // this.dialogPvVisible = true
+            //     })
+            // },
+            handleDownload() {
+                // this.downloadLoading = true
+                // import('@backend/vendor/Export2Excel').then(excel => {
+                //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+                //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+                //     const data = this.formatJson(filterVal, this.list)
+                //     excel.export_json_to_excel({
+                //         header: tHeader,
+                //         data,
+                //         filename: 'table-list'
+                //     })
+                //     this.downloadLoading = false
+                // })
+            },
+            formatJson(filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => {
+                    if (j === 'timestamp') {
+                        return parseTime(v[j])
+                    } else {
+                        return v[j]
+                    }
+                }))
+            },
+            lockAccount(id, row) {
+                console.log(id)
+                const data = {idAccount: id}
+                lockAccount(data)
+                    .then(res => {
+                        const index = this.list.indexOf(row)
+                        this.list[index].activated = 0
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+            unLockAccount(id, row) {
+                const data = {idAccount: id}
+                unlockAccount(data)
+                    .then(res => {
+                        const index = this.list.indexOf(row)
+                        this.list[index].activated = 1
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
+            tableRowClassName({row, rowIndex}) {
+                if (row.activated === 0) {
+                    return 'inactive-row';
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+    .el-table .inactive-row {
+        background: #d7d9de;
+    }
+    .user {
+        color: #00BF6F;
+    }
+    .admin {
+        color: red;
+    }
+</style>

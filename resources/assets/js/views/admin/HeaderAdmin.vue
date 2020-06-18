@@ -1,4 +1,5 @@
 <template>
+<!--<nav>-->
 <!--    <div class="navbar navbar-inverse navbar-static-top">-->
 <!--        <div class="container">-->
 <!--            <a href="" class="navbar-brand">-->
@@ -13,24 +14,10 @@
 <!--            <div class="collapse navbar-collapse navHeaderCollapse">-->
 <!--                <ul class="nav navbar-nav navbar-right text-center">-->
 <!--                    <li>-->
-<!--                        <router-link :to="{name: 'WelcomePage'}">-->
-<!--                            <div class="button-custom create-survey">-->
-<!--                                Create-->
+<!--                        <router-link :to="{name: 'ListAccount'}">-->
+<!--                            <div class="button-custom list-participants">-->
+<!--                                List account-->
 <!--                            </div>-->
-<!--                        </router-link>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <router-link :to="{name: 'ListSurvey'}">-->
-<!--                            <div class="button-custom list-surveys">-->
-<!--                                List survey-->
-<!--                            </div>-->
-<!--                        </router-link>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <router-link :to="{name: 'ListParticipant'}">-->
-<!--                        <div class="button-custom list-participants">-->
-<!--                            List participant-->
-<!--                        </div>-->
 <!--                        </router-link>-->
 <!--                    </li>-->
 <!--                    <li calass="dropdown">-->
@@ -54,70 +41,53 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->
-<!--    <div class="navbar-inverse navbar-static-top">-->
-        <div >
-            <nav class="navbar navbar-expand-lg navbar-light ">
-            <a href="" class="navbar-brand">
-                <svg id="Capa_1" enable-background="new 0 0 512 512" height="45" viewBox="0 0 512 512" width="45" xmlns="http://www.w3.org/2000/svg"><path d="m360.878 512h-324.228c-11.046 0-20-8.954-20-20v-472c0-11.046 8.954-20 20-20h324.228c11.046 0 20 8.954 20 20v472c0 11.046-8.954 20-20 20z" fill="#e4f6ff"/><path d="m360.065 0h-27.057c11.495 0 20.813 9.318 20.813 20.813v470.374c0 11.495-9.318 20.813-20.813 20.813h27.057c11.495 0 20.813-9.318 20.813-20.813v-470.374c0-11.495-9.318-20.813-20.813-20.813z" fill="#d3effb"/><path d="m380.878 62.439h-364.228v-42.439c0-11.046 8.954-20 20-20h324.228c11.046 0 20 8.954 20 20z" fill="#90d8f9"/><path d="m360.065 0h-27.057c11.495 0 20.813 9.318 20.813 20.813v41.626h27.057v-41.626c0-11.495-9.318-20.813-20.813-20.813z" fill="#75cef9"/><path d="m495.35 172.664v299.2c0 2.4-.838 4.725-2.369 6.573l-19.877 23.99c-4.12 4.972-11.746 4.972-15.865 0l-19.877-23.99c-1.531-1.848-2.369-4.173-2.369-6.573v-299.2c0-4.552 3.69-8.241 8.241-8.241h43.875c4.551 0 8.241 3.69 8.241 8.241z" fill="#665e66"/><path d="m457.238 502.426-3.069-3.703 18.702-22.572c3.094-3.734 4.787-8.43 4.787-13.279v-298.449h9.45c4.552 0 8.241 3.69 8.241 8.241v299.2c0 2.4-.838 4.725-2.369 6.573l-19.877 23.99c-4.119 4.971-11.745 4.971-15.865-.001z" fill="#544f57"/><path d="m475.577 104.065h-20.813c-5.747 0-10.406 4.659-10.406 10.407v49.951h41.626v-49.951c0-5.748-4.659-10.407-10.407-10.407z" fill="#f4dd45"/><path d="m434.992 274.732h60.358v31.22h-60.358z" fill="#f4dd45"/><path d="m477.659 274.732h17.691v31.22h-17.691z" fill="#ecc32e"/><path d="m471.415 104.065h4.163c5.747 0 10.406 4.659 10.406 10.407v49.951h-14.569z" fill="#ecc32e"/><circle cx="59.317" cy="31.22" fill="#e27a66" r="10.407"/><circle cx="101.984" cy="31.22" fill="#f4dd45" r="10.407"/><circle cx="144.65" cy="31.22" fill="#aad540" r="10.407"/><g fill="#665e66"><path d="m297.626 112.832h-197.724c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h197.724c4.267 0 7.726 3.459 7.726 7.726.001 4.267-3.459 7.726-7.726 7.726z"/><path d="m297.626 208.572h-156.097c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h156.098c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z"/><path d="m254.959 250.198h-113.43c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h113.431c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z"/><path d="m318.439 154.458h-239.349c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h239.35c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z"/></g><path d="m98.862 193.119h-41.626c-4.267 0-7.726 3.459-7.726 7.726v41.626c0 4.267 3.459 7.726 7.726 7.726h41.626c4.267 0 7.726-3.459 7.726-7.726v-41.626c0-4.267-3.459-7.726-7.726-7.726z" fill="#aad540"/><path d="m297.626 312.637h-156.097c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h156.098c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z" fill="#665e66"/><path d="m254.959 354.263h-113.43c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h113.431c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z" fill="#665e66"/><path d="m98.862 297.184h-41.626c-4.267 0-7.726 3.459-7.726 7.726v41.626c0 4.267 3.459 7.726 7.726 7.726h41.626c4.267 0 7.726-3.459 7.726-7.726v-41.626c0-4.267-3.459-7.726-7.726-7.726z" fill="#aad540"/><path d="m297.626 416.702h-156.097c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h156.098c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z" fill="#665e66"/><path d="m254.959 458.328h-113.43c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h113.431c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z" fill="#665e66"/><path d="m98.862 401.25h-41.626c-4.267 0-7.726 3.459-7.726 7.726v41.626c0 4.267 3.459 7.726 7.726 7.726h41.626c4.267 0 7.726-3.459 7.726-7.726v-41.626c0-4.267-3.459-7.726-7.726-7.726z" fill="#aad540"/><path d="m465.171 242.913c-4.267 0-7.726-3.459-7.726-7.726v-70.765c0-4.267 3.459-7.726 7.726-7.726s7.726 3.459 7.726 7.726v70.765c0 4.267-3.459 7.726-7.726 7.726z" fill="#f4dd45"/></svg>
-                &nbsp;<span class="title">I18nSurvey</span>
-            </a>
-<!--            <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">-->
-<!--                <span class="icon-bar"></span>-->
-<!--                <span class="icon-bar"></span>-->
-<!--                <span class="icon-bar"></span>-->
-<!--            </button>-->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <router-link :to="{name: 'WelcomePage'}">
-                            <div class="button-custom create-survey">
-                                Create
-                            </div>
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link :to="{name: 'ListSurvey'}">
-                            <div class="button-custom list-surveys">
-                                List survey
-                            </div>
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link :to="{name: 'ListParticipant'}">
-                            <div class="button-custom list-participants">
-                                List participant
-                            </div>
-                        </router-link>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer">{{username}} </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a href="" class="dropdown-item">My account</a>
-                            <a class="dropdown-item" v-on:click="logout()">Sign out</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown" >
-                        <a class="nav-link dropdown-toggle"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-bell"></i>
-                            <span class="badge badge-light"></span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li  style="color: #ae1c17">a</li>
-                            <li  style="color: #1820dd">b</li>
-                        </div>
-                    </li>
-                </ul>
+    <div >
+        <nav class="navbar navbar-expand-lg navbar-light ">
+                    <a href="" class="navbar-brand">
+                        <svg id="Capa_1" enable-background="new 0 0 512 512" height="45" viewBox="0 0 512 512" width="45" xmlns="http://www.w3.org/2000/svg"><path d="m360.878 512h-324.228c-11.046 0-20-8.954-20-20v-472c0-11.046 8.954-20 20-20h324.228c11.046 0 20 8.954 20 20v472c0 11.046-8.954 20-20 20z" fill="#e4f6ff"/><path d="m360.065 0h-27.057c11.495 0 20.813 9.318 20.813 20.813v470.374c0 11.495-9.318 20.813-20.813 20.813h27.057c11.495 0 20.813-9.318 20.813-20.813v-470.374c0-11.495-9.318-20.813-20.813-20.813z" fill="#d3effb"/><path d="m380.878 62.439h-364.228v-42.439c0-11.046 8.954-20 20-20h324.228c11.046 0 20 8.954 20 20z" fill="#90d8f9"/><path d="m360.065 0h-27.057c11.495 0 20.813 9.318 20.813 20.813v41.626h27.057v-41.626c0-11.495-9.318-20.813-20.813-20.813z" fill="#75cef9"/><path d="m495.35 172.664v299.2c0 2.4-.838 4.725-2.369 6.573l-19.877 23.99c-4.12 4.972-11.746 4.972-15.865 0l-19.877-23.99c-1.531-1.848-2.369-4.173-2.369-6.573v-299.2c0-4.552 3.69-8.241 8.241-8.241h43.875c4.551 0 8.241 3.69 8.241 8.241z" fill="#665e66"/><path d="m457.238 502.426-3.069-3.703 18.702-22.572c3.094-3.734 4.787-8.43 4.787-13.279v-298.449h9.45c4.552 0 8.241 3.69 8.241 8.241v299.2c0 2.4-.838 4.725-2.369 6.573l-19.877 23.99c-4.119 4.971-11.745 4.971-15.865-.001z" fill="#544f57"/><path d="m475.577 104.065h-20.813c-5.747 0-10.406 4.659-10.406 10.407v49.951h41.626v-49.951c0-5.748-4.659-10.407-10.407-10.407z" fill="#f4dd45"/><path d="m434.992 274.732h60.358v31.22h-60.358z" fill="#f4dd45"/><path d="m477.659 274.732h17.691v31.22h-17.691z" fill="#ecc32e"/><path d="m471.415 104.065h4.163c5.747 0 10.406 4.659 10.406 10.407v49.951h-14.569z" fill="#ecc32e"/><circle cx="59.317" cy="31.22" fill="#e27a66" r="10.407"/><circle cx="101.984" cy="31.22" fill="#f4dd45" r="10.407"/><circle cx="144.65" cy="31.22" fill="#aad540" r="10.407"/><g fill="#665e66"><path d="m297.626 112.832h-197.724c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h197.724c4.267 0 7.726 3.459 7.726 7.726.001 4.267-3.459 7.726-7.726 7.726z"/><path d="m297.626 208.572h-156.097c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h156.098c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z"/><path d="m254.959 250.198h-113.43c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h113.431c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z"/><path d="m318.439 154.458h-239.349c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h239.35c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z"/></g><path d="m98.862 193.119h-41.626c-4.267 0-7.726 3.459-7.726 7.726v41.626c0 4.267 3.459 7.726 7.726 7.726h41.626c4.267 0 7.726-3.459 7.726-7.726v-41.626c0-4.267-3.459-7.726-7.726-7.726z" fill="#aad540"/><path d="m297.626 312.637h-156.097c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h156.098c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z" fill="#665e66"/><path d="m254.959 354.263h-113.43c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h113.431c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z" fill="#665e66"/><path d="m98.862 297.184h-41.626c-4.267 0-7.726 3.459-7.726 7.726v41.626c0 4.267 3.459 7.726 7.726 7.726h41.626c4.267 0 7.726-3.459 7.726-7.726v-41.626c0-4.267-3.459-7.726-7.726-7.726z" fill="#aad540"/><path d="m297.626 416.702h-156.097c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h156.098c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z" fill="#665e66"/><path d="m254.959 458.328h-113.43c-4.267 0-7.726-3.459-7.726-7.726s3.459-7.726 7.726-7.726h113.431c4.267 0 7.726 3.459 7.726 7.726s-3.46 7.726-7.727 7.726z" fill="#665e66"/><path d="m98.862 401.25h-41.626c-4.267 0-7.726 3.459-7.726 7.726v41.626c0 4.267 3.459 7.726 7.726 7.726h41.626c4.267 0 7.726-3.459 7.726-7.726v-41.626c0-4.267-3.459-7.726-7.726-7.726z" fill="#aad540"/><path d="m465.171 242.913c-4.267 0-7.726-3.459-7.726-7.726v-70.765c0-4.267 3.459-7.726 7.726-7.726s7.726 3.459 7.726 7.726v70.765c0 4.267-3.459 7.726-7.726 7.726z" fill="#f4dd45"/></svg>
+                        &nbsp;<span class="title">I18nSurvey</span>
+                    </a>
+<!--                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">-->
+<!--                        <span class="icon-bar"></span>-->
+<!--                        <span class="icon-bar"></span>-->
+<!--                        <span class="icon-bar"></span>-->
+<!--                    </button>-->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <router-link :to="{name: 'ListAccount'}">
+                                    <div class="button-custom list-participants">
+                                        List account
+                                    </div>
+                                </router-link>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer">{{username}} </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a href="" class="dropdown-item">My account</a>
+                                    <a class="dropdown-item" v-on:click="logout()">Sign out</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="badge badge-light"></span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li  style="color: #ae1c17">a</li>
+                                    <li  style="color: #1820dd">b</li>
+                                </div>
+                            </li>
+                        </ul>
+                </div>
+                </nav>
             </div>
-            </nav>
-        </div>
-
-<!--    </div>-->
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
     export default {
-        name: "Header",
+        name: "HeaderAdmin",
         computed: {
             ...mapGetters([
                 'username',
@@ -132,7 +102,6 @@
             },
         }
     }
-
 </script>
 
 <style scoped>
@@ -144,17 +113,17 @@
     /*    box-shadow: 1px 2px;*/
     /*}*/
     /*.create-survey::before {*/
-    /*    content: url("../images/plus1.svg");*/
+    /*    content: url("../../images/plus1.svg");*/
     /*    transform: translate(0px, 3px);*/
     /*    display: inline-block;*/
     /*}*/
     /*.list-surveys::before {*/
-    /*    content: url("../images/list-surveys.svg");*/
+    /*    content: url("../../images/list-surveys.svg");*/
     /*    transform: translate(0px, 3px);*/
     /*    display: inline-block;*/
     /*}*/
     /*.list-participants::before {*/
-    /*    content: url("../images/list-user.svg");*/
+    /*    content: url("../../images/list-user.svg");*/
     /*    transform: translate(0px, 3px);*/
     /*    display: inline-block;*/
     /*}*/
@@ -188,17 +157,17 @@
         box-shadow: 1px 2px;
     }
     .create-survey::before {
-        content: url("../images/plus1.svg");
+        content: url("../../images/plus1.svg");
         transform: translate(0px, 3px);
         display: inline-block;
     }
     .list-surveys::before {
-        content: url("../images/list-surveys.svg");
+        content: url("../../images/list-surveys.svg");
         transform: translate(0px, 3px);
         display: inline-block;
     }
     .list-participants::before {
-        content: url("../images/list-user.svg");
+        content: url("../../images/list-user.svg");
         transform: translate(0px, 3px);
         display: inline-block;
     }
@@ -230,7 +199,7 @@
     }
     .navbar-collapse {
         padding-right: 15px;
-        padding-left: 125px;
+        padding-left: 400px;
         overflow-x: visible;
         border-top: 1px solid transparent;
         -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);

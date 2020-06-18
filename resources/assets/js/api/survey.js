@@ -22,16 +22,24 @@ export function countPage(id) {
     })
 }
 
-export function getUserInfo() {
+export function getListSurvey() {
     return request({
-        url: '/api/getUserInfo',
-        method: 'post'
+        url: '/api/survey/getListSurvey',
+        method: 'get'
     })
 }
 
-export function sendMail(data) {
+export function deleteSurvey(data) {
     return request({
-        url: '/api/password/create',
+        url: '/api/survey/deleteSurvey',
+        method: 'post',
+        data
+    })
+}
+
+export function changeStateActive(data) {
+    return request({
+        url: '/api/survey/changeStateActive',
         method: 'post',
         data
     })

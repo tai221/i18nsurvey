@@ -48,7 +48,7 @@
                                                 <i></i>
                                                 <a>Single choice</a>
                                             </li>
-                                            <li class="inElement element-mc">
+                                            <li class="inElement element-mc" @click="dialogVisible=false; visableMultipleChoice=true">
                                                 <i></i>
                                                 <a>Multiple choice</a>
                                             </li>
@@ -288,6 +288,39 @@
     }
     li.element-sc i {
         background-image: url("../../images/SingleChoice.png")
+    }
+    li.element-mc i {
+        background-image: url("../../images/mutilple-choice.png")
+    }
+    li.element-txt i {
+        background-image: url("../../images/text-answer.png")
+    }
+    li.element-sc-img i {
+        background-image: url("../../images/img-sc.png")
+    }
+    li.element-star i {
+        background-image: url("../../images/rating.png")
+    }
+    li.element-diff i {
+        background-image: url("../../images/sematic.png")
+    }
+    li.element-nps i {
+        background-image: url("../../images/net-pro.png")
+    }
+    li.element-rating i {
+        background-image: url("../../images/rating-scale.png")
+    }
+    li.element-order i {
+        background-image: url("../../images/ordering.png")
+    }
+    li.element-matrix-sc i {
+        background-image: url("../../images/matric-single.png")
+    }
+    li.element-matrix-mc i {
+        background-image: url("../../images/matric-mul.png")
+    }
+    li.element-text i {
+        background-image: url("../../images/text.png")
     }
     a, a:hover {
         text-decoration: underline;

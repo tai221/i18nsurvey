@@ -16,6 +16,8 @@ import './styles/index.scss' //global css
 import i18n from './lang'
 import * as filters from './filters' // global filters
 import './permission'
+// import './icons'
+import VueClipboard from 'vue-clipboard2'
 
 
 require('./bootstrap');
@@ -29,6 +31,7 @@ Vue.use(ElementUI, {
 Object.keys(filters).forEach(key => {
     Vue.filter(key, filters[key])
 })
+Vue.use(VueClipboard)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
