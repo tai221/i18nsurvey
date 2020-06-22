@@ -475,6 +475,7 @@
         max-width: 640px;
         position: relative;
         z-index: 1000;
+        margin-bottom: 20px;
     }
     .addContainer.placeholderActive {
         /*padding-top: 200px;*/

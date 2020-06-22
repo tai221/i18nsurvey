@@ -68,21 +68,21 @@
 <!--            </button>-->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item active three-button">
                         <router-link :to="{name: 'WelcomePage'}">
                             <div class="button-custom create-survey">
                                 Create
                             </div>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item three-button">
                         <router-link :to="{name: 'ListSurvey'}">
                             <div class="button-custom list-surveys">
                                 List survey
                             </div>
                         </router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item three-button">
                         <router-link :to="{name: 'ListParticipant'}">
                             <div class="button-custom list-participants">
                                 List participant
@@ -180,6 +180,9 @@
     /*    color: #fff;*/
     /*    background-color: #77a3d0;*/
     /*}*/
+    .three-button {
+        margin-top: 8px;
+    }
     .button-custom {
         background-color: #e3eaf3;
         border-radius: 15px;

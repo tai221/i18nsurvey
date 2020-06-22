@@ -54,7 +54,7 @@
 <!--                    </button>-->
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
+                            <li class="nav-item active list-account">
                                 <router-link :to="{name: 'ListAccount'}">
                                     <div class="button-custom list-participants">
                                         List account
@@ -149,6 +149,9 @@
     /*    color: #fff;*/
     /*    background-color: #77a3d0;*/
     /*}*/
+    .list-account {
+        margin-top: 8px;
+    }
     .button-custom {
         background-color: #e3eaf3;
         border-radius: 15px;

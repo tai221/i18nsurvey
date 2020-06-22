@@ -48,7 +48,7 @@
                     <div style="margin-left: 370px; margin-top: 50px; color: #5fad6d;">
                         <h4>Copy this link to your respondents:</h4>
                     </div>
-                    <div class="col-sm-5 col-sm-offset-3">
+                    <div class="col-sm-5 col-sm-offset-7">
                         <el-input v-model="linkShare" readonly="true" >{{linkShare}}
                             <el-button v-clipboard:copy="linkShare" slot="append" icon="el-icon-document-copy" title="Coppy"></el-button></el-input>
                     </div>
@@ -70,7 +70,7 @@
                 start_date: '',
                 expire: '',
                 public: null,
-                linkShare: 'http:/ahalah.com.vn',
+                linkShare: 'http:locahost/survey/1e3c4',
             }
         }
     }
