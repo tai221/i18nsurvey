@@ -44,3 +44,17 @@ export function changeStateActive(data) {
         data
     })
 }
+
+export function submitResponse(data) {
+    return request({
+        url: '/api/survey/submit',
+        method: 'post',
+        data
+    })
+}
+export function getAllResponse(id) {
+    return request({
+        url: `/api/survey/getAllResponse/${id}`,
+        method: 'get',
+    })
+}

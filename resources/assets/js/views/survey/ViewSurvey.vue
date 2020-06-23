@@ -1,80 +1,59 @@
 <template>
     <div class="custom-container">
-        <div id="carouselExampleIndicators" class="carousel slide">
+        <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
 
             <div class="carousel-inner">
+
                 <div class="carousel-item welcome-page" v-bind:class="{active: startButton}">
                     <div class="title-survey row" style="margin-bottom: 30px;">
-                        <div class="col-sm-5 col-sm-offset-5">
+                        <div style="margin: auto; width: 25%; text-align:center;">
                             <h2 class="">{{survey.title}}</h2>
                         </div>
                     </div>
-                    <div style="margin: auto; width: 15%;">
+                    <div style="margin: auto; width: 15%; text-align:center;">
                         <h4>{{survey.dear}}</h4>
                     </div>
-                    <div style="margin: auto; width: 35%; margin-bottom:40px;">
+                    <div style="margin: auto; width: 35%; margin-bottom:40px; text-align:center;">
                         <h4>{{survey.greeting}}</h4>
                     </div>
                     <div style="margin: auto; width: 12%;">
                         <el-button @click="changeStateStart()" class="button-start" type="primary" plain>Start Now</el-button>
                     </div>
+                </div>
 
-                </div>
-<!--                <div v-for="" class="carousel-item" v-bind:class="{active: !startButton}">-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                    <div >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </div>-->
-<!--                </div>-->
-                <div class="carousel-item active question-page ">
-                    <div class="box-question" >
-                        <div class="title-question">
-                            How old are you?<span style="color: red">*</span>
-                        </div>
-                        <div class="title-answer tick">
-                            18 years old
-                        </div>
-                        <div class="title-answer">
-                            19 years old
-                        </div>
-                        <div class="title-answer">
-                            20 years old
-                        </div>
-                        <div class="other-answer">
-                            <input type="text" value="Other answer">
-                        </div>
-                    </div>
-                    <div class="box-question" >
-                        <div class="title-question">
-                            How far is it from your house to school? Write your answer to below...<span style="color: red">*</span>
-                        </div>
-                        <div class="other-answer">
-                            <input type="text" value="Type one or a few words...">
+                <div v-for="(page, indexPage) in arrPage" class="carousel-item question-page" v-bind:class="{active: !startButton && indexPage == 0}">
+                    <div v-for="(question, indexQuestion) in page">
+                        <div v-if="question.type == 1" class="box-question" >
+                            <div class="title-question">
+                                {{indexQuestion+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
+                            </div>
+                            <div   v-for="(answer, index) in question.answers"
+                                   :key="index"
+                                   :class="[answer.key == 100? 'other-answer':'title-answer', { tick: arrPage[indexPage][indexQuestion].tick==answer.key}] "
+                                   @click="tickAnswer(indexPage, indexQuestion, answer.key)">
+                                <span  v-if="answer.key !== 100">{{answer.content}}</span>
+                                <input v-if="answer.key == 100" v-model="answer.content" type="text">
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="carousel-item thanks-page">
                     <div style="margin: auto; width: 18%;">
-                        <el-button @click="changeStateStart()" class="button-response" type="success" plain>Submit Response</el-button>
+                        <el-button @click="submit()" class="button-response" type="success" plain v-bind:disabled="isSubmit">Submit Response</el-button>
                     </div>
-                    <div style="margin: auto; width: 40%; margin-bottom:40px; margin-top: 30px; color:#208000; ">
+                    <div v-if="isSubmit" style="margin: auto; width: 40%; margin-bottom:40px; margin-top: 30px; color:#208000; ">
                         <h4><i>{{survey.thanks}}</i></h4>
                     </div>
-                    <div style="margin: auto; width: 20%;">
-                        <span>Click here: </span><a href="">{{survey.ref_url}}</a>
+                    <div v-if="isSubmit" style="margin: auto; width: 20%;">
+                        <span v-if="survey.ref_url!==null">Click here: </span><a href="">{{survey.ref_url}}</a>
                     </div>
                 </div>
+
             </div>
             <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1" class="active"></li>
+                <li v-for="i in countPage" data-target="#carouselExampleIndicators" data-slide-to=""></li>
             </ol>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -89,7 +68,7 @@
 </template>
 
 <script>
-    import {fetchSurvey} from "../../api/survey";
+    import {countPage, fetchSurvey, submitResponse} from "../../api/survey";
     import {getAllQuestions} from "../../api/question";
 
     export default {
@@ -108,7 +87,8 @@
                     ref_url: undefined,
                 },
                 arrPage:[],
-                startButton: false,
+                startButton: true,
+                isSubmit: false,
             }
         },
         created() {
@@ -124,14 +104,66 @@
             const data = {surveyId: surveyId}
             getAllQuestions(data)
                 .then(res => {
-                    console.log(res.data)
                     this.arrPage = res.data.arrPage
-                    console.log(this.arrPage[0])
+                    this.countPage = this.arrPage.length+1
+                    this.arrPage = this.arrPage.map(page => {
+                       page = page.map(question => {
+                           question.tick = null
+                           return question
+                       })
+                        return page
+                    });
                 })
         },
         methods: {
             changeStateStart() {
                 this.startButton = false
+            },
+            submit() {
+                var allResponse = [];
+                for(let i = 0; i< this.arrPage.length; i++) {
+                    for(let j = 0; j < this.arrPage[i].length; j++) {
+                        if(this.arrPage[i][j].required == 1 && this.arrPage[i][j].tick == null) {
+                            this.$notify({
+                                title: 'Notification',
+                                message: 'Some questions have not been completed',
+                                type: 'warning',
+                                duration: 4000
+                            })
+                            return
+                        }
+                        var answer = this.arrPage[i][j].tick
+                        if(this.arrPage[i][j].type == 1 && this.arrPage[i][j].tick == 100) {
+                            let temp = this.arrPage[i][j].answers.filter(answer => {
+                                return answer.key == 100
+                            })
+                            answer = temp[0].content
+                        }
+                        let response = {
+                            question_id: this.arrPage[i][j].id,
+                            answer: answer,
+                        }
+                        allResponse.push(response)
+                    }
+                }
+                const data = {
+                    surveyId: this.$route.params.surveyId,
+                    allResponse: allResponse,
+                }
+                console.log(data)
+                submitResponse(data)
+                    .then(res => {
+                        this.$notify({
+                            title: 'Notification',
+                            message: 'Success',
+                            type: 'success',
+                            duration: 3000
+                        })
+                        this.isSubmit = true
+                    })
+            },
+            tickAnswer(indexPage, indexQuestion, answerKey){
+                this.arrPage[indexPage][indexQuestion].tick = answerKey
             }
         }
     }
@@ -142,12 +174,15 @@
         content: url("../../images/input.png");
         transform: translate(378px, -5px);
     }
-    .tick {
-        display: flex;
-    }
+    /*.tick {*/
+    /*    display: flex;*/
+    /*}*/
     .tick::after {
         content: url("../../images/tick.png");
-        transform: translate(454px, 4px);
+        /*transform: translate(454px, 4px);*/
+        right: 389px;
+        position: absolute;
+        margin-top: 6px;
     }
     input[type=text] {
         width: 100%;
@@ -192,7 +227,7 @@
         font-size: 20px;
     }
     .button-response {
-        width: 182px;
+        width: 185px;
         border-radius: 5px;
         height: 50px;
         font-size: 20px;
@@ -225,9 +260,9 @@
         margin-bottom: 30px;
     }
     .question-page {
-        height: -webkit-fill-available;
+        /*height: -webkit-fill-available;*/
         padding-top: 5%;
-        margin-bottom: 30px;
+        margin-bottom: 60px;
     }
     .custom-container {
         background-color: #accfe0;

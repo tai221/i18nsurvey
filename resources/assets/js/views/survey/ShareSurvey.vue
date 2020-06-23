@@ -7,7 +7,9 @@
                         <li>Questions</li>
                     </router-link>
                     <li class="active">Share</li>
-                    <li>Response</li>
+                    <router-link :to="{name: 'ResponseSurvey'}">
+                        <li>Response</li>
+                    </router-link>
                     <li>Analytic</li>
                     <li>Preview</li>
                 </ul>
@@ -77,6 +79,11 @@
 </script>
 
 <style scoped>
+    a {
+        color: blue;
+        text-decoration: none; /* no underline */
+        z-index: 1000;
+    }
     .select-email {
         padding-top: 50px;
         padding-left: 406px;

@@ -41,6 +41,8 @@ Route::group([
     Route::get('survey/getListSurvey', 'Api\SurveyController@getListSurvey');
     Route::post('survey/deleteSurvey', 'Api\SurveyController@deleteSurvey');
     Route::post('survey/changeStateActive', 'Api\SurveyController@changeStateActive');
+    Route::post('survey/submit', 'Api\SurveyController@submit');
+    Route::get('survey/getAllResponse/{surveyId}', 'Api\SurveyController@getAllResponse');
     Route::post('question/create', 'Api\QuestionController@create');
     Route::post('question/getListQuestions', 'Api\QuestionController@fetchListQuestions');
     Route::post('question/getAllQuestions', 'Api\QuestionController@fetchAllQuestions');

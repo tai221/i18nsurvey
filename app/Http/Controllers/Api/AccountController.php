@@ -62,7 +62,6 @@ class AccountController extends Controller
     public function lock(Request $request)
     {
         $idAccount = $request->input('idAccount');
-        Log::info($idAccount);
         User::find($idAccount)->update(['activated' => 0]);
         return response()->json([
             'code' => 200,

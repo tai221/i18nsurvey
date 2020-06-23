@@ -7,7 +7,9 @@
                 <router-link :to="{name: 'ShareSurvey'}">
                     <li>Share</li>
                 </router-link>
-                <li>Response</li>
+                <router-link :to="{name:'ResponseSurvey'}">
+                    <li>Response</li>
+                </router-link>
                 <li>Analytic</li>
                 <li>Preview</li>
             </ul>
@@ -207,6 +209,7 @@
     a {
         color: blue;
         text-decoration: none; /* no underline */
+        z-index: 1000;
     }
     .pageThumbs .number, .ui-tutorial .number {
         position: absolute;

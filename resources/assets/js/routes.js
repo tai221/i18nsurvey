@@ -15,6 +15,7 @@ import ListAccount from "./views/admin/ListAccount";
 import Admin from "./views/admin/Admin";
 import ShareSurvey from "./views/survey/ShareSurvey";
 import ViewSurvey from "./views/survey/ViewSurvey";
+import ResponseSurvey from "./views/survey/ResponseSurvey";
 Vue.use(Router)
 
 export const routes = [
@@ -89,6 +90,11 @@ export const routes = [
                       path: 'share',
                       component: ShareSurvey,
                       name: 'ShareSurvey',
+                    },
+                    {
+                        path: 'response',
+                        component: ResponseSurvey,
+                        name: 'ResponseSurvey',
                     },
 
                 ]

@@ -12,7 +12,6 @@ class QuestionController extends Controller
 {
     public function create(Request $request)
     {
-        Log::info('create question');
         $question = Question::updateOrCreate(
             ['id'=> $request->input('questionId')],
             [
@@ -94,7 +93,6 @@ class QuestionController extends Controller
     public function deleteQuestion(Request $request)
     {
         $idQuestion = $request->input('idQuestion');
-        Log::info($idQuestion);
         Question::find($idQuestion)->delete();
         return response()->json([
             'code' => 200,
@@ -108,6 +106,7 @@ class QuestionController extends Controller
         foreach ($questions as $key => &$question) {
             $answers = Choice::select('content','id','key')->Where('question_id', $question['id'])->orderBy('key','asc')->get()->toArray();
             $question['answers'] = $answers;
+            $question['tick'] = null;
         }
         $arrPage = array();
         $countPage = Question::select('page')->where('survey_id', $idSurvey)->orderBy('page','desc')->limit(1)->get()->toArray();
@@ -120,7 +119,6 @@ class QuestionController extends Controller
             }
             $arrPage[$i] = $temp;
         }
-        Log::info($arrPage);
         return response()->json([
             'code' => 200,
             'arrPage' => $arrPage,

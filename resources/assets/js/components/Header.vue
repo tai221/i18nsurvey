@@ -180,6 +180,12 @@
     /*    color: #fff;*/
     /*    background-color: #77a3d0;*/
     /*}*/
+    li {
+        z-index: 1000;
+    }
+    a {
+        text-decoration: none; /* no underline */
+    }
     .three-button {
         margin-top: 8px;
     }
