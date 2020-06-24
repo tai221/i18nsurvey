@@ -148,6 +148,7 @@
                 }
                 const data = {
                     surveyId: this.$route.params.surveyId,
+                    emailId: this.$route.params.emailId,
                     allResponse: allResponse,
                 }
                 console.log(data)

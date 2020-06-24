@@ -10,8 +10,10 @@
                     <router-link :to="{name: 'ResponseSurvey'}">
                         <li>Response</li>
                     </router-link>
-                    <li>Analytic</li>
-                    <li>Preview</li>
+                    <router-link :to="{name:'AnalyticSurvey'}">
+                        <li>Analytic</li>
+                    </router-link>
+                    <a @click="preview()" href=""><li>Preview</li></a>
                 </ul>
             </div>
         </div>
@@ -52,19 +54,66 @@
                     </div>
                     <div class="col-sm-5 col-sm-offset-7">
                         <el-input v-model="linkShare" readonly="true" >{{linkShare}}
-                            <el-button v-clipboard:copy="linkShare" slot="append" icon="el-icon-document-copy" title="Coppy"></el-button></el-input>
+                            <el-button v-clipboard:copy="linkShare" @click="coppyLink()" slot="append" icon="el-icon-document-copy" title="Coppy"></el-button></el-input>
                     </div>
                 </div>
                 <div v-if="public == 0" class="select-email">
-                    <el-button type="success" size="medium" round>Select emails to send link</el-button>
+                    <el-button type="success" size="medium" @click="dialogTableVisible = true" round>Select emails to send link</el-button>
                 </div>
 
             </div>
         </div>
+
+
+        <el-dialog title="List participant" :visible.sync="dialogTableVisible">
+            <el-table
+                    ref="multipleTable"
+                    :data="tableData"
+                    style="width: 100%"
+                    max-height="300"
+                    @selection-change="handleSelectionChange">
+                <el-table-column
+                        type="selection"
+                        width="55">
+                </el-table-column>
+                <el-table-column
+                        label="Code"
+                        width="120">
+                    <template slot-scope="scope">{{ scope.row.code }}</template>
+                </el-table-column>
+                <el-table-column
+                        property="email"
+                        label="Email"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        label="Is send?">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.is_send" style="color: #00ff00">Yes</span>
+                            <span v-else style="color: #ff3300">No</span>
+                        </template>
+                </el-table-column>
+                <el-table-column
+                        label="Is submit?">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.is_submit" style="color: #00ff00">Yes</span>
+                        <span v-else style="color: #ff3300">No</span>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div style="margin-top: 20px">
+                <el-button @click="toggleSelection()">Clear selection</el-button>
+                <el-button @click="sendMail()" type="success">Send mail</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+    import {fetchList} from "../../api/participant";
+    import {shareSurvey} from "../../api/survey";
+    import { mapGetters, mapActions } from 'vuex'
+
     export default {
         name: "ShareSurvey",
         data() {
@@ -72,7 +121,86 @@
                 start_date: '',
                 expire: '',
                 public: null,
-                linkShare: 'http:locahost/survey/1e3c4',
+                linkShare: '',
+                dialogTableVisible: false,
+                tableData: [],
+                multipleSelection: [],
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'surveyId'
+            ])
+        },
+        created() {
+            this.linkShare = `http://127.0.0.1:8000/survey/${this.surveyId}`
+            this.getListEmail()
+        },
+        methods: {
+            toggleSelection(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.multipleTable.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.multipleTable.clearSelection();
+                }
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            sendMail(){
+                const data = {
+                    surveyId: this.surveyId,
+                    listEmail: this.multipleSelection.map(value => {
+                        return value.email
+                    }),
+                    listIdEmail: this.multipleSelection.map(value => {
+                        return value.id
+                    }),
+                }
+                shareSurvey(data)
+                    .then(res =>{
+                        this.getListEmail()
+                        this.$notify({
+                            title: 'Notification',
+                            message: 'Mails have been send',
+                            type: 'success',
+                            duration: 2000
+                        })
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            title: 'Notification',
+                            message: 'Fail to send',
+                            type: 'warning',
+                            duration: 2000
+                        })
+                    })
+
+            },
+            getListEmail() {
+                const data = {
+                    onlyActive: true,
+                    surveyId: this.surveyId,
+                }
+                fetchList(data)
+                    .then(res => {
+                        this.tableData = res.data.items
+                        console.log(this.tableData)
+                    })
+            },
+            coppyLink() {
+                this.$notify({
+                    title: 'Notification',
+                    message: 'Link have been coppy',
+                    type: 'success',
+                    duration: 2000
+                })
+            },
+            preview() {
+                var win = window.open(`http://127.0.0.1:8000/survey/i18nsurvey/${this.surveyId}`, '_blank');
+                win.focus();
             }
         }
     }

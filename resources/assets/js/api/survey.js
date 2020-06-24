@@ -52,6 +52,23 @@ export function submitResponse(data) {
         data
     })
 }
+
+export function shareSurvey(data) {
+    return request({
+        url: '/api/survey/shareSurvey',
+        method: 'post',
+        data
+    })
+}
+
+export function analytic(data) {
+    return request({
+        url: '/api/survey/analytic',
+        method: 'post',
+        data
+    })
+}
+
 export function getAllResponse(id) {
     return request({
         url: `/api/survey/getAllResponse/${id}`,

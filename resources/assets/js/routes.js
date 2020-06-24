@@ -16,6 +16,7 @@ import Admin from "./views/admin/Admin";
 import ShareSurvey from "./views/survey/ShareSurvey";
 import ViewSurvey from "./views/survey/ViewSurvey";
 import ResponseSurvey from "./views/survey/ResponseSurvey";
+import AnalyticSurvey from "./views/survey/AnalyticSurvey";
 Vue.use(Router)
 
 export const routes = [
@@ -42,7 +43,7 @@ export const routes = [
         ]
     },
     {
-        path:'/survey/:surveyId',
+        path:'/survey/:emailId/:surveyId',
         component: ViewSurvey,
         name: 'ViewSurvey'
     },
@@ -95,6 +96,11 @@ export const routes = [
                         path: 'response',
                         component: ResponseSurvey,
                         name: 'ResponseSurvey',
+                    },
+                    {
+                        path: 'analytic',
+                        component: AnalyticSurvey,
+                        name: 'AnalyticSurvey',
                     },
 
                 ]

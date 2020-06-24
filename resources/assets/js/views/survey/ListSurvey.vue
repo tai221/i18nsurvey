@@ -64,8 +64,7 @@
         name: "ListSurvey",
         data(){
             return {
-                listSurvey: [{
-                }],
+                listSurvey: [],
                 search: '',
                 listLoading: false,
 
@@ -76,6 +75,7 @@
             this.listLoading = true
             getListSurvey()
                 .then(res => {
+                    console.log(res.data.listSurvey)
                     this.listSurvey = res.data.listSurvey
                     this.listSurvey = this.listSurvey.filter(survey => {
                         survey.active = Boolean(survey.active)

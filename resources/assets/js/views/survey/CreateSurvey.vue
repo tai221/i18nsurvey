@@ -10,8 +10,10 @@
                 <router-link :to="{name:'ResponseSurvey'}">
                     <li>Response</li>
                 </router-link>
-                <li>Analytic</li>
-                <li>Preview</li>
+                <router-link :to="{name:'AnalyticSurvey'}">
+                    <li>Analytic</li>
+                </router-link>
+                <a @click="preview()" href=""><li>Preview</li></a>
             </ul>
         </div>
     </div>
@@ -89,7 +91,6 @@
         },
         created() {
             var surveyId = this.surveyId
-            console.log(this.$route.params.surveyId)
             if(this.$route.params.surveyId > 0){
                 surveyId = this.$route.params.surveyId
                 this.$store.dispatch('setSuveyId', surveyId)
@@ -147,6 +148,10 @@
                 console.log('share')
               this.$route.push({name: 'ShareSurvey'})
             },
+            preview() {
+                var win = window.open(`http://127.0.0.1:8000/survey/i18nsurvey/${this.surveyId}`, '_blank');
+                win.focus();
+            }
         }
     }
 </script>

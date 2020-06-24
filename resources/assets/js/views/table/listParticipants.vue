@@ -10,7 +10,7 @@
                 <el-button type="success" icon="el-icon-refresh-right" @click="resetList"></el-button>
             </el-button-group>
             <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">Add</el-button>
-            <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">Export</el-button>
+            <el-button  :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">Export</el-button>
         </div>
 
         <el-table
@@ -107,6 +107,7 @@
     import Pagination from '../../components/Pagination' // Secondary package based on el-pagination
     import Footer from "../../components/Footer";
     import {deleteParticipant, lockMail, unlockMail} from "../../api/participant";
+    import {export_json_to_excel} from "../../vendor/Export2Excel";
 
     // const calendarTypeOptions = [
     //     { key: 'CN', display_name: 'China' },
@@ -168,6 +169,7 @@
                     // remark: '',
                     updated_at: new Date(),
                     email: '',
+                    active: true,
                     // type: '',
                     // status: 'published'
                 },
@@ -194,7 +196,7 @@
                     this.list = response.data.items
                     this.listTotal = response.data.items
                     this.total = response.data.total
-
+                    console.log(this.list)
                     // Just to simulate the time of the request
                     setTimeout(() => {
                         this.listLoading = false
@@ -243,6 +245,7 @@
                     // remark: '',
                     updated_at: new Date(),
                     email: '',
+                    active: true,
                     // status: 'published',
                     // type: ''
                 }
@@ -332,23 +335,22 @@
             //     })
             // },
             handleDownload() {
-                // this.downloadLoading = true
-                // import('@backend/vendor/Export2Excel').then(excel => {
-                //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-                //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-                //     const data = this.formatJson(filterVal, this.list)
-                //     excel.export_json_to_excel({
-                //         header: tHeader,
-                //         data,
-                //         filename: 'table-list'
-                //     })
-                //     this.downloadLoading = false
-                // })
+                this.downloadLoading = true
+                    const tHeader = ['code', 'email', 'active', 'modified at']
+                    const filterVal = ['code', 'email', 'active', 'updated_at']
+                    const data = this.formatJson(filterVal, this.list)
+                    export_json_to_excel({
+                        header: tHeader,
+                        data,
+                        filename: 'list-participant'
+                    })
+                    this.downloadLoading = false
             },
             formatJson(filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => {
-                    if (j === 'timestamp') {
-                        return parseTime(v[j])
+                    if (j === 'active') {
+                        if(v[j]==1) return 'Yes';
+                        return 'No'
                     } else {
                         return v[j]
                     }

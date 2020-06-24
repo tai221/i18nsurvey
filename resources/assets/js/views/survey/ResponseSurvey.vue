@@ -10,8 +10,10 @@
                         <li>Share</li>
                     </router-link>
                     <li class="active">Response</li>
-                    <li>Analytic</li>
-                    <li>Preview</li>
+                    <router-link :to="{name:'AnalyticSurvey'}">
+                        <li>Analytic</li>
+                    </router-link>
+                    <a @click="preview()" href=""><li>Preview</li></a>
                 </ul>
             </div>
         </div>
@@ -76,6 +78,9 @@
 
 
 <!--                         Fixed header table-->
+                         <div class="button-export" v-if="isHaveResponse">
+                            <el-button  class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">Export</el-button>
+                        </div>
                         <div class="table-responsive" v-if="isHaveResponse">
                             <table class="table table-fixed">
                                 <thead>
@@ -87,7 +92,8 @@
                                 </thead>
                                 <tbody>
                                 <tr v-for="(rd,i) in listRespondent">
-                                    <td >{{i+1}}</td>
+                                    <td v-if="rd.email_id!==null">{{rd.email_id}}</td>
+                                    <td v-else>{{i+1}}</td>
                                     <td v-for="(res,j) in rd.listResponse" ><span v-if="res.setup==0" v-bind:class="{dapankhac: res.setup==0}">Other: </span>{{res.answer}}</td>
                                     <td >{{rd.created_at}}</td>
                                 </tr>
@@ -107,6 +113,8 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
     import {getAllResponse} from "../../api/survey";
+    import {export_json_to_excel} from "../../vendor/Export2Excel";
+
     export default {
         name: "ResponseSurvey",
         data() {
@@ -138,12 +146,55 @@
         methods: {
             goToShare() {
                 this.$router.push({ name: 'ShareSurvey'})
+            },
+            preview() {
+                var win = window.open(`http://127.0.0.1:8000/survey/i18nsurvey/${this.surveyId}`, '_blank');
+                win.focus();
+            },
+            handleDownload(){
+                var tHeader = ['Respondent']
+                for(let i = 0; i < this.listQuestion.length; i++) {
+                    tHeader.push(this.listQuestion[i].question)
+                }
+                tHeader.push('Submited at')
+                const filterVal = ['id','created_at']
+                var data = []
+                for(let i=0; i< this.listRespondent.length; i++) {
+                    var temp = []
+                    if(this.listRespondent[i].email_id!==null) {
+                        temp.push(this.listRespondent[i].email_id)
+                    }else {
+                        temp.push(i+1)
+                    }
+                    for(let j=0; j < this.listRespondent[i].listResponse.length; j++) {
+                        temp.push(this.listRespondent[i].listResponse[j].answer)
+                    }
+                    temp.push(this.listRespondent[i].created_at)
+                    data.push(temp)
+                }
+                console.log(data)
+                export_json_to_excel({
+                    header: tHeader, //Header Required
+                    data, //Specific data Required
+                    filename: 'list-response', //Optional
+                    autoWidth: true, //Optional
+                    bookType: 'xlsx' //Optional
+                })
+            },
+            formatJson(filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => {
+                        return v[j]
+                }))
             }
         },
     }
 </script>
 
 <style scoped>
+    .button-export {
+        float: right;
+        padding-top: 10px;
+    }
     .dapankhac {
         color: #00BF6F;
     }

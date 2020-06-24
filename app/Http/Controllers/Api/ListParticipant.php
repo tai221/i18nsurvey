@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Email;
+use App\ShareSurvey;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ListParticipant extends Controller
 {
@@ -38,7 +40,25 @@ class ListParticipant extends Controller
     public function get(Request $request)
     {
         $user_id = Auth::id();
-        $list = Email::where('user_id', $user_id)->get();
+        if(isset($request['onlyActive'])) {
+            $list = Email::where('user_id',$user_id)->where('active', 1)->get();
+            $surveyId = $request['surveyId'];
+            $listEmailHasSend = ShareSurvey::Where('survey_id', $surveyId)->get()->toArray();
+            foreach ($list as $key => &$email) {
+                $email['is_send'] = 0;
+                $email['is_submit'] = 0;
+                foreach ($listEmailHasSend as $emailHasSend) {
+                    if($email['id']== $emailHasSend['email_id']) {
+                        $email['is_send'] = $emailHasSend['is_send'];
+                        $email['is_submit'] = $emailHasSend['is_submit'];
+                        break;
+                    }
+                }
+            }
+
+        } else {
+            $list = Email::where('user_id', $user_id)->get();
+        }
         $count = $list->count();
         $list = $list->toArray();
         return response()->json(['items' => $list, 'total' => $count]);
