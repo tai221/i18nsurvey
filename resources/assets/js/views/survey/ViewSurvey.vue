@@ -35,6 +35,17 @@
                                 <input v-if="answer.key == 100" v-model="answer.content" type="text">
                             </div>
                         </div>
+                        <div v-if="question.type == 2" class="box-question" >
+                            <div class="title-question">
+                                {{indexQuestion+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
+                            </div>
+                            <el-rate
+                                    v-model="rate"
+                                    :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
+                                    show-text>
+                            </el-rate>
+
+                        </div>
                     </div>
                 </div>
 
@@ -89,6 +100,7 @@
                 arrPage:[],
                 startButton: true,
                 isSubmit: false,
+                rate: null,
             }
         },
         created() {
@@ -138,6 +150,9 @@
                                 return answer.key == 100
                             })
                             answer = temp[0].content
+                        }
+                        if(this.arrPage[i][j].type == 2 ) {
+                            answer = this.rate
                         }
                         let response = {
                             question_id: this.arrPage[i][j].id,

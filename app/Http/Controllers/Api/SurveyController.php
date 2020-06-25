@@ -145,6 +145,9 @@ class SurveyController extends Controller
                     $response['answer'] = $content->content;
                     $response['setup'] = 1;
                 }
+                if($typeQuestion == 2)    {
+                    $response['setup'] = 2;
+                }
                 if($response['answer'] ==''){
                     $response['setup'] = 1;
                 }
@@ -207,6 +210,15 @@ class SurveyController extends Controller
                         Log::info('vao day');
                         $choice['cnt'] = Response::Where('question_id', $question['id'])->whereNotIn('answer', ['0','1','2','3','4','5'])->get()->count();
                     }
+                    array_push($question['arrChoice']['labels'], $choice['content']);
+                    array_push($question['arrCnt'], $choice['cnt']);
+                }
+            }
+            if($question['type'] == 2) {
+                foreach ($question['listChoice'] as &$choice) {
+                    $key = $choice['key'];
+                    $key += 1;
+                    $choice['cnt'] = Response::Where('question_id', $question['id'])->where('answer', strval($key))->get()->count();
                     array_push($question['arrChoice']['labels'], $choice['content']);
                     array_push($question['arrCnt'], $choice['cnt']);
                 }

@@ -94,7 +94,15 @@
                                 <tr v-for="(rd,i) in listRespondent">
                                     <td v-if="rd.email_id!==null">{{rd.email_id}}</td>
                                     <td v-else>{{i+1}}</td>
-                                    <td v-for="(res,j) in rd.listResponse" ><span v-if="res.setup==0" v-bind:class="{dapankhac: res.setup==0}">Other: </span>{{res.answer}}</td>
+                                    <td v-for="(res,j) in rd.listResponse" >
+                                        <div v-if="res.setup==0||res.setup==1">
+                                            <span v-if="res.setup==0" v-bind:class="{dapankhac: res.setup==0}">Other: </span>
+                                            {{res.answer}}
+                                        </div>
+                                        <div v-if="res.setup==2">
+                                            <span>{{res.answer}}</span> <i v-for="i in parseInt(res.answer)" class="el-icon-star-on"></i>
+                                        </div>
+                                    </td>
                                     <td >{{rd.created_at}}</td>
                                 </tr>
                                 </tbody>

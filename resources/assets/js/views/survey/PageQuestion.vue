@@ -30,6 +30,15 @@
                                 {{answer.content}}
                             </div>
                         </div>
+                        <div class="box-question" v-if="question.type == 2" @click="changeGroupButton(index)">
+                            <div class="title-question">
+                                {{index+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
+                            </div>
+                            <el-rate
+                                    :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
+                                    show-text>
+                            </el-rate>
+                        </div>
                         <div class="appAddQuestion" @click="dialogVisible=true">
 <!--                            <div class="appAddBarPlacehoder" style="color:#000;">-->
 <!--                                This page is empty. ADD A QUESTION!-->
@@ -60,7 +69,7 @@
                                                 <i></i>
                                                 <a>Image choice</a>
                                             </li>
-                                            <li class="inElement element-star">
+                                            <li class="inElement element-star" @click="dialogVisible=false; visableRateChoice=true">
                                                 <i></i>
                                                 <a>Rating</a>
                                             </li>
@@ -108,6 +117,14 @@
                                   @updateQuestion="questions[indexQuestion]=$event"
                                   @SingleChoiceClose="visableSingleChoice=false"
                     ></SingleChoice>
+                    <RateChoice :visableRateChoice.sync="visableRateChoice"
+                                  :pageNumber="pageNumber"
+                                  :orderPage="OrderPage"
+                                  :idQuestion="idQuestion"
+                                  @addQuestion="questions.push($event)"
+                                  @updateQuestion="questions[indexQuestion]=$event"
+                                  @RateChoiceClose="visableRateChoice=false"
+                    ></RateChoice>
                 </div>
             </div>
         </div>
@@ -117,6 +134,7 @@
 <script>
     import IconPlus from "../../components/IconPlus";
     import SingleChoice from "../../components/Question/SingleChoice";
+    import RateChoice from "../../components/Question/RateChoice";
     import { mapGetters, mapActions } from 'vuex'
     import {deleteQuestion} from "../../api/question";
     import {getListQuestions} from "../../api/question"
@@ -125,11 +143,13 @@
         components: {
             IconPlus,
             SingleChoice,
+            RateChoice,
         },
         data() {
             return {
                 dialogVisible: false,
                 visableSingleChoice: false,
+                visableRateChoice: false,
                 pageNumber: null,
                 questions: [],
                 groupButtonVisible: null,

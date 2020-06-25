@@ -24,8 +24,27 @@
                 <div class="col-sm-5">
                     <i>Question {{i+1}}</i> :<span style="color:#31040d">{{q.question}}</span>
                 </div>
-                <div class="col-sm-5 offset-sm-1">
+                <div class="col-sm-5 offset-sm-1" v-if="q.type==1">
                     <apexchart type="donut"  width="350" :options="q.arrChoice" :series="q.arrCnt"></apexchart>
+                </div>
+                <div class="col-sm-5 offset-sm-1" v-if="q.type==2">
+                    <el-rate
+                            v-model="value"
+                            disabled
+                            show-score
+                            text-color="#ff9900"
+                            score-template="{value} points">
+                    </el-rate>
+                    <div v-for="i in 5" style="display:flex;">
+                        <el-rate
+                               :value="6-i"
+                                disabled
+                                text-color="#ff9900"
+                                >
+                        </el-rate>
+                        <span>{{q.listChoice[5-i].cnt}}</span>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -46,6 +65,7 @@
         data() {
             return {
                 list:[],
+                value:null,
                 // series: [44, 55, 13, 43, 22],
                 // chartOptions: {
                 //     // chart: {
@@ -78,6 +98,17 @@
                 .then(res => {
                     this.list = res.data.listQuestion
                     console.log(this.list)
+                    var questionRate = this.list.filter(value => {
+                        return value.type == 2
+                    })
+                    console.log(questionRate[0])
+                    var sum = 0;
+                    var cnt = 0;
+                    for(let i = 0; i< questionRate[0].listChoice.length; i++) {
+                        sum += (questionRate[0].listChoice[i].cnt * parseInt(questionRate[0].listChoice[i].content))
+                            cnt += questionRate[0].listChoice[i].cnt
+                    }
+                    this.value = sum/cnt;
                 })
         },
         methods: {
