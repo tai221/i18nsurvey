@@ -53,31 +53,12 @@
 
         <el-dialog title="CREATE" :visible.sync="dialogFormVisible">
             <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-<!--                <el-form-item :label="$t('table.type')" prop="type">-->
-<!--                    <el-select v-model="temp.type" class="filter-item" placeholder="Please select">-->
-<!--                        <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key"/>-->
-<!--                    </el-select>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item :label="$t('table.date')" prop="timestamp">-->
-<!--                    <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date"/>-->
-<!--                </el-form-item>-->
                 <el-form-item label="Code" prop="code">
                     <el-input v-model="temp.code"/>
                 </el-form-item>
                 <el-form-item label="Email" prop="email">
                     <el-input v-model="temp.email"/>
                 </el-form-item>
-<!--                <el-form-item :label="$t('table.status')">-->
-<!--                    <el-select v-model="temp.status" class="filter-item" placeholder="Please select">-->
-<!--                        <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item"/>-->
-<!--                    </el-select>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item :label="$t('table.importance')">-->
-<!--                    <el-rate v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max="3" style="margin-top:8px;"/>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item :label="$t('table.remark')">-->
-<!--                    <el-input :autosize="{ minRows: 2, maxRows: 4}" v-model="temp.remark" type="textarea" placeholder="Please input"/>-->
-<!--                </el-form-item>-->
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -85,15 +66,6 @@
             </div>
         </el-dialog>
 
-<!--        <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">-->
-<!--            <el-table :data="pvData" border fit highlight-current-row style="width: 100%">-->
-<!--                <el-table-column prop="key" label="Channel"/>-->
-<!--                <el-table-column prop="pv" label="Pv"/>-->
-<!--            </el-table>-->
-<!--            <span slot="footer" class="dialog-footer">-->
-<!--        <el-button type="primary" @click="dialogPvVisible = false">{{ $t('table.confirm') }}</el-button>-->
-<!--      </span>-->
-<!--        </el-dialog>-->
         </div>
     </div>
         <Footer></Footer>
@@ -103,24 +75,11 @@
 <script>
     import { create, fetchList } from '../../api/participant'
     import waves from '../../directive/waves' // Waves directive
-    import { parseTime } from '../../utils'
     import Pagination from '../../components/Pagination' // Secondary package based on el-pagination
     import Footer from "../../components/Footer";
     import {deleteParticipant, lockMail, unlockMail} from "../../api/participant";
     import {export_json_to_excel} from "../../vendor/Export2Excel";
 
-    // const calendarTypeOptions = [
-    //     { key: 'CN', display_name: 'China' },
-    //     { key: 'US', display_name: 'USA' },
-    //     { key: 'JP', display_name: 'Japan' },
-    //     { key: 'EU', display_name: 'Eurozone' }
-    // ]
-
-    // arr to obj ,such as { CN : "China", US : "USA" }
-    // const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-    //     acc[cur.key] = cur.display_name
-    //     return acc
-    // }, {})
 
     export default {
         name: 'ListParticipant',
@@ -129,19 +88,6 @@
             Footer,
         },
         directives: { waves },
-        // filters: {
-        //     statusFilter(status) {
-        //         const statusMap = {
-        //             published: 'success',
-        //             draft: 'info',
-        //             deleted: 'danger'
-        //         }
-        //         return statusMap[status]
-        //     },
-        //     typeFilter(type) {
-        //         return calendarTypeKeyValue[type]
-        //     }
-        // },
         watch: {
 
         },
@@ -154,31 +100,18 @@
                 listLoading: false,
                 listQuery: {
                     page: 1,
-                    limit: 20,
+                    limit: 10,
                     email: undefined,
                     code: undefined,
                 },
-                // importanceOptions: [1, 2, 3],
-                // calendarTypeOptions,
-                // sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-                // statusOptions: ['published', 'draft', 'deleted'],
-                // showReviewer: false,
                 temp: {
                     code: '',
-                    // importance: 1,
-                    // remark: '',
                     updated_at: new Date(),
                     email: '',
                     active: true,
-                    // type: '',
-                    // status: 'published'
                 },
                 dialogFormVisible: false,
-                // dialogPvVisible: false,
-                // pvData: [],
                 rules: {
-                    // type: [{ required: true, message: 'type is required', trigger: 'change' }],
-                    // timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
                     code: [{ required: true, message: 'code is required', trigger: 'blur' }],
                     email: [{ required: true, message: 'email is required', trigger: 'blur' }]
                 },
@@ -197,14 +130,12 @@
                     this.listTotal = response.data.items
                     this.total = response.data.total
                     console.log(this.list)
-                    // Just to simulate the time of the request
                     setTimeout(() => {
                         this.listLoading = false
-                    }, 1.5 * 1000)
+                    }, 1 * 1000)
                 })
             },
             handleFilter() {
-                // this.listQuery.page = 1
                 this.list = this.listTotal
                 if(this.listQuery.email) {
                     this.list = this.list.filter(email => email.email.toLowerCase().includes(this.listQuery.email.toLowerCase()))
@@ -212,59 +143,28 @@
                 if(this.listQuery.code) {
                     this.list = this.list.filter(email => email.code.toLowerCase().includes(this.listQuery.code.toLowerCase()))
                 }
-                // this.getList()
             },
             resetList(){
                 this.list = this.listTotal
             },
-            // handleModifyStatus(row, status) {
-            //     this.$message({
-            //         message: '操作成功',
-            //         type: 'success'
-            //     })
-            //     row.status = status
-            // },
-            // sortChange(data) {
-            //     const { prop, order } = data
-            //     if (prop === 'id') {
-            //         this.sortByID(order)
-            //     }
-            // },
-            // sortByID(order) {
-            //     if (order === 'ascending') {
-            //         this.listQuery.sort = '+id'
-            //     } else {
-            //         this.listQuery.sort = '-id'
-            //     }
-            //     this.handleFilter()
-            // },
             resetTemp() {
                 this.temp = {
                     code: '',
-                    // importance: 1,
-                    // remark: '',
                     updated_at: new Date(),
                     email: '',
                     active: true,
-                    // status: 'published',
-                    // type: ''
                 }
             },
             handleCreate() {
                 this.resetTemp()
-                // this.dialogStatus = 'create'
                 this.dialogFormVisible = true
                 this.$nextTick(() => {
                     this.$refs['dataForm'].clearValidate()
                 })
             },
             createData() {
-                // console.log(this.$refs['dataForm'])
                 this.$refs['dataForm'].validate((valid) => {
                     if (valid) {
-                        // console.log(this.temp)
-                        // this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-                        // this.temp.author = 'vue-element-admin'
                         create(this.temp).then(() => {
                             this.list.unshift(this.temp)
                             this.dialogFormVisible = false
@@ -278,39 +178,6 @@
                     }
                 })
             },
-            // handleUpdate(row) {
-            //     this.temp = Object.assign({}, row) // copy obj
-            //     this.temp.timestamp = new Date(this.temp.timestamp)
-            //     // this.dialogStatus = 'update'
-            //     this.dialogFormVisible = true
-            //     this.$nextTick(() => {
-            //         this.$refs['dataForm'].clearValidate()
-            //     })
-            // },
-            // updateData() {
-            //     this.$refs['dataForm'].validate((valid) => {
-            //         if (valid) {
-            //             const tempData = Object.assign({}, this.temp)
-            //             tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-            //             updateArticle(tempData).then(() => {
-            //                 for (const v of this.list) {
-            //                     if (v.id === this.temp.id) {
-            //                         const index = this.list.indexOf(v)
-            //                         this.list.splice(index, 1, this.temp)
-            //                         break
-            //                     }
-            //                 }
-            //                 this.dialogFormVisible = false
-            //                 this.$notify({
-            //                     title: '成功',
-            //                     message: '更新成功',
-            //                     type: 'success',
-            //                     duration: 2000
-            //                 })
-            //             })
-            //         }
-            //     })
-            // },
             handleDelete(row, id) {
                 const data = {idEmail: id}
                 deleteParticipant(data)
@@ -328,12 +195,6 @@
                         console.log(err)
                     })
             },
-            // handleFetchPv(pv) {
-            //     fetchPv(pv).then(response => {
-            //         this.pvData = response.data.pvData
-            //         // this.dialogPvVisible = true
-            //     })
-            // },
             handleDownload() {
                 this.downloadLoading = true
                     const tHeader = ['code', 'email', 'active', 'modified at']

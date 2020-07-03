@@ -6,7 +6,7 @@
                     <router-link :to="{name: 'WelcomePage'}">
                         <li>Questions</li>
                     </router-link>
-                    <li class="active">Share</li>
+                    <li class="active">Publish</li>
                     <router-link :to="{name: 'ResponseSurvey'}">
                         <li>Response</li>
                     </router-link>
@@ -23,6 +23,7 @@
                     <span class="demonstration">Start date:</span>
                     <el-date-picker
                             v-model="start_date"
+                            v-on:change="setStartDate"
                             type="date"
                             placeholder="Pick start date">
                     </el-date-picker>
@@ -31,6 +32,7 @@
                     <span class="demonstration">End date:</span>
                     <el-date-picker
                             v-model="expire"
+                            v-on:change="setEndDate"
                             type="date"
                             placeholder="Pick expire date">
                     </el-date-picker>
@@ -111,7 +113,7 @@
 
 <script>
     import {fetchList} from "../../api/participant";
-    import {shareSurvey} from "../../api/survey";
+    import {shareSurvey, setDate, fetchSurvey} from "../../api/survey";
     import { mapGetters, mapActions } from 'vuex'
 
     export default {
@@ -133,7 +135,14 @@
             ])
         },
         created() {
-            this.linkShare = `http://127.0.0.1:8000/survey/${this.surveyId}`
+            this.linkShare = `http://127.0.0.1:8000/survey/public/${this.surveyId}`
+            let id = this.surveyId
+            fetchSurvey(id).then(response => {
+                let {start_date, expire} = response.data.survey
+                console.log(start_date)
+                this.start_date = start_date
+                this.expire = expire
+            })
             this.getListEmail()
         },
         methods: {
@@ -191,16 +200,56 @@
                     })
             },
             coppyLink() {
-                this.$notify({
-                    title: 'Notification',
-                    message: 'Link have been coppy',
+                this.$message({
+                    message: 'Link has been copied',
                     type: 'success',
-                    duration: 2000
-                })
+                    duration: 2000,
+                });
             },
             preview() {
-                var win = window.open(`http://127.0.0.1:8000/survey/i18nsurvey/${this.surveyId}`, '_blank');
+                var win = window.open(`http://127.0.0.1:8000/preview/survey/${this.surveyId}`, '_blank');
                 win.focus();
+            },
+            setStartDate() {
+                if(this.start_date > new Date(this.expire) && this.expire !== null) {
+                    console.log('expire')
+                    this.$notify({
+                        title: 'Notification',
+                        message: 'Start date can not greater than End date',
+                        type: 'warning',
+                        duration: 2000
+                    })
+                    return
+                }
+                const data = {start_date: this.start_date, surveyId: this.surveyId}
+                setDate(data)
+                    .then(res => {
+                        this.$message({
+                            message: 'Saved',
+                            type: 'success',
+                            duration: 1000,
+                        });
+                    })
+            },
+            setEndDate() {
+                if(new Date(this.start_date) > this.expire && this.start_date !== null) {
+                    this.$notify({
+                        title: 'Notification',
+                        message: 'Start date can not greater than End date',
+                        type: 'warning',
+                        duration: 2000
+                    })
+                    return
+                }
+                const data = {expire: this.expire, surveyId: this.surveyId}
+                setDate(data)
+                    .then(res => {
+                        this.$message({
+                            message: 'Saved',
+                            type: 'success',
+                            duration: 1000,
+                        });
+                    })
             }
         }
     }

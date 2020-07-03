@@ -22,12 +22,12 @@
                         fit
                         style="width: 95%;"
                 >
-                    <el-table-column label="NAME" prop="name"  align="center" width="65">
+                    <el-table-column label="NAME" prop="name"  align="center" width="80">
                         <template slot-scope="scope">
                             <span>{{ scope.row.name }}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="EMAIL" min-width="150px">
+                    <el-table-column label="EMAIL" min-width="140px">
                         <template slot-scope="scope">
                             <span>{{ scope.row.email }}</span>
                         </template>
@@ -35,7 +35,6 @@
                     <el-table-column label="ROLE" min-width="60px">
                         <template slot-scope="{row}">
                             <template v-if="row.edit">
-<!--                                <el-input v-model="row.role" class="edit-input" size="small" />-->
                                 <el-select v-model="row.role" class="filter-item" placeholder="Please select">
                                     <el-option v-for="(item,index) in roleOptions" v-bind:class="[Boolean(index) ? user: admin]" :key="index" :label="item" :value="index+1"/>
                                 </el-select>
@@ -43,17 +42,9 @@
                                     cancel
                                 </el-button>
                             </template>
-<!--                            <span v-else v-bind:class="[(row.role ===1) ? user: admin]">{{ row.role | roleFilter }}</span>-->
                             <span v-else-if="row.role == 1" style="color: #00BF6F">{{ row.role | roleFilter}}</span>
                             <span v-else-if="row.role == 2" style="color: red">{{ row.role | roleFilter}}</span>
                         </template>
-<!--                        <template slot-scope="scope">-->
-<!--                            <el-select v-model="scope.row.role" class="filter-item" default-first-option filterable>-->
-<!--                                <el-option v-for="(item,index) in roleOptions" :key="index" :label="item" :value="index+1"/>-->
-<!--                            </el-select>-->
-<!--                            <span v-if="scope.row.role == 1" style="color: #00BF6F">{{ scope.row.role | roleFilter}}</span>-->
-<!--                            <span v-if="scope.row.role == 2" style="color: red">{{ scope.row.role | roleFilter}}</span>-->
-<!--                        </template>-->
                     </el-table-column>
                     <el-table-column label="CREATED AT" width="160px" align="center">
                         <template slot-scope="scope">
@@ -113,9 +104,8 @@
 </template>
 
 <script>
-    import { createAccount, fetchListAccount, deleteAccount, lockAccount, unlockAccount} from '../../api/account'
+    import { createAccount, fetchListAccount, changeRole, lockAccount, unlockAccount} from '../../api/account'
     import waves from '../../directive/waves' // Waves directive
-    import { parseTime } from '../../utils'
     import Pagination from '../../components/Pagination' // Secondary package based on el-pagination
     import Footer from "../../components/Footer";
     import {export_json_to_excel} from "../../vendor/Export2Excel";
@@ -153,7 +143,7 @@
                 listLoading: false,
                 listQuery: {
                     page: 1,
-                    limit: 20,
+                    limit: 10,
                     name: undefined,
                     email: undefined,
                 },
@@ -181,7 +171,6 @@
                 this.listLoading = true
                 fetchListAccount(this.listQuery).then(response => {
                     this.list = response.data.items
-                    console.log(response.data)
                     this.listTotal = response.data.items
                     this.total = response.data.total
                     this.list = this.list.map(v => {
@@ -189,10 +178,9 @@
                         v.originalRole = v.role;
                         return v;
                     });
-                    console.log(this.list)
                     setTimeout(() => {
                         this.listLoading = false
-                    }, 1.5 * 1000)
+                    }, 1 * 1000)
                 })
             },
             cancelEdit(row) {
@@ -206,13 +194,16 @@
             confirmEdit(row) {
                 row.edit = false;
                 row.originalRole = row.role;
-                this.$message({
-                    message: 'The Role has been edited',
-                    type: 'success',
-                });
+                const data = {userId: row.id, role: row.role}
+                changeRole(data)
+                    .then(res => {
+                        this.$message({
+                            message: 'The Role has been edited',
+                            type: 'success',
+                        });
+                    })
             },
             handleFilter() {
-                // this.listQuery.page = 1
                 this.list = this.listTotal
                 if(this.listQuery.email) {
                     this.list = this.list.filter(account => account.email.toLowerCase().includes(this.listQuery.email.toLowerCase()))
@@ -242,6 +233,30 @@
             createData() {
                 this.$refs['dataForm'].validate((valid) => {
                     if (valid) {
+                        let checkName = this.list.filter(account => {
+                            return account.name == this.temp.name
+                        })
+                        let checkEmail = this.list.filter(account => {
+                            return account.email == this.temp.email
+                        })
+                        if(checkName.length > 0) {
+                            this.$notify({
+                                title: 'Notification',
+                                message: 'This username already exists!',
+                                type: 'warning',
+                                duration: 2000
+                            })
+                            return
+                        }
+                        if(checkEmail.length > 0) {
+                            this.$notify({
+                                title: 'Notification',
+                                message: 'This email already exists!',
+                                type: 'warning',
+                                duration: 2000
+                            })
+                            return
+                        }
                         createAccount(this.temp).then(() => {
                             this.list.unshift(this.temp)
                             this.dialogFormVisible = false

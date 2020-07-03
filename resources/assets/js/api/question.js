@@ -45,3 +45,10 @@ export function sendMail(data) {
         data
     })
 }
+
+// export function uploadImage() {
+//     return request({
+//         url: '/api/image/upload',
+//         method: 'post',
+//     })
+// }

@@ -1,95 +1,100 @@
 <template>
   <div :class="{'hidden':hidden}" class="pagination-container">
-    <ElPagination
-      :current-page.sync="currentPage"
-      :page-size.sync="pageSize"
-      :layout="layout"
-      :total="total"
-      v-bind="$attrs"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+    <el-pagination
+            :background="background"
+            :current-page.sync="currentPage"
+            :page-size.sync="pageSize"
+            :layout="layout"
+            :page-sizes="pageSizes"
+            :total="total"
+            v-bind="$attrs"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
     />
   </div>
 </template>
 
 <script>
-import { scrollTo } from '../../utils/scrollTo'
-
-export default {
-  name: 'Pagination',
-  props: {
-    total: {
-      required: true,
-      type: Number,
-    },
-    page: {
-      type: Number,
-      default: 1,
-    },
-    limit: {
-      type: Number,
-      default: 20,
-    },
-    pageSizes: {
-      type: Array,
-      default() {
-        return [10, 15, 20, 30, 50];
+  import { scrollTo } from '../../utils/scrollTo';
+  export default {
+    name: 'Pagination',
+    props: {
+      total: {
+        required: true,
+        type: Number,
+      },
+      page: {
+        type: Number,
+        default: 1,
+      },
+      limit: {
+        type: Number,
+        default: 20,
+      },
+      pageSizes: {
+        type: Array,
+        default() {
+          return [10, 30, 50, 1000];
+        },
+      },
+      layout: {
+        type: String,
+        default: 'total, sizes, prev, pager, next, jumper',
+      },
+      background: {
+        type: Boolean,
+        default: true,
+      },
+      autoScroll: {
+        type: Boolean,
+        default: true,
+      },
+      hidden: {
+        type: Boolean,
+        default: false,
       },
     },
-    layout: {
-      type: String,
-      default: 'total, sizes, prev, pager, next, jumper'
+    computed: {
+      currentPage: {
+        get() {
+          return this.page;
+        },
+        set(val) {
+          this.$emit('update:page', val);
+        },
+      },
+      pageSize: {
+        get() {
+          return this.limit;
+        },
+        set(val) {
+          this.$emit('update:limit', val);
+        },
+      },
     },
-    background: {
-      type: Boolean,
-      default: true
+    methods: {
+      handleSizeChange(val) {
+        this.$emit('pagination', { page: this.currentPage, limit: val });
+        if (this.autoScroll) {
+          scrollTo(0, 800);
+        }
+      },
+      handleCurrentChange(val) {
+        this.$emit('pagination', { page: val, limit: this.pageSize });
+        if (this.autoScroll) {
+          scrollTo(0, 800);
+        }
+      },
     },
-    autoScroll: {
-      type: Boolean,
-      default: false
-    },
-    hidden: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      total: 0,
-      pageSize: 10,
-      currentPage: 1
-    }
-  },
-  methods: {
-    handleSizeChange(val) {
-      this.$emit('pagination', { page: this.currentPage, limit: val })
-      if (this.autoScroll) {
-        scrollTo(0, 800)
-      }
-    },
-    handleCurrentChange(val) {
-      this.$emit('pagination', { page: val, limit: this.pageSize })
-      if (this.autoScroll) {
-        scrollTo(0, 800)
-      }
-    },
-    setPaginationData(data) {
-      if (data) {
-        this.currentPage = data.current_page
-        this.pageSize = data.page_size
-        this.total = data.total
-      }
-    }
-  }
-}
+  };
 </script>
 
 <style scoped>
-.pagination-container {
-  background: #fff;
-  padding: 32px 16px;
-}
-.pagination-container.hidden {
-  display: none;
-}
+  .pagination-container {
+    background: #fff;
+    padding: 32px 16px;
+  }
+  .pagination-container.hidden {
+    display: none;
+  }
 </style>

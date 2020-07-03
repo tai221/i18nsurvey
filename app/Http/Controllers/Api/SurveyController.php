@@ -12,6 +12,7 @@ use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -151,6 +152,11 @@ class SurveyController extends Controller
                 if($response['answer'] ==''){
                     $response['setup'] = 1;
                 }
+                if($typeQuestion == 3)    {
+                    $content = Choice::select('content')->Where('question_id',$response['question_id'])->Where('key',$response['answer'])->first();
+                    $response['answer'] = explode('*',$content->content)[0];
+                    $response['setup'] = 1;
+                }
             }
             $respondent['listResponse'] = $listResponse;
         }
@@ -223,6 +229,18 @@ class SurveyController extends Controller
                     array_push($question['arrCnt'], $choice['cnt']);
                 }
             }
+            if($question['type'] == 3) {
+                $question['arrChoice']['xaxis']['categories'] = array();
+                $question['arrChoice']['plotOptions']['bar']['horizontal'] = true;
+                $question['arrCnt'] = array();
+                $question['arrCnt'][0]['data'] = array();
+                foreach ($question['listChoice'] as &$choice) {
+                    $key = $choice['key'];
+                    $choice['cnt'] = Response::Where('question_id', $question['id'])->where('answer', strval($key))->get()->count();
+                    array_push($question['arrChoice']['xaxis']['categories'], explode('*',$choice['content'])[0]);
+                    array_push($question['arrCnt'][0]['data'], $choice['cnt']);
+                }
+            }
         }
         Log::info($listQuestion);
         return response()->json([
@@ -230,5 +248,21 @@ class SurveyController extends Controller
             'listQuestion' => $listQuestion,
         ], 200);
 
+    }
+
+    public function setDate(Request $request)
+    {
+        if(isset($request['start_date'])) {
+            $start = $request['start_date'];
+            $start= Carbon::parse($start)->addDays(1)->toDateTimeString();
+            $surveyId = $request['surveyId'];
+            Survey::where('id', $surveyId)->update(['start_date'=> $start]);
+        }
+        if(isset($request['expire'])) {
+            $expire = $request['expire'];
+            $expire = Carbon::parse($expire)->addDays(1)->toDateTimeString();
+            $surveyId = $request['surveyId'];
+            Survey::where('id', $surveyId)->update(['expire'=> $expire]);
+        }
     }
 }

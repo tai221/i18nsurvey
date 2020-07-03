@@ -3,60 +3,42 @@
         <div class="align">
             <div class="block">
                 <div class="block-in block-in-center">
-<!--                    <div class="logo logoContainer">-->
-<!--                        <div class="imagePicker" >-->
-<!--                            <div class="uploadLoader">-->
-<!--                            </div>-->
-<!--                            <noscript></noscript>-->
-<!--                            <label for="imagepicker-3" class="placeholder" style="color:#000;" >-->
-<!--                                <i class="icon-image" ></i>-->
-<!--                                <span>Add logo</span>-->
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="h1-container" style="color:#000;">
-                        <textarea v-model="survey.title" maxlength="400" rows="1" class="h1" placeholder="Survey Title..." style="height: 33px;">
+                        <textarea v-on:keyup="keyup" v-on:keydown="keydown" v-model="survey.title" maxlength="400" rows="1" class="h1" placeholder="Survey Title..." style="height: 33px;">
                             </textarea>
                     </div>
                     <div>
-<!--                        <div class="editorOutContainer">-->
-<!--                            <div class="editor">-->
-<!--                                <div class="editorInContainer">-->
-<!--                                    <div class="editorIn" style="color:#000;text-align:center;">-->
-                                        <div class="DraftEditor-root DraftEditor-alignCenter">
-                                            <div class="DraftEditor-editorContainer">
-                                                <div aria-describedby="placeholder-55jr" class="notranslate public-DraftEditor-content" contenteditable="true" role="textbox" spellcheck="false" style="outline:none;user-select:text;-webkit-user-select:text;white-space:pre-wrap;word-wrap:break-word;">
-                                                    <div data-contents="true">
-                                                        <div class="" data-block="true" data-editor="55jr" data-offset-key="carcn-0-0">
-                                                            <div data-offset-key="carcn-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                                                                <span data-offset-key="carcn-0-0">
-                                                                    <el-input v-model="survey.dear"
-                                                                              v-bind:class="{'border':border}"
-                                                                              data-text="true">
-                                                                    </el-input>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="" data-block="true" data-editor="55jr" data-offset-key="34t1t-0-0">
-                                                            <div data-offset-key="34t1t-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                                                                <span data-offset-key="34t1t-0-0" >
-<!--                                                                    <span data-text="true">{{survey.greeting}}</span>-->
-                                                                     <el-input type="textarea"
-                                                                               :rows="2"
-                                                                               v-model="survey.greeting"
-                                                                               data-text="true">
-                                                                    </el-input>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                        <div class="DraftEditor-root DraftEditor-alignCenter">
+                            <div class="DraftEditor-editorContainer">
+                                <div aria-describedby="placeholder-55jr" class="notranslate public-DraftEditor-content" contenteditable="true" role="textbox" spellcheck="false" style="outline:none;user-select:text;-webkit-user-select:text;white-space:pre-wrap;word-wrap:break-word;">
+                                    <div data-contents="true">
+                                        <div class="" data-block="true" data-editor="55jr" data-offset-key="carcn-0-0">
+                                            <div data-offset-key="carcn-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                                                <span data-offset-key="carcn-0-0">
+                                                    <el-input v-model="survey.dear"
+                                                              v-on:change="keyup"
+                                                              v-bind:class="{'border':border}"
+                                                              data-text="true">
+                                                    </el-input>
+                                                </span>
                                             </div>
                                         </div>
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                                        <div class="" data-block="true" data-editor="55jr" data-offset-key="34t1t-0-0">
+                                            <div data-offset-key="34t1t-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                                                <span data-offset-key="34t1t-0-0" >
+                                                     <el-input type="textarea"
+                                                               :rows="2"
+                                                               v-model="survey.greeting"
+                                                               v-on:change="keyup"
+                                                               data-text="true">
+                                                    </el-input>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <el-button class="button-start" type="primary" plain>Start Now</el-button>
@@ -85,6 +67,8 @@
                     ref_url: undefined,
                 },
                 border: true,
+                typingTimer: '',
+                doneTypingInterval: 500,
             }
         },
         computed: {
@@ -92,15 +76,15 @@
                 'surveyId',
             ])
         },
-        watch: {
-            survey: {
-                handler(){
-                    this.createOrUpdate()
-                },
-                deep: true
-            }
-
-        },
+        // watch: {
+        //     survey: {
+        //         handler(){
+        //             this.createOrUpdate()
+        //         },
+        //         deep: true
+        //     }
+        //
+        // },
         created() {
             var surveyId = this.surveyId
             if(this.$route.params.surveyId > 0){
@@ -126,8 +110,23 @@
                 create(this.survey).then(response => {
                     let survey_id = response.data.survey_id
                     this.$store.dispatch('setSuveyId', survey_id)
+                    this.$message({
+                        message: 'Saved',
+                        type: 'success',
+                        duration: 1000,
+                    });
                 })
             },
+            keyup() {
+                clearTimeout(this.typingTimer);
+                this.typingTimer = setTimeout(this.doneTyping, this.doneTypingInterval);
+            },
+            keydown() {
+                clearTimeout(this.typingTimer);
+            },
+            doneTyping () {
+                this.createOrUpdate()
+            }
         }
     }
 </script>

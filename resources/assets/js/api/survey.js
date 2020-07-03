@@ -69,6 +69,14 @@ export function analytic(data) {
     })
 }
 
+export function setDate(data) {
+    return request({
+        url: '/api/survey/setDate',
+        method: 'post',
+        data
+    })
+}
+
 export function getAllResponse(id) {
     return request({
         url: `/api/survey/getAllResponse/${id}`,

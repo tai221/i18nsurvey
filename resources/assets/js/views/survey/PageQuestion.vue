@@ -26,6 +26,7 @@
                             <div class="title-question">
                                 {{index+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
                             </div>
+                            <div style="text-align: left;"><i>Select one answer</i></div>
                             <div class="title-answer" v-for="(answer, index) in question.answers" :class="answer.key == 100? 'other-answer':'' ">
                                 {{answer.content}}
                             </div>
@@ -38,6 +39,15 @@
                                     :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
                                     show-text>
                             </el-rate>
+                        </div>
+                        <div class="box-question" v-if="question.type == 3" @click="changeGroupButton(index)">
+                            <div class="title-question">
+                                {{index+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
+                            </div>
+                            <div style="text-align: left;"><i>Select one image</i></div>
+                            <div class="image-answer" v-for="(answer, index) in question.answers" >
+                                <img v-bind:src="answer.content.split('*').pop()" alt="" >
+                            </div>
                         </div>
                         <div class="appAddQuestion" @click="dialogVisible=true">
 <!--                            <div class="appAddBarPlacehoder" style="color:#000;">-->
@@ -65,7 +75,7 @@
                                                 <i></i>
                                                 <a>Text answer</a>
                                             </li>
-                                            <li class="inElement element-sc-img">
+                                            <li class="inElement element-sc-img" @click="dialogVisible=false; visableImageChoice=true">
                                                 <i></i>
                                                 <a>Image choice</a>
                                             </li>
@@ -117,6 +127,14 @@
                                   @updateQuestion="questions[indexQuestion]=$event"
                                   @SingleChoiceClose="visableSingleChoice=false"
                     ></SingleChoice>
+                    <ImageChoice :visableImageChoice.sync="visableImageChoice"
+                                  :pageNumber="pageNumber"
+                                  :orderPage="OrderPage"
+                                  :idQuestion="idQuestion"
+                                  @addQuestion="questions.push($event)"
+                                  @updateQuestion="questions[indexQuestion]=$event"
+                                  @ImageChoiceClose="visableImageChoice=false"
+                    ></ImageChoice>
                     <RateChoice :visableRateChoice.sync="visableRateChoice"
                                   :pageNumber="pageNumber"
                                   :orderPage="OrderPage"
@@ -135,6 +153,7 @@
     import IconPlus from "../../components/IconPlus";
     import SingleChoice from "../../components/Question/SingleChoice";
     import RateChoice from "../../components/Question/RateChoice";
+    import ImageChoice from "../../components/Question/ImageChoice";
     import { mapGetters, mapActions } from 'vuex'
     import {deleteQuestion} from "../../api/question";
     import {getListQuestions} from "../../api/question"
@@ -144,12 +163,14 @@
             IconPlus,
             SingleChoice,
             RateChoice,
+            ImageChoice,
         },
         data() {
             return {
                 dialogVisible: false,
                 visableSingleChoice: false,
                 visableRateChoice: false,
+                visableImageChoice: false,
                 pageNumber: null,
                 questions: [],
                 groupButtonVisible: null,
@@ -192,6 +213,7 @@
             getListQuestions(data)
                 .then(resp => {
                     this.questions = resp.data.questions
+                    console.log(this.questions)
                 })
                 .catch(resp => {
 
@@ -271,6 +293,16 @@
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
+    }
+    .image-answer {
+        height: 150px;
+        width: 150px;
+        display: inline-block;
+    }
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        /*display: block;*/
     }
     .title-answer {
         height: 40px;
@@ -368,7 +400,7 @@
     }
 
     i {
-        font-style: normal;
+        /*font-style: normal;*/
     }
     .question-bubble .question-bubble-in .elements-list ul li a, .question-bubble .question-bubble-in .elements-list ul li i {
         display: block;

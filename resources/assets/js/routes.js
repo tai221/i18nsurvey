@@ -9,7 +9,6 @@ import ManageSurvey from "./views/survey/ManageSurvey";
 import WelcomePage from "./views/survey/WelcomePage";
 import PageQuestion from "./views/survey/PageQuestion";
 import ListSurvey from "./views/survey/ListSurvey";
-import PageThanks from "./views/survey/PageThanks";
 import EndPage from "./views/survey/EndPage";
 import ListAccount from "./views/admin/ListAccount";
 import Admin from "./views/admin/Admin";
@@ -17,6 +16,7 @@ import ShareSurvey from "./views/survey/ShareSurvey";
 import ViewSurvey from "./views/survey/ViewSurvey";
 import ResponseSurvey from "./views/survey/ResponseSurvey";
 import AnalyticSurvey from "./views/survey/AnalyticSurvey";
+import PreviewSurvey from "./views/survey/PreviewSurvey";
 Vue.use(Router)
 
 export const routes = [
@@ -46,6 +46,11 @@ export const routes = [
         path:'/survey/:emailId/:surveyId',
         component: ViewSurvey,
         name: 'ViewSurvey'
+    },
+    {
+        path:'/preview/survey/:surveyId',
+        component: PreviewSurvey,
+        name: 'PreviewSurvey'
     },
     {
         path: '/mypage',

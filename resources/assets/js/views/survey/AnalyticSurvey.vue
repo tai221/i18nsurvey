@@ -8,7 +8,7 @@
                         <li>Questions</li>
                     </router-link>
                     <router-link :to="{name: 'ShareSurvey'}">
-                        <li>Share</li>
+                        <li>Publish</li>
                     </router-link>
                     <router-link :to="{name:'ResponseSurvey'}">
                         <li>Response</li>
@@ -45,6 +45,9 @@
                         <span>{{q.listChoice[5-i].cnt}}</span>
                     </div>
 
+                </div>
+                <div class="col-sm-5 offset-sm-1" v-if="q.type==3">
+                    <apexchart type="bar"  width="350" :options="q.arrChoice" :series="q.arrCnt"></apexchart>
                 </div>
             </div>
         </div>
@@ -101,7 +104,6 @@
                     var questionRate = this.list.filter(value => {
                         return value.type == 2
                     })
-                    console.log(questionRate[0])
                     var sum = 0;
                     var cnt = 0;
                     for(let i = 0; i< questionRate[0].listChoice.length; i++) {
@@ -113,7 +115,7 @@
         },
         methods: {
             preview() {
-                var win = window.open(`http://127.0.0.1:8000/survey/i18nsurvey/${this.surveyId}`, '_blank');
+                var win = window.open(`http://127.0.0.1:8000/preview/survey/${this.surveyId}`, '_blank');
                 win.focus();
             },
         }

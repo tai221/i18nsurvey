@@ -55,12 +55,17 @@ class ListParticipant extends Controller
                     }
                 }
             }
-
+            $count = $list->count();
+            $list = $list->toArray();
         } else {
+            $page = $request['page'];
+            $limit = $request['limit'];
+            $start = $limit*$page - $limit;
             $list = Email::where('user_id', $user_id)->get();
+            $count = $list->count();
+            $list = $list->toArray();
+            $list = array_slice($list,$start, $limit);
         }
-        $count = $list->count();
-        $list = $list->toArray();
         return response()->json(['items' => $list, 'total' => $count]);
     }
 

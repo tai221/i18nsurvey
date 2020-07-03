@@ -12,20 +12,30 @@
                     style="width: 90%">
                 <el-table-column
                         label="Title"
-                        width="600">
+                        width="380">
                     <template slot-scope="scope">
                             <a style="font-size: 16px; cursor:pointer;"
-                              @click="handleEdit(scope.$index, scope.row)">{{scope.row.title}}</a>
+                              @click="handleEdit(scope.$index, scope.row)"><span v-bind:class="{active: scope.row.active}">{{scope.row.title}}</span></a>
                     </template>
+                </el-table-column>
+                <el-table-column
+                        label="Created at"
+                        prop="created_at"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        label="Updated at"
+                        prop="updated_at"
+                        width="150">
                 </el-table-column>
                 <el-table-column>
                     <template slot-scope="scope">
                         <span class="custom-icon el-icon-edit-outline" title="Edit Survey"
                            @click="handleEdit(scope.$index, scope.row)"></span>
                         <span class="custom-icon el-icon-s-custom" title="Collect Response"
-                           @click="handleDelete(scope.$index, scope.row)"></span>
+                           @click="goToResponse(scope.$index, scope.row)"></span>
                         <span class="custom-icon el-icon-s-data" title="Analyze Results"
-                           @click="handleDelete(scope.$index, scope.row)"></span>
+                           @click="goToAnalytic(scope.$index, scope.row)"></span>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -59,7 +69,7 @@
 
 <script>
     import {getListSurvey, deleteSurvey, changeStateActive} from "../../api/survey";
-
+    import {mapActions} from 'vuex'
     export default {
         name: "ListSurvey",
         data(){
@@ -83,37 +93,53 @@
                     })
                     setTimeout(() => {
                         this.listLoading = false
-                    }, 1.5 * 1000)
+                    }, 1 * 1000)
                 })
                 .catch(err => {
                     console.log(err)
                 })
             setTimeout(() => {
                 this.listLoading = false
-            }, 1.5 * 1000)
+            }, 1 * 1000)
         },
         methods: {
             handleEdit(index, row) {
                 const surveyId = row.id
                 this.$router.push({ name: 'WelcomePage', params: { surveyId }})
             },
+            goToResponse(index, row) {
+                this.$store.dispatch('setSuveyId', row.id)
+                this.$router.push({ name: 'ResponseSurvey'})
+            },
+            goToAnalytic(index, row) {
+                this.$store.dispatch('setSuveyId', row.id)
+                this.$router.push({ name: 'AnalyticSurvey'})
+            },
             handleDelete(index, row) {
                 const surveyId = row.id
                 const data = {surveyId: surveyId}
-                deleteSurvey(data)
-                    .then(res => {
-                        this.$notify({
-                            title: 'Notification',
-                            message: 'Success',
-                            type: 'success',
-                            duration: 2000
+                this.$confirm('This will permanently delete the survey. Continue?', 'Warning', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    deleteSurvey(data)
+                        .then(res => {
+                            this.$notify({
+                                title: 'Notification',
+                                message: 'Delete survey success',
+                                type: 'success',
+                                duration: 2000
+                            })
+                            const index = this.listSurvey.indexOf(row)
+                            this.listSurvey.splice(index, 1)
                         })
-                        const index = this.listSurvey.indexOf(row)
-                        this.listSurvey.splice(index, 1)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: 'Delete canceled'
+                        });
+                });
             },
             changeStateActive(id, state) {
                 const data = {surveyId: id, active: state}
@@ -131,6 +157,9 @@
 </script>
 
 <style scoped>
+    .active {
+        color: #0ba70b;
+    }
     .custom-icon {
         font-size:22px;
         cursor:pointer;

@@ -5,7 +5,7 @@
             <ul class="menu">
                 <li class="active">Questions</li>
                 <router-link :to="{name: 'ShareSurvey'}">
-                    <li>Share</li>
+                    <li>Publish</li>
                 </router-link>
                 <router-link :to="{name:'ResponseSurvey'}">
                     <li>Response</li>
@@ -149,7 +149,7 @@
               this.$route.push({name: 'ShareSurvey'})
             },
             preview() {
-                var win = window.open(`http://127.0.0.1:8000/survey/i18nsurvey/${this.surveyId}`, '_blank');
+                var win = window.open(`http://127.0.0.1:8000/preview/survey/${this.surveyId}`, '_blank');
                 win.focus();
             }
         }

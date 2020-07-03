@@ -7,7 +7,7 @@
                         <li>Questions</li>
                     </router-link>
                     <router-link :to="{name: 'ShareSurvey'}">
-                        <li>Share</li>
+                        <li>Publish</li>
                     </router-link>
                     <li class="active">Response</li>
                     <router-link :to="{name:'AnalyticSurvey'}">
@@ -86,7 +86,7 @@
                                 <thead>
                                 <tr>
                                     <th >Respondent</th>
-                                    <th v-for="(q,i) in listQuestion" style="color: #ce8483" >{{q.question}}<span v-if="q.required==1" style="color: red">*</span></th>
+                                    <th v-for="(q,i) in listQuestion" style="color: #ce8483; " >{{q.question}}<span v-if="q.required==1" style="color: red">*</span></th>
                                     <th style="color:">Submited at</th>
                                 </tr>
                                 </thead>
@@ -156,7 +156,7 @@
                 this.$router.push({ name: 'ShareSurvey'})
             },
             preview() {
-                var win = window.open(`http://127.0.0.1:8000/survey/i18nsurvey/${this.surveyId}`, '_blank');
+                var win = window.open(`http://127.0.0.1:8000/preview/survey/${this.surveyId}`, '_blank');
                 win.focus();
             },
             handleDownload(){

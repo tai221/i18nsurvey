@@ -39,3 +39,11 @@ export function unlockAccount(data) {
         data
     })
 }
+
+export function changeRole(data) {
+    return request({
+        url: '/api/account/changeRole',
+        method: 'post',
+        data
+    })
+}

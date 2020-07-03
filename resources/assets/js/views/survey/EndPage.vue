@@ -17,6 +17,7 @@
                                                                      <el-input type="textarea"
                                                                                :rows="2"
                                                                                v-model="survey.thanks"
+                                                                               v-on:change="keyup"
                                                                                data-text="true">
                                                                     </el-input>
                                                                 </span>
@@ -27,6 +28,7 @@
                                             <div data-offset-key="carcn-0-0" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
                                                                 <span data-offset-key="carcn-0-0">
                                                                     <el-input v-model="survey.ref_url"
+                                                                              v-on:change="keyup"
                                                                               v-bind:class="{'border':border}"
                                                                               data-text="true">
                                                                     </el-input>
@@ -63,6 +65,8 @@
                     ref_url: undefined,
                 },
                 border: true,
+                typingTimer: '',
+                doneTypingInterval: 500,
             }
         },
         computed: {
@@ -70,15 +74,15 @@
                 'surveyId',
             ])
         },
-        watch: {
-            survey: {
-                handler(){
-                    this.createOrUpdate()
-                },
-                deep: true
-            }
-
-        },
+        // watch: {
+        //     survey: {
+        //         handler(){
+        //             this.createOrUpdate()
+        //         },
+        //         deep: true
+        //     }
+        //
+        // },
         created() {
             let id = this.surveyId
             fetchSurvey(id).then(response => {
@@ -104,8 +108,23 @@
                 create(this.survey).then(response => {
                     let survey_id = response.data.survey_id
                     this.$store.dispatch('setSuveyId', survey_id)
+                    this.$message({
+                        message: 'Saved',
+                        type: 'success',
+                        duration: 1000,
+                    });
                 })
             },
+            keyup() {
+                clearTimeout(this.typingTimer);
+                this.typingTimer = setTimeout(this.doneTyping, this.doneTypingInterval);
+            },
+            keydown() {
+                clearTimeout(this.typingTimer);
+            },
+            doneTyping () {
+                this.createOrUpdate()
+            }
         }
     }
 </script>

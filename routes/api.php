@@ -22,6 +22,7 @@ Route::group([ 'namespace' => 'Api\Auth'], function () {
     Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
     Route::middleware('auth:api')->post('/getUserInfo', 'AuthController@getUserInfo');
 });
+Route::post('image/upload', 'Api\QuestionController@uploadImage');
 Route::group([
     'middleware' => ['auth:api']
 ], function () {
@@ -35,6 +36,7 @@ Route::group([
     Route::post('account/delete', 'Api\AccountController@delete');
     Route::post('account/lock', 'Api\AccountController@lock');
     Route::post('account/unlock', 'Api\AccountController@unlock');
+    Route::post('account/changeRole', 'Api\AccountController@changeRole');
     Route::post('survey/create', 'Api\SurveyController@create');
     Route::get('survey/fetch/{id}', 'Api\SurveyController@fetch');
     Route::get('survey/countPage/{id}', 'Api\SurveyController@countPage');
@@ -44,10 +46,12 @@ Route::group([
     Route::post('survey/submit', 'Api\SurveyController@submit');
     Route::post('survey/shareSurvey', 'Api\SurveyController@shareSurvey');
     Route::post('survey/analytic', 'Api\SurveyController@analytic');
+    Route::post('survey/setDate', 'Api\SurveyController@setDate');
     Route::get('survey/getAllResponse/{surveyId}', 'Api\SurveyController@getAllResponse');
     Route::post('question/create', 'Api\QuestionController@create');
     Route::post('question/getListQuestions', 'Api\QuestionController@fetchListQuestions');
     Route::post('question/getAllQuestions', 'Api\QuestionController@fetchAllQuestions');
     Route::post('question/getQuestion', 'Api\QuestionController@fetchQuestion');
     Route::post('question/deleteQuestion', 'Api\QuestionController@deleteQuestion');
+
 });

@@ -1,6 +1,6 @@
 <template>
     <div class="custom-container">
-        <div id="carouselExampleIndicators" class="carousel slide" data-interval="false">
+        <div v-if="this.survey.start_date&&this.survey.expire" id="carouselExampleIndicators" class="carousel slide" data-interval="false">
 
             <div class="carousel-inner">
 
@@ -27,6 +27,7 @@
                             <div class="title-question">
                                 {{indexQuestion+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
                             </div>
+                            <span><i>Select one answer</i></span>
                             <div   v-for="(answer, index) in question.answers"
                                    :key="index"
                                    :class="[answer.key == 100? 'other-answer':'title-answer', { tick: arrPage[indexPage][indexQuestion].tick==answer.key}] "
@@ -45,6 +46,18 @@
                                     show-text>
                             </el-rate>
 
+                        </div>
+                        <div v-if="question.type == 3" class="box-question" >
+                            <div class="title-question">
+                                {{indexQuestion+1}}. {{question.question}}<span v-if="question.required" style="color: red">*</span>
+                            </div>
+                            <div><i>Select one image</i></div>
+                            <div   v-for="(answer, index) in question.answers"
+                                   :key="index"
+                                   :class="['image-answer',{ tickimage: arrPage[indexPage][indexQuestion].tick==answer.key}] "
+                                   @click="tickAnswer(indexPage, indexQuestion, answer.key)">
+                                <img v-bind:src="answer.content.split('*').pop()" alt="" >
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,6 +88,16 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
+        <div v-if="!this.survey.start_date">
+            <div class="comming-soon">
+                <i>This survey is coming soon at {{this.temp_start}} ...</i>
+            </div>
+        </div>
+        <div v-if="!this.survey.expire">
+            <div class="comming-soon expire">
+                <i>This survey was expired  at {{this.temp_expire}} !!!</i>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -101,17 +124,27 @@
                 startButton: true,
                 isSubmit: false,
                 rate: null,
+                temp_start:undefined,
+                temp_expire:undefined,
             }
         },
         created() {
             let surveyId = this.$route.params.surveyId
             fetchSurvey(surveyId).then(response => {
-                    let {title, dear, greeting, thanks, ref_url} = response.data.survey
+                    let {title, dear, greeting, thanks, ref_url, start_date, expire} = response.data.survey
+                    this.temp_start = start_date
+                    this.temp_expire = expire
+                console.log(response.data.survey)
                     this.survey.title = title
                     this.survey.dear = dear
                     this.survey.greeting = greeting
                     this.survey.thanks = thanks
                     this.survey.ref_url = ref_url
+                    this.survey.start_date = new  Date(start_date)
+                    this.survey.expire = new Date(expire)
+                    let now = new Date()
+                    this.survey.start_date = this.survey.start_date < now ? true:false
+                    this.survey.expire = this.survey.expire > now ? true:false
             })
             const data = {surveyId: surveyId}
             getAllQuestions(data)
@@ -186,6 +219,17 @@
 </script>
 
 <style scoped>
+    .comming-soon.expire {
+        color: #A7301A;
+    }
+    .comming-soon {
+        margin: auto;
+        width: 50%;
+        text-align:center;
+        padding-top: 20%;
+        font-size: 25px;
+        color: #0ba70b;
+    }
     input[type=text]::after {
         content: url("../../images/input.png");
         transform: translate(378px, -5px);
@@ -199,6 +243,10 @@
         right: 389px;
         position: absolute;
         margin-top: 6px;
+    }
+    .tickimage::after {
+        content: url("../../images/tickimage.png");
+        position: inherit;
     }
     input[type=text] {
         width: 100%;
@@ -219,6 +267,23 @@
         margin-bottom: 5px;
         color: black;
         padding: 8px 0px 10px 10px;
+    }
+    .image-answer {
+        height: 150px;
+        width: 150px;
+        display: inline-block;
+        text-align: center;
+        margin-left: 15px;
+        margin-top: 5px;
+        padding-top: 5px;
+    }
+    .image-answer:hover {
+        background-color: #80dc7f;
+    }
+    img {
+        max-width: 100%;
+        max-height: 97%;
+        /*display: block;*/
     }
     .title-question {
         font-size: 24px;

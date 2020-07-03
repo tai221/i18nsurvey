@@ -42,10 +42,14 @@ class AccountController extends Controller
 
     public function get(Request $request)
     {
+        $page = $request['page'];
+        $limit = $request['limit'];
+        $start = $limit*$page - $limit;
         $user_id = Auth::id();
         $list = User::all();
         $count = $list->count();
         $list = $list->toArray();
+        $list = array_slice($list,$start, $limit);
         return response()->json(['items' => $list, 'total' => $count]);
     }
 
@@ -62,7 +66,7 @@ class AccountController extends Controller
     public function lock(Request $request)
     {
         $idAccount = $request->input('idAccount');
-        User::find($idAccount)->update(['activated' => 0]);
+        User::where('id',$idAccount)->update(['activated' => 0]);
         return response()->json([
             'code' => 200,
         ], 200);
@@ -71,7 +75,17 @@ class AccountController extends Controller
     public function unlock(Request $request)
     {
         $idAccount = $request->input('idAccount');
-        User::find($idAccount)->update(['activated' => 1]);
+        User::where('id',$idAccount)->update(['activated' => 1]);
+        return response()->json([
+            'code' => 200,
+        ], 200);
+    }
+
+    public function changeRole(Request $request)
+    {
+        $userId = $request->input('userId');
+        $role = $request->input('role');
+        User::where('id',$userId)->update(['role' => $role]);
         return response()->json([
             'code' => 200,
         ], 200);
