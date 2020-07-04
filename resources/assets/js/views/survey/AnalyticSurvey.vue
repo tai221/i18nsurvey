@@ -110,7 +110,7 @@
                         sum += (questionRate[0].listChoice[i].cnt * parseInt(questionRate[0].listChoice[i].content))
                             cnt += questionRate[0].listChoice[i].cnt
                     }
-                    this.value = sum/cnt;
+                    this.value = Number((sum/cnt).toFixed(1));
                 })
         },
         methods: {

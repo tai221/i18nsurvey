@@ -22,7 +22,7 @@
                 fit
                 style="width: 95%;"
                 >
-            <el-table-column label="CODE" prop="code"  align="center" width="65">
+            <el-table-column label="CODE" prop="code"  align="center" width="75">
                 <template slot-scope="scope">
                     <span>{{ scope.row.code }}</span>
                 </template>

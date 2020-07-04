@@ -283,7 +283,7 @@
     img {
         max-width: 100%;
         max-height: 97%;
-        /*display: block;*/
+        display: block;
     }
     .title-question {
         font-size: 24px;

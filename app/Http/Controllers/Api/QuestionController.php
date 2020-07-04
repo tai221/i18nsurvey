@@ -130,9 +130,6 @@ class QuestionController extends Controller
         Log::info($request);
         $image = $request->file('file');
         $name = time().'.'.$image->getClientOriginalExtension();
-//        $destinationPath = public_path('../resources/assets/js/images');
-//        $image->move($destinationPath, $name);
-//        return response()->json(["pathFile"=>"url(/images"."/".$name.")"], 200);
         $destinationPath = public_path('/images');
         $image->move($destinationPath, $name);
         return response()->json(["pathFile"=>"/images"."/".$name], 200);

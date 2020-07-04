@@ -61,7 +61,7 @@ class SurveyController extends Controller
     public function getListSurvey(Request $request)
     {
         $userId = Auth::id();
-        $listSurvey = Survey::Where('user_id', $userId)->get()->toArray();
+        $listSurvey = Survey::Where('user_id', $userId)->orderBy('updated_at','desc')->get()->toArray();
         if(count($listSurvey) > 0) {
             return response()->json([
                 'listSurvey' => $listSurvey,

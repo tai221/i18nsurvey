@@ -86,7 +86,7 @@
                                 <thead>
                                 <tr>
                                     <th >Respondent</th>
-                                    <th v-for="(q,i) in listQuestion" style="color: #ce8483; " >{{q.question}}<span v-if="q.required==1" style="color: red">*</span></th>
+                                    <th v-for="(q,i) in listQuestion" style="color: #ce8483; width: 100px; " >{{q.question}}<span v-if="q.required==1" style="color: red; ">*</span></th>
                                     <th style="color:">Submited at</th>
                                 </tr>
                                 </thead>
