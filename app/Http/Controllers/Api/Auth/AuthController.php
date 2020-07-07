@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    /**
+     * sign up account
+     *
+     * @param $request
+     * @return json
+     */
     public function signUp(Request $request) {
         $rules = [
             'email' => 'required|string|email|unique:users',
